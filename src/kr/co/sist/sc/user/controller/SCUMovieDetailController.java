@@ -42,7 +42,7 @@ public class SCUMovieDetailController extends WindowAdapter implements ActionLis
 			int wJlblMovieImg = smdv.getJlblMovieImg().getWidth();
 			int hJlblMovieImg = smdv.getJlblMovieImg().getHeight();
 			smdv.setJlblMovieImg(new JLabel(new ImageIcon(
-					"C:/dev/workspace/st_prj/src/kr/co/sist/sc/user/images/"+smdVO.getMovie_img())));
+					"C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/"+smdVO.getMovie_img())));
 			smdv.getJlblMovieImg().setBounds(xJlblMovieImg, yJlblMovieImg, wJlblMovieImg, hJlblMovieImg);
 			smdv.add(smdv.getJlblMovieImg());
 			
