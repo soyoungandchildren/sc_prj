@@ -10,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.model.SCULoginDAO;
+import kr.co.sist.sc.user.view.SCUFindAccountView;
 import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUSignUpView;
@@ -62,11 +63,17 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 			}//end if
 			
 		}//jbtnLogin
-
+		
+		//∞°¿‘
 		if (ae.getSource() == slv.getJbtnSignUp()) {
 			new SCUSignUpView(slv);
 			slv.dispose();
 		}//jbtnSignup
+		
+		if (ae.getSource() == slv.getJbtnFindAccount()) {
+			new SCUFindAccountView(slv);
+			slv.dispose();
+		}
 	}
 
 	private boolean checkIdEmpty() {
