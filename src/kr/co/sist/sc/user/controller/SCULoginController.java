@@ -19,7 +19,6 @@ import kr.co.sist.sc.user.vo.SCULoginVO;
 public class SCULoginController extends WindowAdapter implements ActionListener {
 	private SCULoginView slv;
 	private SCUMainView smv;
-	
 
 	public SCULoginController(SCULoginView slv, SCUMainView smv) {
 		this.slv = slv;
@@ -33,46 +32,44 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		
+
 		if (ae.getSource() == slv.getJbtnLogin()) {
-			
-			if(!checkIdEmpty() && !checkPassEmpty()) {
+
+			if (!checkIdEmpty() && !checkPassEmpty()) {
 				JTextField jtf = slv.getJtfID();
 				JPasswordField jpf = slv.getJpfPW();
-				
+
 				String id = jtf.getText().trim();
 				String pass = new String(jpf.getPassword());
-				
+
 				SCULoginVO slvo = new SCULoginVO(id, pass);
 				String idConnect = login(slvo);
-				
-				if(idConnect.equals("")) { //로그인이 안 되었을 때
+
+				if (idConnect.equals("")) { // 로그인이 안 되었을 때
 					JOptionPane.showMessageDialog(slv, "아이디 또는 비밀번호가 일치하지 않습니다. ");
 					jtf.setText("");
 					jpf.setText("");
 					jtf.requestFocus();
-				}else { //로그인이 되었을 때
-					//new SCUMainView(name);
-					//smv.dispose();//프로그램을 종료하고 로그인후 재실행 해서 로그인 함. 
+				} else { // 로그인이 되었을 때
+					// new SCUMainView(name);
+					// smv.dispose();//프로그램을 종료하고 로그인후 재실행 해서 로그인 함.
 					slv.dispose();
 					smv.setIsLogin(true);
 					smv.setIdConnecting(idConnect);
-				}//end if
-				
-			
-			}//end if
-			
-		}//jbtnLogin
-		
-		//가입
+				} // end if
+
+			} // end if
+
+		} // jbtnLogin
+
+		// 가입
 		if (ae.getSource() == slv.getJbtnSignUp()) {
 			new SCUSignUpView(slv);
 			slv.dispose();
-		}//jbtnSignup
-		
+		} // jbtnSignup
+
 		if (ae.getSource() == slv.getJbtnFindAccount()) {
 			new SCUFindAccountView(slv);
-			slv.dispose();
 		}
 	}
 

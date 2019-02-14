@@ -153,6 +153,43 @@ public class SCULoginDAO {
 		} // end finally
 
 	}
+	
+	public String selectID(String phone) throws SQLException {
+		String findId="";
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			
+			con = SCUConnect.getInstance().getConnection();
+
+			// 3.
+			String findID = new String();
+			findID = "SELECT MEMBER_ID FROM MEMBER WHERE PHONE = '?'";
+			pstmt = con.prepareStatement(findID.toString());
+
+			// 4. 바인드 변수에 값넣기
+			pstmt.setString(1, phone);
+			
+			// 5.
+			pstmt.executeUpdate(); // insert되거나 예외이거나 둘 중 하나
+			
+		}finally {
+			if(rs != null) {
+				rs.close();
+			}
+			if(pstmt != null) {
+				pstmt.close();
+			}
+			if(con != null)	{
+				con.close();
+			}
+		}
+		
+		return findId;
+	}
 
 //	public static void main(String[] args) {
 //		try {
