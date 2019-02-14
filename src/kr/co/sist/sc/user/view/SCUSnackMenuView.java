@@ -1,19 +1,21 @@
 package kr.co.sist.sc.user.view;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import kr.co.sist.sc.user.controller.SCUSnackMenuController;
+
 @SuppressWarnings("serial")
 public class SCUSnackMenuView extends JDialog{
+	
 	private SCUMainView smv;
 	private DefaultTableModel dtmOrderList;
 	private JTable jtOrderList;
-	private JButton jbtnCheckOut, jbtnDeleteOrder, jbtnExit,
-				jbtnMenu1, jbtnMenu2, jbtnMenu3, jbtnMenu4, jbtnMenu5, jbtnMenu6, jbtnMenu7, jbtnMenu8; 
+	private JButton jbtnCheckOut, jbtnDeleteOrder, jbtnExit;
+	private JButton[] jbtnMenu;
 	
 	public SCUSnackMenuView(SCUMainView smv) {
 		super(smv, "스낵 주문", true);
@@ -23,17 +25,25 @@ public class SCUSnackMenuView extends JDialog{
 		jbtnCheckOut = new JButton("결제");
 		jbtnDeleteOrder = new JButton("주문 삭제");
 		jbtnExit = new JButton("닫기");
-		jbtnMenu1 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_popcorn.png"));
-		jbtnMenu2 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_papcorn.png"));
-		jbtnMenu3 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_papcorn.png"));
-		jbtnMenu4 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_papcorn.png"));
-		jbtnMenu5 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_papcorn.png"));
-		jbtnMenu6 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_papcorn.png"));
-		jbtnMenu7 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_papcorn.png"));
-		jbtnMenu8 = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/normal_papcorn.png"));
+		
+		jbtnMenu = new JButton[8];
+		for(int i =0; i<jbtnMenu.length; i++) {
+			jbtnMenu[i] = new JButton();
+		}
 
-		String[] columnNames = {"미리보기", "스낵명", "가격", "수량", "총 가격"};
-		dtmOrderList = new DefaultTableModel(columnNames, 0) {
+		String[] columnNames = {"스낵명", "가격", "수량", "총 가격"};
+		String[][] rowData = {
+						{"팝콘", "5000", "1", "5000"},
+						{"콜라", "3000", "2", "6000"},
+						{"콜라", "3000", "2", "6000"},
+						{"콜라", "3000", "2", "6000"},
+						{"콜라", "3000", "2", "6000"},
+						{"콜라", "3000", "2", "6000"},
+						{"콜라", "3000", "2", "6000"},
+						{"콜라", "3000", "2", "6000"}
+						};
+		
+		dtmOrderList = new DefaultTableModel(rowData, columnNames) {
 		};
 		
 		jtOrderList = new JTable(dtmOrderList) {
@@ -53,13 +63,12 @@ public class SCUSnackMenuView extends JDialog{
 		
 		//테이블 컬럼 길이
 		jtOrderList.getColumnModel().getColumn(0).setPreferredWidth(250);
-		jtOrderList.getColumnModel().getColumn(1).setPreferredWidth(130);
-		jtOrderList.getColumnModel().getColumn(2).setPreferredWidth(110);
-		jtOrderList.getColumnModel().getColumn(3).setPreferredWidth(70);
-		jtOrderList.getColumnModel().getColumn(4).setPreferredWidth(110);
+		jtOrderList.getColumnModel().getColumn(1).setPreferredWidth(175);
+		jtOrderList.getColumnModel().getColumn(2).setPreferredWidth(70);
+		jtOrderList.getColumnModel().getColumn(3).setPreferredWidth(175);
 		
 		//테이블 행 높이
-		jtOrderList.setRowHeight(70);
+		jtOrderList.setRowHeight(30);
 		
 		//컴포넌트 배치
 		setLayout(null);
@@ -68,39 +77,47 @@ public class SCUSnackMenuView extends JDialog{
 		jbtnDeleteOrder.setBounds(340,580,100,40);
 		jbtnExit.setBounds(470,580,100,40);
 		
-		jbtnMenu1.setBounds(60,30,160,140);
-		jbtnMenu2.setBounds(230,30,160,140);
-		jbtnMenu3.setBounds(400,30,160,140);
-		jbtnMenu4.setBounds(570,30,160,140);
-		jbtnMenu5.setBounds(60,180,160,140);
-		jbtnMenu6.setBounds(230,180,160,140);
-		jbtnMenu7.setBounds(400,180,160,140);
-		jbtnMenu8.setBounds(570,180,160,140);
+		int x = 60;
+		for(int i = 0; i<4; i++) {
+			jbtnMenu[i].setBounds(x, 30, 160, 140);
+			x+=170;
+		}//end for
+		
+		int y = 60;
+		for(int i=4; i<8; i++) {
+			jbtnMenu[i].setBounds(y, 180, 160, 140);
+			y+=170;
+		}//end for
 		
 		jspOrderList.setBounds(60,350,670,200);
 		
 		add(jbtnCheckOut);
 		add(jbtnDeleteOrder);
 		add(jbtnExit);
-		add(jbtnMenu1);
-		add(jbtnMenu2);
-		add(jbtnMenu3);
-		add(jbtnMenu4);
-		add(jbtnMenu5);
-		add(jbtnMenu6);
-		add(jbtnMenu7);
-		add(jbtnMenu8);
+		for(int i =0; i<jbtnMenu.length; i++) {
+			add(jbtnMenu[i]);
+		}
 		
 		add(jspOrderList);
 		
+		//이벤트
+		SCUSnackMenuController ssmc = new SCUSnackMenuController(this);
+		addWindowListener(ssmc);
+		jbtnCheckOut.addActionListener(ssmc);
+		jbtnDeleteOrder.addActionListener(ssmc);
+		jbtnExit.addActionListener(ssmc);
 		
+		for(int i =0; i<jbtnMenu.length; i++) {
+			jbtnMenu[i].addActionListener(ssmc);
+		}
+		
+		//창 설정
 		setBounds(smv.getX()+100, smv.getY()+80, 800, 700);
 		setVisible(true);
-		
-		//이벤트
+		setResizable(false);
 		
 	}//SCUSnackMenuView
-
+	
 	public SCUMainView getSmv() {
 		return smv;
 	}
@@ -125,36 +142,12 @@ public class SCUSnackMenuView extends JDialog{
 		return jbtnExit;
 	}
 
-	public JButton getJbtnMenu1() {
-		return jbtnMenu1;
+	public JButton[] getJbtnMenu() {
+		return jbtnMenu;
 	}
 
-	public JButton getJbtnMenu2() {
-		return jbtnMenu2;
+	public void setJbtnMenu(JButton[] jbtnMenu) {
+		this.jbtnMenu = jbtnMenu;
 	}
 
-	public JButton getJbtnMenu3() {
-		return jbtnMenu3;
-	}
-
-	public JButton getJbtnMenu4() {
-		return jbtnMenu4;
-	}
-
-	public JButton getJbtnMenu5() {
-		return jbtnMenu5;
-	}
-
-	public JButton getJbtnMenu6() {
-		return jbtnMenu6;
-	}
-
-	public JButton getJbtnMenu7() {
-		return jbtnMenu7;
-	}
-
-	public JButton getJbtnMenu8() {
-		return jbtnMenu8;
-	}
-	
 }//class
