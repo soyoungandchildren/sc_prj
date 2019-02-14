@@ -6,7 +6,6 @@ public class SCUMainRun {
 	
 	public static void main(String[] args) {
 		new SCUMainView();
-		System.out.println("sadfasdfsdfsd");
 	}//Main
 	
 }//SCUMainRun
