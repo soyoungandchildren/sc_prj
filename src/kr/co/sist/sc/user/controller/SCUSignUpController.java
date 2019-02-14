@@ -26,6 +26,10 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		slDao = SCULoginDAO.getInstance();
 	}
 
+	/**
+	 * id 중복확인 (다이얼로그 창 내용 UI처럼 수정하기)
+	 * @param id
+	 */
 	public void checkDuplication(String id) {
 
 		JTextField jtf = ssuv.getJtfID();
@@ -46,7 +50,25 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		} // end catch
 
 	}
+	
+	/**
+	 * 재작성 (초기화)
+	 */
+	public void reset() {
+		ssuv.getJtfID().setText("");
+		ssuv.getJpfPW().setText("");
+		ssuv.getJpfConfirmPW().setText("");
+		ssuv.getJtfName().setText("");
+		ssuv.getJtfBirth().setText("");
+		ssuv.getJtfPhone().setText("");
+	}
 
+	/**
+	 * 회원가입
+	 * 1. 각 창에 값이 있는지 확인
+	 * 2. 비밀번호, 비밀번호 확인 일치하는지 확인하기 (비번 길이도 조건걸기)
+	 * 3. ...다이얼로그 창이 흠.. :( (생각 중)
+	 */
 	public void addSignUp() {
 		
 		int cnt = 0;
@@ -77,7 +99,6 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		try {
 			// 에러가 나면 catch로 빠져서 DB에 추가가 안됨
 			SCULoginDAO.getInstance().insertSignUp(ssuvo);// 에러가 나지 않는 경우 DB에 추가	
-			// 리스트 갱신
 			
 			// 다음 도시락의 입력을 편하게 하기 위해서 입력 폼을 초기화
 			jtfId.setText("");
@@ -106,6 +127,10 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			checkDuplication(ssuv.getJtfID().getText());
 		} // end JbtnCheckDuplication
 
+		if(ae.getSource().equals(ssuv.getJbtnReset())) {
+			reset();
+		}
+		
 		if (ae.getSource().equals(ssuv.getJbtnSignUp())) {
 			addSignUp();
 		}

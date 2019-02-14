@@ -12,14 +12,12 @@ import kr.co.sist.sc.user.controller.SCUSignUpController;
 @SuppressWarnings("serial")
 public class SCUSignUpView extends JDialog {
 
-	private SCULoginView slv;
 	private JButton jbtnCheckDuplication, jbtnReset, jbtnSignUp, jbtnExit;
 	private JTextField jtfID, jtfName, jtfBirth, jtfPhone;
 	private JPasswordField jpfPW, jpfConfirmPW;
 
 	public SCUSignUpView(SCULoginView slv) {
 
-		this.slv = slv;
 
 		jbtnCheckDuplication = new JButton("중복확인");
 		jbtnReset = new JButton("재작성");
@@ -93,6 +91,7 @@ public class SCUSignUpView extends JDialog {
 
 		setVisible(true);
 		setBounds(100, 100, 420, 500);
+		setResizable(false);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
