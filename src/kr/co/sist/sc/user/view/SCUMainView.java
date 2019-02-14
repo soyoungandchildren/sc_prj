@@ -1,7 +1,6 @@
 package kr.co.sist.sc.user.view;
 
 import java.awt.Color;
-import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;

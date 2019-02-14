@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 
 import kr.co.sist.sc.user.model.SCUMovieDAO;
 import kr.co.sist.sc.user.view.SCUMovieDetailView;
-import kr.co.sist.sc.user.view.SCUMovieListView;
 import kr.co.sist.sc.user.vo.SCUMovieDetailVO;
 
 public class SCUMovieDetailController extends WindowAdapter implements ActionListener{
@@ -21,7 +20,6 @@ public class SCUMovieDetailController extends WindowAdapter implements ActionLis
 	public SCUMovieDetailController(SCUMovieDetailView smdv) {
 		this.smdv = smdv;
 		searchMovieData();
-		System.out.println("세상에 너무 머리아프다.");
 	}//Constructor
 	
 	public void searchMovieData() {

@@ -1,10 +1,14 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Component;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import kr.co.sist.sc.user.controller.SCUMovieListController;
 
@@ -40,12 +44,17 @@ public class SCUMovieListView extends JDialog {
 			public Class<?> getColumnClass(int column) {
 				return getValueAt(0, column).getClass();
 			}
+			
 		};
 		JScrollPane jspMovieTable = new JScrollPane(jtMovieTable);
-		
 		//컴포넌트 설정
 		jtMovieTable.getTableHeader().setReorderingAllowed(false);
+		jtMovieTable.getTableHeader().setResizingAllowed(false);
 		jtMovieTable.setRowHeight(120);
+		jtMovieTable.getColumn("영화코드").setMaxWidth(0);
+		jtMovieTable.getColumn("영화코드").setMinWidth(0);
+		jtMovieTable.getColumn("영화코드").setPreferredWidth(0);
+		jtMovieTable.getColumnModel().getColumn(9).setCellRenderer(this.new TextTableRenderer());
 		
 		//컴포넌트 배치
 		setLayout(null);
@@ -114,5 +123,22 @@ public class SCUMovieListView extends JDialog {
 	}
 	
 	
+	////////////////////////////////////////////////////////////////////////
+	class TextTableRenderer extends JTextArea implements TableCellRenderer{
+		
+		public TextTableRenderer() {
+			setOpaque(true);
+			setLineWrap(true);
+		}
+		
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+				int row, int column) {
+			
+			setText(value.toString());
+			return this;
+		}
+	}
+	////////////////////////////////////////////////////////////////////////
 	
 }//Class

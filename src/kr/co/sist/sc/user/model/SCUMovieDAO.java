@@ -14,6 +14,9 @@ import kr.co.sist.sc.user.vo.SCUSearchScreenVO;
 public class SCUMovieDAO {
 
 	private static SCUMovieDAO smDAO;
+	private Connection con;
+	private PreparedStatement pstmt;
+	private ResultSet rs;
 	
 	private SCUMovieDAO(){
 	}//Constructor
@@ -28,9 +31,9 @@ public class SCUMovieDAO {
 	
 	public List<SCUMovieListVO> searchMovieList()  throws SQLException{
 		List<SCUMovieListVO> list = new ArrayList<>();
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		con = null;
+		pstmt = null;
+		rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
@@ -70,9 +73,7 @@ public class SCUMovieDAO {
 			}//end while
 			
 		}finally{
-			if(rs!=null) {rs.close();}
-			if(pstmt!=null) {pstmt.close();}
-			if(con!=null) {con.close();}
+			disconnect();
 		}//end try~finally
 		
 		return list;
@@ -106,9 +107,7 @@ public class SCUMovieDAO {
 			}//end if
 			
 		}finally {
-			if(rs!=null) {rs.close();}
-			if(pstmt!=null) {pstmt.close();}
-			if(con!=null) {con.close();}
+			disconnect();
 		}//end try~finally
 		
 		return smdVO; 
@@ -117,29 +116,62 @@ public class SCUMovieDAO {
 	
 	public List<SCUSearchScreenVO> selectScreen(String movie_code) throws SQLException{
 		List<SCUSearchScreenVO> list = new ArrayList<>();
+		con = null;
+		pstmt = null;
+		rs = null;
 		
-		Connection con = SCUConnect.getInstance().getConnection();
-		
-		StringBuilder sql = new StringBuilder();
-		sql
-		.append("select screen_date, start_time, end_time, screen_name ")
-		.append("from on_screen ")
-		.append("where movie_code = ?");
-		
-		PreparedStatement pstmt = con.prepareStatement(sql.toString());
-		pstmt.setString(1, movie_code);
-		
-		ResultSet rs = pstmt.executeQuery();
-		
-		SCUSearchScreenVO sssVO = null;
-		while(rs.next()) {
-			sssVO = new SCUSearchScreenVO(rs.getString("screen_date"), rs.getString("start_time"),
-					rs.getString("end_time"), rs.getString("screen_name"));
+		try {
+			con = SCUConnect.getInstance().getConnection();
 			
-			list.add(sssVO);
-		}//end while
+			StringBuilder sql = new StringBuilder();
+			sql
+			.append("select screen_date, start_time, end_time, screen_name, seat_count-nvl(reserved,0) remain_seat, a.screen_num ")
+			.append("from ")
+			.append("( ")
+			.append("select o.screen_num, screen_date, start_time, end_time , seat_count, o.screen_name ")
+			.append("from theater t ")
+			.append("left join on_screen o ")
+			.append("on t.screen_name = o.screen_name ")
+			.append("where movie_code = ? ")
+			.append(") a ")
+			.append("left join ( ")
+			.append("select screen_num, count(book_number) reserved ")
+			.append("from book ")
+			.append("group by screen_num) b ")
+			.append("on a.screen_num = b.screen_num ")
+			.append("order by screen_date, start_time ");
+			
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, movie_code);
+			
+			rs = pstmt.executeQuery();
+			
+			SCUSearchScreenVO sssVO = null;
+			while(rs.next()) {
+				sssVO = new SCUSearchScreenVO(rs.getString("screen_date"), rs.getString("start_time"),
+						rs.getString("end_time"), rs.getString("screen_name"), rs.getString("remain_seat"), rs.getString("screen_num"));
+				
+				list.add(sssVO);
+			}//end while
+			
+		}finally {
+			disconnect();
+		}
+		
 		
 		return list;
 	}//selectScreen Method
+	
+	
+	
+	private void disconnect() {
+		try {
+			if(rs!=null) {rs.close();}
+			if(pstmt!=null) {pstmt.close();}
+			if(con!=null) {con.close();}
+		}catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}
+	}
 	
 }//Class

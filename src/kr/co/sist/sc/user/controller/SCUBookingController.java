@@ -2,49 +2,188 @@ package kr.co.sist.sc.user.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
+import javax.swing.JTable;
 
 import kr.co.sist.sc.user.model.SCUMovieDAO;
 import kr.co.sist.sc.user.view.SCUBookingView;
 import kr.co.sist.sc.user.vo.SCUSearchScreenVO;
 
-public class SCUBookingController extends WindowAdapter implements ActionListener{
+public class SCUBookingController extends WindowAdapter implements ActionListener, MouseListener{
 	
 	private SCUBookingView sbv;
+	private List<SCUSearchScreenVO> list;
+	private List<Object[]> listFilter;
 	
 	public SCUBookingController(SCUBookingView sbv) {
 		this.sbv = sbv;
 		searchOnScreen();
+		sbv.getJrbAll().setSelected(true);
 	}//Constructor
 	
 	public void searchOnScreen(){
+		
 		try {
-			List<SCUSearchScreenVO> list = SCUMovieDAO.getInstance().selectScreen(sbv.getMovieCode());
+			list = SCUMovieDAO.getInstance().selectScreen(sbv.getMovieCode());
 			
-			Object[] objArr = new Object[list.size()];
 			
-			for(int i = 0; i<objArr.length; i++) {
+			Object[] objArr = null;
+			Set<String> setDate = new HashSet<>();
+			listFilter = new ArrayList<>();
+			
+			sbv.getDtmOnScreen().setRowCount(0);
+			for(int i = 0; i<list.size(); i++) {
+				
+				objArr = new Object[6];
+				setDate.add(list.get(i).getScreen_date());
+				
 				objArr[0] = list.get(i).getScreen_date();
 				objArr[1] = list.get(i).getStart_time();
 				objArr[2] = list.get(i).getEnd_time();
-				objArr[3] = list.get(i).getScreen_name();
+				switch (list.get(i).getScreen_name()) {
+				case "P":
+					objArr[3] = "프리미엄";
+					break;
+				case "N":
+					objArr[3] = "일반";
+					break;
+				}//end switch
+				objArr[4] = list.get(i).getRemain_seat();
+				objArr[5] = list.get(i).getScreen_num();
+				
 				
 				sbv.getDtmOnScreen().addRow(objArr);
+				listFilter.add(objArr);
 			}//end for
+			
+			
+			sbv.getDcbmDate().removeAllElements();
+			List<String> listDate = new ArrayList<>(setDate);
+			Collections.sort(listDate);
+			sbv.getDcbmDate().addElement("전체");
+			for(int i = 0; i<listDate.size(); i++) {
+				sbv.getDcbmDate().addElement(listDate.get(i));
+			}
 			
 		}catch(SQLException sqle) {
 			sqle.printStackTrace();
-		}
+		}//end try~catch
 		
 	}//searchOnScreen
 	
+	public void filterDate() {
+		
+		if(sbv.getJcbDate().getSelectedItem().equals("전체")) {
+			searchOnScreen();
+		}else {
+			
+			sbv.getDtmOnScreen().setRowCount(0);
+			String selectedDate = String.valueOf(sbv.getJcbDate().getSelectedItem()); 
+			listFilter = new ArrayList<>();
+			Object[] objArr = null;
+			
+			for(int i=0; i<list.size(); i++) {
+				
+				if(list.get(i).getScreen_date().equals(selectedDate)) {
+					
+					objArr = new Object[6];
+					
+					objArr[0] = list.get(i).getScreen_date();
+					objArr[1] = list.get(i).getStart_time();
+					objArr[2] = list.get(i).getEnd_time();
+					switch (list.get(i).getScreen_name()) {
+					case "P":
+						objArr[3] = "프리미엄";
+						break;
+					case "N":
+						objArr[3] = "일반";
+						break;
+					}//end switch
+					objArr[4] = list.get(i).getRemain_seat();
+					objArr[5] = list.get(i).getScreen_num();
+					
+					sbv.getDtmOnScreen().addRow(objArr);
+					listFilter.add(objArr);
+				}//end if
+					
+				
+			}//end for
+			
+		}//end if~else
+		
+	}//filterOnScreen
+	
+	
+	public void filterScreen(String screenType) {
+	
+		sbv.getDtmOnScreen().setRowCount(0);
+		
+			for(int i = 0 ; i< listFilter.size(); i++) {
+				
+				if(screenType.equals("전체")) {
+					sbv.getDtmOnScreen().addRow(listFilter.get(i));
+				}else {
+					if(listFilter.get(i)[3].equals(screenType)) {
+						sbv.getDtmOnScreen().addRow(listFilter.get(i));
+					}//end if
+				}//end if
+				
+			}//end for
+	}//fileterScreen
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		if(ae.getSource().equals(sbv.getJbtnExit())) {
+			sbv.dispose();
+		}//end if
 		
+		if(ae.getSource().equals(sbv.getJcbDate())) {
+			sbv.getJrbAll().setSelected(true);
+			filterDate();
+		}//end if
+		
+		
+		
+		if(ae.getSource().equals(sbv.getJrbStandard())) {
+			filterScreen("일반");
+		}else if(ae.getSource().equals(sbv.getJrbPremium())){
+			filterScreen("프리미엄");
+		}else if(ae.getSource().equals(sbv.getJrbAll())) {
+			filterScreen("전체");
+		}//end if
 	}//actionPerformed Override
+
+	@Override
+	public void mousePressed(MouseEvent me) {
+		if(me.getSource().equals(sbv.getJtOnScreen())) {
+			
+			sbv.getJcbPersonnel().setEnabled(true);
+			JTable jt = sbv.getJtOnScreen();
+			
+			sbv.getDcbmPersonnel().removeAllElements();
+			int maxSeat = Integer.parseInt(jt.getValueAt(jt.getSelectedRow(), 4).toString());
+			for(int i=0; i<maxSeat+1; i++) {
+				sbv.getDcbmPersonnel().addElement(String.valueOf(i));
+			}//end for
+			
+		}//end if
+		
+	}
+	public void mouseClicked(MouseEvent me) {}
+	public void mouseReleased(MouseEvent me) {}
+	public void mouseEntered(MouseEvent e) {}
+	public void mouseExited(MouseEvent e) {}
+	//mouseListener Override
 	
 	
 }//Class
