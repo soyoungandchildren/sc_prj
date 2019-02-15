@@ -12,10 +12,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.plaf.SliderUI;
 
 import kr.co.sist.sc.user.model.SCUMovieDAO;
 import kr.co.sist.sc.user.view.SCUBookingView;
+import kr.co.sist.sc.user.view.SCUSeatView;
 import kr.co.sist.sc.user.vo.SCUSearchScreenVO;
 
 public class SCUBookingController extends WindowAdapter implements ActionListener, MouseListener{
@@ -23,6 +26,8 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 	private SCUBookingView sbv;
 	private List<SCUSearchScreenVO> list;
 	private List<Object[]> listFilter;
+	private int selectedPersonnel;
+	private String selectedScreenNum, selectedScreenName;
 	
 	public SCUBookingController(SCUBookingView sbv) {
 		this.sbv = sbv;
@@ -125,6 +130,9 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 	
 	public void filterScreen(String screenType) {
 	
+		sbv.getDcbmPersonnel().removeAllElements();
+		sbv.getJcbPersonnel().setEnabled(false);
+		selectedPersonnel = 0;
 		sbv.getDtmOnScreen().setRowCount(0);
 		
 			for(int i = 0 ; i< listFilter.size(); i++) {
@@ -148,10 +156,12 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 		}//end if
 		
 		if(ae.getSource().equals(sbv.getJcbDate())) {
+			sbv.getDcbmPersonnel().removeAllElements();
+			sbv.getJcbPersonnel().setEnabled(false);
+			selectedPersonnel = 0;
 			sbv.getJrbAll().setSelected(true);
 			filterDate();
 		}//end if
-		
 		
 		
 		if(ae.getSource().equals(sbv.getJrbStandard())) {
@@ -161,14 +171,39 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 		}else if(ae.getSource().equals(sbv.getJrbAll())) {
 			filterScreen("전체");
 		}//end if
+		
+		
+		try {
+			if(ae.getSource().equals(sbv.getJcbPersonnel())) {
+				selectedPersonnel = Integer.parseInt(String.valueOf(sbv.getJcbPersonnel().getSelectedItem()));
+			}//end if
+		}catch(NumberFormatException nfe) {
+		}//end try~catch
+		
+		if(ae.getSource().equals(sbv.getJbtnCheckSeat())) {
+			if(selectedPersonnel!=0) {
+				JTable jtOnScreen = sbv.getJtOnScreen();
+				selectedScreenNum = String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 5));
+				selectedScreenName = String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 3));
+				new SCUSeatView(sbv, selectedPersonnel, selectedScreenNum, selectedScreenName);
+			}else {
+				JOptionPane.showMessageDialog(sbv, "관람할 인원을 알려주세요.");
+			}//end if
+			
+		}//end if
+		
+		
 	}//actionPerformed Override
 
 	@Override
-	public void mousePressed(MouseEvent me) {
+	public void mousePressed(MouseEvent me) {}
+	public void mouseClicked(MouseEvent me) {}
+	public void mouseReleased(MouseEvent me) {
 		if(me.getSource().equals(sbv.getJtOnScreen())) {
 			
 			sbv.getJcbPersonnel().setEnabled(true);
 			JTable jt = sbv.getJtOnScreen();
+			
 			
 			sbv.getDcbmPersonnel().removeAllElements();
 			int maxSeat = Integer.parseInt(jt.getValueAt(jt.getSelectedRow(), 4).toString());
@@ -177,10 +212,7 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 			}//end for
 			
 		}//end if
-		
 	}
-	public void mouseClicked(MouseEvent me) {}
-	public void mouseReleased(MouseEvent me) {}
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	//mouseListener Override
