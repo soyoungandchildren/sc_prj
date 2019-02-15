@@ -97,7 +97,6 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 	}// checkPassEmpty
 
 	private String login(SCULoginVO slvo) {
-
 		String name = "";
 		SCULoginDAO slDao = SCULoginDAO.getInstance();
 		try {

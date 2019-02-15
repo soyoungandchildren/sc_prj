@@ -18,6 +18,7 @@ public class SCUFindAccountView extends JDialog {
 		// 전화번호로 아이디찾기
 		JLabel jlPhoneForID = new JLabel("전화번호");
 		jtfPhoneForID = new JTextField();
+		jbtnFindID = new JButton("아이디 찾기");
 
 		// 아래 정보로 비번찾기
 		JLabel jlIDForPW = new JLabel("아이디");
@@ -26,9 +27,8 @@ public class SCUFindAccountView extends JDialog {
 		jtfIDForPW = new JTextField();
 		jtfNameForPW = new JTextField();
 		jtfPhoneForPW = new JTextField();
-
-		jbtnFindID = new JButton("아이디 찾기");
 		jbtnFindPW = new JButton("비밀번호 찾기");
+
 
 		setLayout(null);
 
@@ -58,11 +58,11 @@ public class SCUFindAccountView extends JDialog {
 
 		add(jbtnFindID);
 		add(jbtnFindPW);
-		add(jbtnFindPW);
 
 		// 이벤트 등록
 		SCUFindAccountController sfac = new SCUFindAccountController(this, slv);
 		addWindowListener(sfac);
+		jbtnFindID.addActionListener(sfac);
 		jbtnFindPW.addActionListener(sfac);
 		
 		

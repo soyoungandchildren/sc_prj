@@ -14,6 +14,11 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 	private JPasswordField jpfPW, jpfConfirmPW;
 	private JButton jbtnConfirm, jbtnExit;
 
+	
+	/**
+	 * 비밀번호 변경
+	 * @param slv
+	 */
 	public SCUModifyPWView(SCULoginView slv) {
 
 		JLabel jlPW = new JLabel("변경할 비밀번호");

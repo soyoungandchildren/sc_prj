@@ -44,12 +44,14 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 				JOptionPane.showMessageDialog(ssuv, "같은 아이디가 존재합니다.");
 				jtf.setText("");
 			} // end else
+			
+			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ssuv, "잠시 후 다시 시도해주세요.");
 			e.printStackTrace();
 		} // end catch
 
-	}
+	}//checkDuplication
 	
 	/**
 	 * 재작성 (초기화)
@@ -94,8 +96,7 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			JOptionPane.showMessageDialog(ssuv, "비밀번호는 필수입력사항입니다.");
 			return;
 		}
-
-		SCUSignUpVO ssuvo = new SCUSignUpVO(jtfId.getText().trim(), stringPW.trim(), jtfName.getText().trim(), jtfBirthdate.getText().trim(), jtfPhone.getText().trim());
+		SCUSignUpVO ssuvo = new SCUSignUpVO(jtfId.getText().trim(),stringPW.trim(), jtfName.getText().trim(), jtfBirthdate.getText().trim(), jtfPhone.getText().trim());
 		try {
 			// 에러가 나면 catch로 빠져서 DB에 추가가 안됨
 			SCULoginDAO.getInstance().insertSignUp(ssuvo);// 에러가 나지 않는 경우 DB에 추가	

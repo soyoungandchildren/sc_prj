@@ -94,7 +94,7 @@ public class SCULoginDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
 				flag = true;
-			}//end if
+			} // end if
 		} finally {
 			if (rs != null) {
 				rs.close();
@@ -108,10 +108,10 @@ public class SCULoginDAO {
 		}
 
 		return flag;
-	}
+	}// selectCheckDup
 
 	/**
-	 * 회원가입을 DB에 넣는 메소드
+	 * 회원가입을 DB에 입력하기
 	 * 
 	 * @param ssuvo
 	 */
@@ -127,8 +127,8 @@ public class SCULoginDAO {
 
 			// 3.
 			StringBuilder insertMember = new StringBuilder();
-			insertMember.append("INSERT INTO MEMBER").append("(MEMBER_ID, PASSWORD, NAME, BIRTHDATE, PHONE, MEMBERSHIP)")
-					.append("VALUES(?,?,?,?,?,?)");
+			insertMember.append("INSERT INTO MEMBER")
+					.append("(MEMBER_ID, PASSWORD, NAME, BIRTHDATE, PHONE, MEMBERSHIP)").append("VALUES(?,?,?,?,?,?)");
 			pstmt = con.prepareStatement(insertMember.toString());
 
 			// 4. 바인드 변수에 값넣기
@@ -138,7 +138,7 @@ public class SCULoginDAO {
 			pstmt.setString(4, ssuvo.getBirthdate());
 			pstmt.setString(5, ssuvo.getPhone());
 			pstmt.setString(6, "s");
-			
+
 			// 5.
 			pstmt.executeUpdate(); // insert되거나 예외이거나 둘 중 하나
 
@@ -153,51 +153,64 @@ public class SCULoginDAO {
 		} // end finally
 
 	}
-	
+
+	/**
+	 * 전화번호 넣어서 아이디찾기
+	 * 
+	 * @param phone
+	 * @return
+	 * @throws SQLException
+	 */
 	public String selectID(String phone) throws SQLException {
-		String findId="";
-		
+		String findId = "";
+
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		
+
 		try {
-			
+
 			con = SCUConnect.getInstance().getConnection();
 
 			// 3.
-			String findID = new String();
-			findID = "SELECT MEMBER_ID FROM MEMBER WHERE PHONE = '?'";
-			pstmt = con.prepareStatement(findID.toString());
+			String find = new String();
+			find = "SELECT MEMBER_ID FROM MEMBER WHERE PHONE = ?";
+			pstmt = con.prepareStatement(find);
 
 			// 4. 바인드 변수에 값넣기
 			pstmt.setString(1, phone);
-			
+
+			rs = pstmt.executeQuery();
+
+//			System.out.println(phone);
+//			pstmt.executeUpdate(); // insert되거나 예외이거나 둘 중 하나
+			if (rs.next()) {
+				findId = rs.getString("MEMBER_ID");
+			} // end if
+
 			// 5.
-			pstmt.executeUpdate(); // insert되거나 예외이거나 둘 중 하나
-			
-		}finally {
-			if(rs != null) {
+
+		} finally {
+			if (rs != null) {
 				rs.close();
 			}
-			if(pstmt != null) {
+			if (pstmt != null) {
 				pstmt.close();
 			}
-			if(con != null)	{
+			if (con != null) {
 				con.close();
 			}
 		}
-		
 		return findId;
-	}
+	}// selectID
 
 //	public static void main(String[] args) {
 //		try {
 //			boolean result = getInstance().selectCheckDup("love");
-//			System.out.println(result);
+//				System.out.println(phone);
 //		} catch (SQLException e) {
 //			e.printStackTrace();
-//		}//end catch
-//	}//main
+//		} // end catch
+//	}// main
 
 }// class
