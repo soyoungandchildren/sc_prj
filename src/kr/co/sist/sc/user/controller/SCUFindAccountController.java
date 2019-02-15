@@ -15,39 +15,73 @@ import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUModifyPWView;
 import kr.co.sist.sc.user.vo.SCUFindPWVO;
 import kr.co.sist.sc.user.vo.SCULoginVO;
+import kr.co.sist.sc.user.vo.SCUModifyPWVO;
 
 public class SCUFindAccountController extends WindowAdapter implements ActionListener {
 
 	private SCUFindAccountView sfav;
 	private SCUModifyPWView smpv;
 	private SCULoginView slv;
-	private SCULoginDAO slDao;
 
 	public SCUFindAccountController(SCUFindAccountView sfav, SCULoginView slv) {
 		this.sfav = sfav;
 		this.slv = slv;
 	}// SCUFindAccountController
 
+	/**
+	 * 전번으로 아이디찾기
+	 */
 	public void findID() {
 		JTextField jtfPhoneForID = sfav.getJtfPhoneForID();
 		String phoneForID = jtfPhoneForID.getText().trim();
-		
+
 		try {
 			String getID = SCULoginDAO.getInstance().selectID(phoneForID);
-			
-			if(!getID.isEmpty()) { //조회된 아이디가 있을 때
-				JOptionPane.showMessageDialog(sfav, "찾은 ID: [ "+getID+" ]");
+
+			if (!getID.isEmpty()) { // 조회된 아이디가 있을 때
+				JOptionPane.showMessageDialog(sfav, "찾은 ID: [ " + getID + " ]");
 				sfav.dispose();
-			}else if(phoneForID.isEmpty()) { //아이디를 입력하지 않았을 때
+			} else if (phoneForID.isEmpty()) { // 아이디를 입력하지 않았을 때
 				JOptionPane.showMessageDialog(sfav, "ID를 입력하세요.");
-			}else{ //조회된 아이디가 없을 때 
+			} else { // 조회된 아이디가 없을 때
 				JOptionPane.showMessageDialog(sfav, "등록되지 않은 전화번호입니다.");
+				jtfPhoneForID.setText("");
 			}
-		}catch(SQLException se) {
+		} catch (SQLException se) {
 			JOptionPane.showMessageDialog(sfav, "DB오류!!!");
 			se.printStackTrace();
 		}
-	}//class
+	}// findID
+
+	/**
+	 * 비밀번호
+	 */
+	public void findPW() { // 아이디, 전번, 이름 모두 입력값이 있을 때 비번 변경이 가능하게 해줘야 함!
+		JTextField jtfIDForPW = sfav.getJtfIDForPW();
+		JTextField jtfPhoneForPW = sfav.getJtfPhoneForPW();
+		JTextField jtfNameForPW = sfav.getJtfNameForPW();
+
+		String IDForPW = jtfIDForPW.getText().trim();
+		String NameForPW = jtfNameForPW.getText().trim();
+		String PhoneForPW = jtfPhoneForPW.getText().trim();
+		
+		
+			SCUFindPWVO sfpvo = new SCUFindPWVO(IDForPW, NameForPW, PhoneForPW);
+		try {
+			boolean result = SCULoginDAO.getInstance().selectPW(sfpvo);
+			if(result) {
+				new SCUModifyPWView(slv);
+			}else {
+				JOptionPane.showMessageDialog(sfav, "정보가 잘못 입력되었습니다.");
+				
+			}
+			
+			
+		}catch(SQLException se) {
+			se.printStackTrace();
+		}
+
+	}
 
 	@Override
 	public void windowClosing(WindowEvent we) {
@@ -60,12 +94,14 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 		// 아이디 찾기버튼
 		if (ae.getSource().equals(sfav.getJbtnFindID())) {
 			findID();
+			
 		} // end if
 
 		// 비밀번호 찾기 버튼
 		if (ae.getSource().equals(sfav.getJbtnFindPW())) {
-			new SCUModifyPWView(slv);
-			sfav.dispose();
+			findPW();
+			
+//			sfav.dispose();
 		} // end if
 
 		// 비밀번호 변경창 '변경'버튼
@@ -73,11 +109,10 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 //			
 //		} // end if
 
-		// 비밀번호 변경창 '취소'버튼
+//		 비밀번호 변경창 '취소'버튼
 //		if (ae.getSource() == smpv.getJbtnExit()) {
-//			new SCUModifyPWView(slv);
 //			smpv.dispose();
 //		} // end if
-	}//actionPerformed
+	}// actionPerformed
 
 }

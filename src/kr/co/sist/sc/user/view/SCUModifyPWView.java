@@ -48,7 +48,7 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 
 		// 이벤트처리
 		jbtnExit.addActionListener(this);
-
+		
 		setVisible(true);
 		setBounds(90, 200, 340, 200);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);

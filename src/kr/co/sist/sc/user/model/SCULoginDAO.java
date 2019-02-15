@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import kr.co.sist.sc.user.vo.SCUFindPWVO;
 import kr.co.sist.sc.user.vo.SCULoginVO;
 import kr.co.sist.sc.user.vo.SCUSignUpVO;
 
@@ -173,8 +174,7 @@ public class SCULoginDAO {
 			con = SCUConnect.getInstance().getConnection();
 
 			// 3.
-			String find = new String();
-			find = "SELECT MEMBER_ID FROM MEMBER WHERE PHONE = ?";
+			String find = "SELECT MEMBER_ID FROM MEMBER WHERE PHONE = ?";
 			pstmt = con.prepareStatement(find);
 
 			// 4. 바인드 변수에 값넣기
@@ -204,10 +204,53 @@ public class SCULoginDAO {
 		return findId;
 	}// selectID
 
+	public boolean selectPW(SCUFindPWVO sfpvo) throws SQLException {
+		boolean flag = false;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			con = SCUConnect.getInstance().getConnection();
+
+			String selectPW = "select password from member where member_id=? and name =? and phone=?";
+			pstmt = con.prepareStatement(selectPW);
+			
+			pstmt.setString(1, sfpvo.getMember_id());
+			pstmt.setString(2, sfpvo.getName());
+			pstmt.setString(3, sfpvo.getPhone());
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				flag = true;
+			}
+
+		} finally {
+			if (rs != null) {
+				rs.close();
+			}
+
+			if (pstmt != null) {
+				pstmt.close();
+			}
+
+			if (con != null) {
+				con.close();
+			}
+
+		}
+
+		return flag;
+	}// selectPW
+
 //	public static void main(String[] args) {
 //		try {
 //			boolean result = getInstance().selectCheckDup("love");
-//				System.out.println(phone);
+//			boolean result = getInstance().selectPW("guest", "게스트", "011-2222-2222");
+//				System.out.println(result);
 //		} catch (SQLException e) {
 //			e.printStackTrace();
 //		} // end catch
