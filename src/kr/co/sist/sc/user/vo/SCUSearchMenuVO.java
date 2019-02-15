@@ -21,5 +21,5 @@ public class SCUSearchMenuVO {
 	public String toString() {
 		return "SCUSearchMenuVO [snack_img=" + snack_img + ", snack_name=" + snack_name + "]";
 	}
-	
 }
+		
