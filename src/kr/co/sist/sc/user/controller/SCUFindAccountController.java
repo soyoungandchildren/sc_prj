@@ -64,24 +64,22 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 		String IDForPW = jtfIDForPW.getText().trim();
 		String NameForPW = jtfNameForPW.getText().trim();
 		String PhoneForPW = jtfPhoneForPW.getText().trim();
-		
-		
-			SCUFindPWVO sfpvo = new SCUFindPWVO(IDForPW, NameForPW, PhoneForPW);
+
+		SCUFindPWVO sfpvo = new SCUFindPWVO(IDForPW, NameForPW, PhoneForPW);
 		try {
 			boolean result = SCULoginDAO.getInstance().selectPW(sfpvo);
-			if(result) {
+			if (result) {
 				new SCUModifyPWView(slv);
-			}else {
+				sfav.dispose();
+			} else {
 				JOptionPane.showMessageDialog(sfav, "정보가 잘못 입력되었습니다.");
-				
 			}
-			
-			
-		}catch(SQLException se) {
+
+		} catch (SQLException se) {
 			se.printStackTrace();
 		}
 
-	}
+	}// findPW
 
 	@Override
 	public void windowClosing(WindowEvent we) {
@@ -94,25 +92,14 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 		// 아이디 찾기버튼
 		if (ae.getSource().equals(sfav.getJbtnFindID())) {
 			findID();
-			
+
 		} // end if
 
 		// 비밀번호 찾기 버튼
 		if (ae.getSource().equals(sfav.getJbtnFindPW())) {
 			findPW();
-			
-//			sfav.dispose();
 		} // end if
 
-		// 비밀번호 변경창 '변경'버튼
-//		if (ae.getSource() == smpv.getJbtnConfirm()) {
-//			
-//		} // end if
-
-//		 비밀번호 변경창 '취소'버튼
-//		if (ae.getSource() == smpv.getJbtnExit()) {
-//			smpv.dispose();
-//		} // end if
 	}// actionPerformed
 
 }

@@ -56,9 +56,15 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		if (ae.getSource() == jbtnExit) {
-			dispose();
-		}
+		 //비밀번호 변경창 '변경'버튼
+			if (ae.getSource() == getJbtnConfirm()) {
+				
+			} // end if
+
+//			 비밀번호 변경창 '취소'버튼
+			if (ae.getSource() == getJbtnExit()) {
+				dispose();
+			} // end if
 	}
 
 	public JPasswordField getJpfPW() {
