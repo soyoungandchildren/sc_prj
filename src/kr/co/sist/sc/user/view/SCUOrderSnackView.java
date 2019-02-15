@@ -1,18 +1,22 @@
 package kr.co.sist.sc.user.view;
 
-import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import kr.co.sist.sc.user.controller.SCUOrderSnackController;
 
 @SuppressWarnings("serial")
 public class SCUOrderSnackView extends JDialog {
 	private SCUSnackMenuView ssmv;
 	private JTextField jtfSnackName, jtfPrice, jtfTotalPrice;
-	private JComboBox<Integer> jcbQuan;
+	private JLabel jlbSnackImg;
+	private JComboBox<String> jcbQuan;
 	private JTextArea jtaSnackInfo;
 	private JButton jbtnAddOrder, jbtnClose;
 //	private String snackName;
@@ -22,7 +26,7 @@ public class SCUOrderSnackView extends JDialog {
 		this.ssmv = ssmv;
 		
 		//컴포넌트 생성
-		JLabel jlbSnackImg = new JLabel(new ImageIcon("C:/dev/workspace/lunch_prj/src/kr/co/sist/lunch/user/img/no_img.jpg"));
+		jlbSnackImg = new JLabel();
 		JLabel jlbSnackName = new JLabel("스낵명");
 		JLabel jlbPrice = new JLabel("가격");
 		JLabel jlbQuan = new JLabel("수량");
@@ -31,9 +35,19 @@ public class SCUOrderSnackView extends JDialog {
 		
 		jtfSnackName = new JTextField(snackName);
 		jtfPrice = new JTextField();
-		jcbQuan = new JComboBox<Integer>();
+		
+		DefaultComboBoxModel<String> snackQuan = new DefaultComboBoxModel<String>();
+		snackQuan.addElement(" -----수량 선택----- ");
+		
+		for(int i=1; i<11; i++) {
+			snackQuan.addElement(String.valueOf(i));
+		}//end for
+		
+		jcbQuan = new JComboBox<String>(snackQuan);
 		jtfTotalPrice = new JTextField();
+		
 		jtaSnackInfo = new JTextArea();
+		JScrollPane jspSnackInfo = new JScrollPane(jtaSnackInfo);
 		
 		jbtnAddOrder = new JButton("주문 추가");
 		jbtnClose = new JButton("취소");
@@ -48,11 +62,9 @@ public class SCUOrderSnackView extends JDialog {
 		add(jlbTotalPrice);
 		add(jtfTotalPrice);
 		add(jlbSnackInfo);
-		add(jtaSnackInfo);
+		add(jspSnackInfo);
 		add(jbtnAddOrder);
 		add(jbtnClose);
-		
-		jtaSnackInfo.setLineWrap(true);
 		
 		//배치
 		setLayout(null);
@@ -66,16 +78,62 @@ public class SCUOrderSnackView extends JDialog {
 		jcbQuan.setBounds(325, 83, 130, 25);
 		jlbTotalPrice.setBounds(270, 110, 60,30);
 		jtfTotalPrice.setBounds(325, 113, 130, 25);
+		
 		jlbSnackInfo.setBounds(270, 140, 60,30);
-		jtaSnackInfo.setBounds(270, 165, 182, 85);
+		jspSnackInfo.setBounds(270, 165, 185, 85);
+		jtaSnackInfo.setEditable(false);
+		jtaSnackInfo.setLineWrap(true);
 		
 		jbtnAddOrder.setBounds(150, 265, 90, 30);
 		jbtnClose.setBounds(260, 265, 90, 30);
 		
-		setBounds(ssmv.getX()+880, ssmv.getY()+100, 500, 350);
+		//이벤트
+		SCUOrderSnackController sosc = new SCUOrderSnackController(this, snackName);
+		addWindowListener(sosc);
+		jbtnAddOrder.addActionListener(sosc);
+		jbtnClose.addActionListener(sosc);
+		jcbQuan.addActionListener(sosc);
+		
+		setBounds(ssmv.getX()+880, ssmv.getY()+100, 490, 350);
 		setResizable(false);
 		setVisible(true);
 		
 	}//SCUOrderSnackView
+
+	public SCUSnackMenuView getSsmv() {
+		return ssmv;
+	}
+
+	public JTextField getJtfSnackName() {
+		return jtfSnackName;
+	}
+
+	public JTextField getJtfPrice() {
+		return jtfPrice;
+	}
+
+	public JLabel getJlbSnackImg() {
+		return jlbSnackImg;
+	}
+
+	public JTextField getJtfTotalPrice() {
+		return jtfTotalPrice;
+	}
+
+	public JComboBox<String> getJcbQuan() {
+		return jcbQuan;
+	}
+
+	public JTextArea getJtaSnackInfo() {
+		return jtaSnackInfo;
+	}
+
+	public JButton getJbtnAddOrder() {
+		return jbtnAddOrder;
+	}
+
+	public JButton getJbtnClose() {
+		return jbtnClose;
+	}
 	
 }//class

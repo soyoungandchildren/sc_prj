@@ -109,12 +109,12 @@ public class SCUSnackMenuView extends JDialog{
 		
 		for(int i =0; i<jbtnMenu.length; i++) {
 			jbtnMenu[i].addActionListener(ssmc);
-		}
+		}//end for
 		
 		//Ã¢ ¼³Á¤
 		setBounds(smv.getX()+100, smv.getY()+80, 800, 700);
-		setVisible(true);
 		setResizable(false);
+		setVisible(true);
 		
 	}//SCUSnackMenuView
 	
