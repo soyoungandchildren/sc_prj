@@ -1,5 +1,6 @@
 package kr.co.sist.sc.user.model;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.sist.sc.user.vo.SCUInsertSeatVO;
 import kr.co.sist.sc.user.vo.SCUMovieDetailVO;
 import kr.co.sist.sc.user.vo.SCUMovieListVO;
 import kr.co.sist.sc.user.vo.SCUSearchScreenVO;
@@ -17,6 +19,7 @@ public class SCUMovieDAO {
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	private CallableStatement cstmt;
 	
 	private SCUMovieDAO(){
 	}//Constructor
@@ -163,15 +166,104 @@ public class SCUMovieDAO {
 	}//selectScreen Method
 	
 	
+	public List<Integer> selectReservedSeat(String screenName, String screenNum) throws SQLException{
+		List<Integer> list = new ArrayList<>();
+		con = null;
+		pstmt = null;
+		rs =null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			StringBuilder sql = new StringBuilder();
+			if(screenName.equals("일반")) {
+				sql
+				.append("select seat_num ")
+				.append("from ")
+				.append("( ")
+				.append("select b.screen_num, book_number ")
+				.append("from book b ")
+				.append("left join on_screen o ")
+				.append("on o.screen_num = b.screen_num ")
+				.append(") sq ")
+				.append("right join standard_seat s ")
+				.append("on s.book_number = sq.book_number ")
+				.append("where screen_num = ? ");
+				
+//				select seat_num
+//				from
+//				(
+//				select b.screen_num, book_number
+//				from book b
+//				left join on_screen o
+//				on o.screen_num = b.screen_num
+//				) sq
+//				right join standard_seat s
+//				on s.book_number = sq.book_number
+//				where screen_num = 'N_1901291650';
+				
+			}else if(screenName.equals("프리미엄")){
+				sql
+				.append("select seat_num ")
+				.append("from ")
+				.append("( ")
+				.append("select b.screen_num, book_number ")
+				.append("from book b ")
+				.append("left join on_screen o ")
+				.append("on o.screen_num = b.screen_num ")
+				.append(") sq ")
+				.append("right join premium_seat p ")
+				.append("on p.book_number = sq.book_number ")
+				.append("where screen_num = ? ");
+				
+			}//end if~else
+			
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, screenNum);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				list.add(new Integer(rs.getInt("seat_num")));
+			}//end while
+			
+		}finally {
+			disconnect();
+		}//end finally
+		
+		return list;
+	}//selectReservedSeat
+	
+	
+	public boolean insertBooking(List<SCUInsertSeatVO> listSeat) throws SQLException{
+		boolean result = false;
+		
+		con = null;
+		cstmt = null;
+		
+		try {
+			
+			con = SCUConnect.getInstance().getConnection();
+			
+		}finally {
+			disconnect();
+		}//end try~finally
+		
+		
+		return result;
+	}//end insertBooking
+	
 	
 	private void disconnect() {
 		try {
 			if(rs!=null) {rs.close();}
 			if(pstmt!=null) {pstmt.close();}
+			if(cstmt!=null) {cstmt.close();}
 			if(con!=null) {con.close();}
 		}catch(SQLException sqle) {
 			sqle.printStackTrace();
-		}
-	}
+		}//end catch
+	}//disconnect
+	
+	
 	
 }//Class

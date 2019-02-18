@@ -7,6 +7,7 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -55,6 +56,7 @@ public class SCUMovieListView extends JDialog {
 		jtMovieTable.getColumn("영화코드").setMinWidth(0);
 		jtMovieTable.getColumn("영화코드").setPreferredWidth(0);
 		jtMovieTable.getColumnModel().getColumn(9).setCellRenderer(this.new TextTableRenderer());
+		jtMovieTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		//컴포넌트 배치
 		setLayout(null);

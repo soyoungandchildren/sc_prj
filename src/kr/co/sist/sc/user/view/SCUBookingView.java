@@ -9,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.sc.user.controller.SCUBookingController;
@@ -72,6 +73,7 @@ public class SCUBookingView extends JDialog{
 		jtOnScreen.getColumn("상영코드").setMinWidth(0);
 		jtOnScreen.getColumn("상영코드").setPreferredWidth(0);
 		jtOnScreen.getTableHeader().setResizingAllowed(false);
+		jtOnScreen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		
 		//배치
@@ -110,6 +112,7 @@ public class SCUBookingView extends JDialog{
 		jbtnCheckSeat.addActionListener(sbc);
 		jbtnExit.addActionListener(sbc);
 		jtOnScreen.addMouseListener(sbc);
+		jcbPersonnel.addActionListener(sbc);
 		
 		
 		//창 설정
