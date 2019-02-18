@@ -14,7 +14,6 @@ import java.util.Set;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.plaf.SliderUI;
 
 import kr.co.sist.sc.user.model.SCUMovieDAO;
 import kr.co.sist.sc.user.view.SCUBookingView;
@@ -26,8 +25,8 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 	private SCUBookingView sbv;
 	private List<SCUSearchScreenVO> list;
 	private List<Object[]> listFilter;
-	private int selectedPersonnel;
-	private String selectedScreenNum, selectedScreenName;
+	
+	
 	
 	public SCUBookingController(SCUBookingView sbv) {
 		this.sbv = sbv;
@@ -132,7 +131,7 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 	
 		sbv.getDcbmPersonnel().removeAllElements();
 		sbv.getJcbPersonnel().setEnabled(false);
-		selectedPersonnel = 0;
+		sbv.setSelectedPersonnel(0);
 		sbv.getDtmOnScreen().setRowCount(0);
 		
 			for(int i = 0 ; i< listFilter.size(); i++) {
@@ -158,7 +157,7 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 		if(ae.getSource().equals(sbv.getJcbDate())) {
 			sbv.getDcbmPersonnel().removeAllElements();
 			sbv.getJcbPersonnel().setEnabled(false);
-			selectedPersonnel = 0;
+			sbv.setSelectedPersonnel(0);
 			sbv.getJrbAll().setSelected(true);
 			filterDate();
 		}//end if
@@ -175,17 +174,21 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 		
 		try {
 			if(ae.getSource().equals(sbv.getJcbPersonnel())) {
-				selectedPersonnel = Integer.parseInt(String.valueOf(sbv.getJcbPersonnel().getSelectedItem()));
+				sbv.setSelectedPersonnel(Integer.parseInt(String.valueOf(sbv.getJcbPersonnel().getSelectedItem())));
 			}//end if
 		}catch(NumberFormatException nfe) {
 		}//end try~catch
 		
 		if(ae.getSource().equals(sbv.getJbtnCheckSeat())) {
-			if(selectedPersonnel!=0) {
+			if(sbv.getSelectedPersonnel()!=0) {
 				JTable jtOnScreen = sbv.getJtOnScreen();
-				selectedScreenNum = String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 5));
-				selectedScreenName = String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 3));
-				new SCUSeatView(sbv, selectedPersonnel, selectedScreenNum, selectedScreenName);
+				
+				sbv.setSelectedScreenNum(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 5)));
+				sbv.setSelectedScreenName(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 3)));
+				sbv.setSelectedScreenStartTime(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 1)));
+				sbv.setSelectedScreenStartDate(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 0)));
+				
+				new SCUSeatView(sbv);
 			}else {
 				JOptionPane.showMessageDialog(sbv, "관람할 인원을 알려주세요.");
 			}//end if

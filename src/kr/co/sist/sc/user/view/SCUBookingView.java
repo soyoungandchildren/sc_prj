@@ -25,6 +25,8 @@ public class SCUBookingView extends JDialog{
 	private DefaultTableModel dtmOnScreen;
 	private JButton jbtnCheckSeat,jbtnExit;
 	private JTable jtOnScreen;
+	private String selectedScreenNum, selectedScreenName, selectedScreenStartTime, selectedScreenStartDate;
+	private int selectedPersonnel;
 	
 
 	public SCUBookingView(SCUMovieListView smlv, String movieCode) {
@@ -160,5 +162,37 @@ public class SCUBookingView extends JDialog{
 	public JTable getJtOnScreen() {
 		return jtOnScreen;
 	}
+	public String getSelectedScreenNum() {
+		return selectedScreenNum;
+	}
+	public void setSelectedScreenNum(String selectedScreenNum) {
+		this.selectedScreenNum = selectedScreenNum;
+	}
+	public String getSelectedScreenName() {
+		return selectedScreenName;
+	}
+	public void setSelectedScreenName(String selectedScreenName) {
+		this.selectedScreenName = selectedScreenName;
+	}
+	public int getSelectedPersonnel() {
+		return selectedPersonnel;
+	}
+	public void setSelectedPersonnel(int selectedPersonnel) {
+		this.selectedPersonnel = selectedPersonnel;
+	}
+	public String getSelectedScreenStartTime() {
+		return selectedScreenStartTime;
+	}
+	public void setSelectedScreenStartTime(String selectedScreenStartTime) {
+		this.selectedScreenStartTime = selectedScreenStartTime;
+	}
+	public String getSelectedScreenStartDate() {
+		return selectedScreenStartDate;
+	}
+	public void setSelectedScreenStartDate(String selectedScreenStartDate) {
+		this.selectedScreenStartDate = selectedScreenStartDate;
+	}
+	
+	
 	
 }//Class
