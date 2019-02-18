@@ -14,15 +14,16 @@ import kr.co.sist.sc.user.model.SCULoginDAO;
 import kr.co.sist.sc.user.view.SCUSignUpView;
 import kr.co.sist.sc.user.vo.SCUSignUpVO;
 
-public class SCUSignUpController extends WindowAdapter implements ActionListener {
+public class SCUSignUpController extends WindowAdapter implements ActionListener{
 
 	private SCUSignUpView ssuv;
 	private SCULoginDAO slDao;
+	private int count = 0;
 
 	public SCUSignUpController(SCUSignUpView ssuv) {
 		this.ssuv = ssuv;
 		slDao = SCULoginDAO.getInstance();
-	}
+	}//end SCUSignUpController
 
 	/**
 	 * id 중복확인 (다이얼로그 창 내용 UI처럼 수정하기)
@@ -34,15 +35,16 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		String inputId = jtf.getText().trim();
 
 		try {
-			if (!slDao.selectCheckDup(id) && !inputId.equals("")) {// 같은 아이디가 존재하지 않을 때
-				JOptionPane.showMessageDialog(ssuv, "사용 가능한 아이디입니다.");
-			} else if (inputId.equals("")) {
+			if (inputId.equals("")) {
 				JOptionPane.showMessageDialog(ssuv, "아이디를 입력하세요.");
-			} else { // 같은 아이디가 존재할 때
+			} else if(inputId.length() < 3 || inputId.length() > 30) {
+				JOptionPane.showMessageDialog(ssuv, "아이디는 3~30자 이내만 가능합니다.");
+			} else if (slDao.selectCheckDup(id) && !inputId.equals("")) { // 같은 아이디가 존재할 때
 				JOptionPane.showMessageDialog(ssuv, "같은 아이디가 존재합니다.");
 				jtf.setText("");
-			} // end else
-			
+			} else {// 같은 아이디가 존재하지 않을 때
+				JOptionPane.showMessageDialog(ssuv, "사용 가능한 아이디입니다.");// end else
+			}//end else
 			
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(ssuv, "잠시 후 다시 시도해주세요.");
@@ -65,41 +67,69 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 	/**
 	 * 회원가입
-	 * 1. 각 창에 값이 있는지 확인
-	 * 2. 비밀번호, 비밀번호 확인 일치하는지 확인하기 (비번 길이도 조건걸기)
 	 * 3. ...다이얼로그 창이 흠.. :( (생각 중)
 	 */
 	public void addSignUp() {
 		
-		int cnt = 0;
-		
+		//아이디
 		JTextField jtfId = ssuv.getJtfID();
 		
+		//비밀번호
 		JPasswordField jpfPw = ssuv.getJpfPW();
 		String stringPW = new String(jpfPw.getPassword());
 		
-		JPasswordField jpfConfirmPW = ssuv.getJpfConfirmPW();
+		//비밀번호 확인
 		String stringconfirmPW = new String(ssuv.getJpfConfirmPW().getPassword());
 		
+		//이름, 생일, 전화번호
 		JTextField jtfName = ssuv.getJtfName();
 		JTextField jtfBirthdate = ssuv.getJtfBirth();
 		JTextField jtfPhone = ssuv.getJtfPhone();
 		
-//		if (jtfId.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(ssuv, "아이디는 필수입력사항입니다.");
-//			return;
-//		}
-//		
-//		if(stringPW.isEmpty()) {
-//			JOptionPane.showMessageDialog(ssuv, "비밀번호는 필수입력사항입니다.");
-//			return;
-//		}
-		
 		SCUSignUpVO ssuvo = new SCUSignUpVO(jtfId.getText().trim(),stringPW.trim(), jtfName.getText().trim(), jtfBirthdate.getText().trim(), jtfPhone.getText().trim());
+		
+		//아이디 유효성 확인
+		if (jtfId.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(ssuv, "아이디는 필수입력사항입니다.");
+			return;		
+		} else if(jtfId.getText().length() < 4 || jtfId.getText().length() > 30) {
+			JOptionPane.showMessageDialog(ssuv, "아이디는 3~30자 이내입니다.");
+			jtfId.setText("");
+			return;		
+		} else if(count < 1) {
+			JOptionPane.showMessageDialog(ssuv, "아이디 중복확인을 해주세요.");
+			return;
+		}//end else
+		
+		//비밀번호 유효성 확인
+		if(stringPW.isEmpty()) {
+			JOptionPane.showMessageDialog(ssuv, "비밀번호는 필수입력사항입니다.");
+			return;
+		} else if(!stringPW.equals(stringconfirmPW)) {
+			JOptionPane.showMessageDialog(ssuv, "비밀번호가 일치하지 않습니다.");
+			jpfPw.setText("");
+			return;
+		}else if(stringPW.length()<3 || stringPW.length()>31) {
+			JOptionPane.showMessageDialog(ssuv, "비밀번호는 필수입력사항입니다.");
+			jpfPw.setText("");
+			return;
+		}//end else
+		
+		//이름, 생년월일, 전화번호 입력 확인
+		if(jtfName.getText().isEmpty()) { 
+			JOptionPane.showMessageDialog(ssuv, "이름을 입력하세요");
+			return;
+		} else if(jtfBirthdate.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(ssuv, "생년월일을 입력하세요");
+			return;
+		} else if(jtfPhone.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(ssuv, "전화번호를 입력하세요");
+			return;
+		}//end else
+		
 		try {
 			// 에러가 나면 catch로 빠져서 DB에 추가가 안됨
 			SCULoginDAO.getInstance().insertSignUp(ssuvo);// 에러가 나지 않는 경우 DB에 추가	
-			
 			JOptionPane.showMessageDialog(ssuv, "[ "+jtfId.getText()+" ] 님의 회원가입을 환영합니다.");
 			jtfName.requestFocus();
 		} catch (SQLException se) {
@@ -117,6 +147,7 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 	public void actionPerformed(ActionEvent ae) {
 
 		if (ae.getSource().equals(ssuv.getJbtnCheckDuplication())) {
+			count++;
 			checkDuplication(ssuv.getJtfID().getText());
 		} // JbtnCheckDuplication
 
@@ -131,6 +162,8 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		if(ae.getSource().equals(ssuv.getJbtnExit())){
 			ssuv.dispose();
 		}//getJbtnExit
-	}
+	}//actionPerformed
+
+
 
 }// class
