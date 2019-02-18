@@ -78,17 +78,20 @@ public class SCUOrderSnackView extends JDialog {
 		jcbQuan.setBounds(325, 83, 130, 25);
 		jlbTotalPrice.setBounds(270, 110, 60,30);
 		jtfTotalPrice.setBounds(325, 113, 130, 25);
-		
 		jlbSnackInfo.setBounds(270, 140, 60,30);
 		jspSnackInfo.setBounds(270, 165, 185, 85);
-		jtaSnackInfo.setEditable(false);
-		jtaSnackInfo.setLineWrap(true);
-		
 		jbtnAddOrder.setBounds(150, 265, 90, 30);
 		jbtnClose.setBounds(260, 265, 90, 30);
 		
+		jtfSnackName.setEditable(false);
+		jtfPrice.setEditable(false);
+		jtfTotalPrice.setEditable(false);
+		jtfTotalPrice.setEditable(false);
+		jtaSnackInfo.setEditable(false);
+		jtaSnackInfo.setLineWrap(true);
+		
 		//¿Ã∫•∆Æ
-		SCUOrderSnackController sosc = new SCUOrderSnackController(this, snackName);
+		SCUOrderSnackController sosc = new SCUOrderSnackController(this, ssmv, snackName);
 		addWindowListener(sosc);
 		jbtnAddOrder.addActionListener(sosc);
 		jbtnClose.addActionListener(sosc);

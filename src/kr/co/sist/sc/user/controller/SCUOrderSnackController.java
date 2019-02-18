@@ -19,8 +19,9 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 	private SCUSnackDAO ssDAO;
 	private String selectName;
 	
-	public SCUOrderSnackController(SCUOrderSnackView sosv, String snackName) {
+	public SCUOrderSnackController(SCUOrderSnackView sosv, SCUSnackMenuView ssmv, String snackName) {
 		this.sosv = sosv;
+		this.ssmv = ssmv;
 		ssDAO = SCUSnackDAO.getInstance();
 		selectName = snackName;
 		searchInfo();
@@ -40,7 +41,28 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 	}//searchInfo
 	
 	public void insertSnackOnList() {
-		System.out.println("랄ㄹㄹ라");
+//		ssmv.getDtmOrderList().setRowCount(0);	//예외처리
+		//주문 목록에 추가하기
+		Object[] rowData = new Object[4];
+		rowData[0] = sosv.getJtfSnackName().getText();
+		rowData[1] = sosv.getJtfPrice().getText();
+		rowData[2] = sosv.getJcbQuan().getSelectedItem();
+		rowData[3] = sosv.getJtfTotalPrice().getText();
+		
+		ssmv.getDtmOrderList().addRow(rowData);
+		
+		//합계 추가하기
+		Object price = new Object();
+		
+		int temp = 0;
+		if(ssmv.getDtmOrderList().getRowCount() > 0) {
+			for(int i=0; i<ssmv.getDtmOrderList().getRowCount(); i++) {
+				temp += Integer.parseInt(ssmv.getJtOrderList().getValueAt(i, 3).toString());
+			}//end for
+		}
+		price = temp;
+		ssmv.getJtOrderTotalPrice().setValueAt(price, 0, 1);
+		
 		sosv.dispose();
 	}//insertSnackOnList
 
@@ -61,8 +83,7 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 		//주문 목록에 추가하기
 		if(ae.getSource() == sosv.getJbtnAddOrder()) {
 			insertSnackOnList();
-		}
-		
+		}//end if
 	}//actionPerformed
 	
 	@Override
