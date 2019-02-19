@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.sist.sc.user.vo.SCUAddOrderSnackVO;
 import kr.co.sist.sc.user.vo.SCUSearchMenuVO;
 import kr.co.sist.sc.user.vo.SCUSnackOrderDataVO;
 
@@ -100,5 +101,9 @@ public class SCUSnackDAO {
 		
 		return ssodVO;
 	}//selectSnackOrderData
+	
+//	public List<SCUAddOrderSnackVO> insertOrderSnack() {
+//		
+//	}
 	
 }//class

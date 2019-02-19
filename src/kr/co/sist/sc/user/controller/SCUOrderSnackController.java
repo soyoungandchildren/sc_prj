@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import kr.co.sist.sc.user.model.SCUSnackDAO;
 import kr.co.sist.sc.user.view.SCUOrderSnackView;
@@ -18,6 +19,7 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 	private SCUOrderSnackView sosv;
 	private SCUSnackDAO ssDAO;
 	private String selectName;
+	private String[] chkname;
 	
 	public SCUOrderSnackController(SCUOrderSnackView sosv, SCUSnackMenuView ssmv, String snackName) {
 		this.sosv = sosv;
@@ -41,17 +43,60 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 	}//searchInfo
 	
 	public void insertSnackOnList() {
-//		ssmv.getDtmOrderList().setRowCount(0);	//예외처리
+		//수량 선택하지 않았을 때
+		if(sosv.getJcbQuan().getSelectedIndex() == 0) {
+			JOptionPane.showMessageDialog(sosv, "수량을 선택하세요", "주문 오류", JOptionPane.ERROR_MESSAGE);
+			return;
+		}//end if
+		
 		//주문 목록에 추가하기
-		Object[] rowData = new Object[4];
-		rowData[0] = sosv.getJtfSnackName().getText();
-		rowData[1] = sosv.getJtfPrice().getText();
-		rowData[2] = sosv.getJcbQuan().getSelectedItem();
-		rowData[3] = sosv.getJtfTotalPrice().getText();
+		if(ssmv.getDtmOrderList().getRowCount() != 0) {
+			
+			chkname = new String[ssmv.getDtmOrderList().getRowCount()];
+			for(int i =0; i<ssmv.getDtmOrderList().getRowCount(); i++) {
+				chkname[i] = ssmv.getDtmOrderList().getValueAt(i, 0).toString();
+			}//end for
+			
+			boolean flag = false;
+			int idx = 0;
+			for(idx=0; idx<chkname.length; idx++) {
+				if(chkname[idx].equals(sosv.getJtfSnackName().getText())) {
+					flag = true;
+					break;
+				}//end if
+			}//end for
+			
+			Object[] rowData = new Object[4];
+			if(!flag) {
+				rowData[0] = sosv.getJtfSnackName().getText();
+				rowData[1] = sosv.getJtfPrice().getText();
+				rowData[2] = sosv.getJcbQuan().getSelectedItem();
+				rowData[3] = sosv.getJtfTotalPrice().getText();
+				
+				ssmv.getDtmOrderList().addRow(rowData);
+			} else{
+				int tempQuan = Integer.parseInt(ssmv.getDtmOrderList().getValueAt(idx, 2).toString())+
+						Integer.parseInt(sosv.getJcbQuan().getSelectedItem().toString());
+				Object rQuan = tempQuan;
+				
+				int tempPrice = Integer.parseInt(ssmv.getDtmOrderList().getValueAt(idx, 3).toString())+
+								Integer.parseInt(sosv.getJtfTotalPrice().getText());
+				Object rPrice = tempPrice;
+				
+				ssmv.getDtmOrderList().setValueAt(rQuan, idx, 2);
+				ssmv.getDtmOrderList().setValueAt(rPrice, idx, 3);
+			}//end else
+		} else {
+			Object[] rowData = new Object[4];
+			rowData[0] = sosv.getJtfSnackName().getText();
+			rowData[1] = sosv.getJtfPrice().getText();
+			rowData[2] = sosv.getJcbQuan().getSelectedItem();
+			rowData[3] = sosv.getJtfTotalPrice().getText();
+				
+			ssmv.getDtmOrderList().addRow(rowData);
+		}//end else
 		
-		ssmv.getDtmOrderList().addRow(rowData);
-		
-		//합계 추가하기
+		//합계
 		Object price = new Object();
 		
 		int temp = 0;
@@ -82,7 +127,22 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 		
 		//주문 목록에 추가하기
 		if(ae.getSource() == sosv.getJbtnAddOrder()) {
-			insertSnackOnList();
+			switch(JOptionPane.showConfirmDialog(sosv, "["+sosv.getJtfSnackName().getText()+"] [수량 : "+
+					sosv.getJcbQuan().getSelectedItem()+"] [총 가격 : "+sosv.getJtfTotalPrice().getText()+
+					"]을\n주문 목록에 추가하시겠습니까?")) {
+			case JOptionPane.OK_OPTION :
+				JOptionPane.showMessageDialog(sosv, "["+sosv.getJtfSnackName().getText()+"] [수량 : "+
+						sosv.getJcbQuan().getSelectedItem()+"] [총 가격 : "+sosv.getJtfTotalPrice().getText()+
+						"]이\n추가 되었습니다!", "주문 완료", JOptionPane.PLAIN_MESSAGE);
+				insertSnackOnList();
+			
+			case JOptionPane.NO_OPTION :
+				return;
+			case JOptionPane.CANCEL_OPTION :
+				return;
+			case JOptionPane.CLOSED_OPTION :
+				return;
+			}//end switch
 		}//end if
 	}//actionPerformed
 	
