@@ -1,24 +1,27 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Dialog;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import kr.co.sist.sc.user.controller.SCULoginController;
 import kr.co.sist.sc.user.controller.SCUSignUpController;
 
 @SuppressWarnings("serial")
 public class SCUSignUpView extends JDialog {
-
+	
+	private SCULoginView slv;
 	private JButton jbtnCheckDuplication, jbtnReset, jbtnSignUp, jbtnExit;
 	private JTextField jtfID, jtfName, jtfBirth, jtfPhone;
 	private JPasswordField jpfPW, jpfConfirmPW;
-
+	
 	public SCUSignUpView(SCULoginView slv) {
-
-
+		
+		super(slv,"회원가입",false);
+		
 		jbtnCheckDuplication = new JButton("중복확인");
 		jbtnReset = new JButton("재작성");
 		jbtnSignUp = new JButton("가입");
@@ -88,6 +91,7 @@ public class SCUSignUpView extends JDialog {
 		jbtnReset.addActionListener(ssuc);
 		jbtnSignUp.addActionListener(ssuc);
 		jbtnExit.addActionListener(ssuc);
+		jtfID.addKeyListener(ssuc);
 
 		setVisible(true);
 		setBounds(100, 100, 420, 500);
