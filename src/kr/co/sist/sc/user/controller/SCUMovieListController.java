@@ -17,6 +17,7 @@ import kr.co.sist.sc.user.view.SCUBookingView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUMovieDetailView;
 import kr.co.sist.sc.user.view.SCUMovieListView;
+import kr.co.sist.sc.user.view.SCURatingView;
 import kr.co.sist.sc.user.vo.SCUMovieListVO;
 
 public class SCUMovieListController extends WindowAdapter implements ActionListener{
@@ -74,6 +75,25 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 	}//setMovieList Method
 	
 	
+	public void dialogDetail(String selectedMovieCode) {
+		new SCUMovieDetailView(smlv, selectedMovieCode);
+	}//dialogDetail Method
+	
+	
+	public void dialogBooking(String selectedMovieCode) {
+		if(smv.getIsLogin()) {
+			new SCUBookingView(smlv, selectedMovieCode);
+		}else {
+			JOptionPane.showMessageDialog(smlv, "로그인을 해주세요!");
+		}//end if else
+	}//dialogBooking Method
+	
+	
+	public void dialogRating() {
+		new SCURatingView(smlv);
+	}//dialogRating Method
+	
+	
 	@Override
 	public void windowClosing(WindowEvent we) {
 		smlv.dispose();
@@ -103,15 +123,15 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 		
 		
 		if(ae.getSource().equals(smlv.getJbtnDetail())) {
-			new SCUMovieDetailView(smlv, smlv.getSelectedMovieCode());
+			dialogDetail(smlv.getSelectedMovieCode());
 		}//end if
 		
 		if(ae.getSource().equals(smlv.getJbtnBooking())) {
-			if(smv.getIsLogin()) {
-				new SCUBookingView(smlv, smlv.getSelectedMovieCode());
-			}else {
-				JOptionPane.showMessageDialog(smlv, "로그인을 해주세요!");
-			}//end if else
+			dialogBooking(smlv.getSelectedMovieCode());
+		}//end if
+		
+		if(ae.getSource().equals(smlv.getJbtnRating())) {
+			dialogRating();
 		}//end if
 		
 	}//actionPerformed
