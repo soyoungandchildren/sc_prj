@@ -8,10 +8,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.sist.sc.user.vo.SCUInsertBookingVO;
 import kr.co.sist.sc.user.vo.SCUInsertSeatVO;
 import kr.co.sist.sc.user.vo.SCUMovieDetailVO;
 import kr.co.sist.sc.user.vo.SCUMovieListVO;
 import kr.co.sist.sc.user.vo.SCUSearchScreenVO;
+import oracle.jdbc.OracleTypes;
+
 
 public class SCUMovieDAO {
 
@@ -19,7 +22,7 @@ public class SCUMovieDAO {
 	private Connection con;
 	private PreparedStatement pstmt;
 	private ResultSet rs;
-	private CallableStatement cstmt;
+	private CallableStatement cstmt1, cstmt2;
 	
 	private SCUMovieDAO(){
 	}//Constructor
@@ -138,7 +141,7 @@ public class SCUMovieDAO {
 			.append("where movie_code = ? ")
 			.append(") a ")
 			.append("left join ( ")
-			.append("select screen_num, count(book_number) reserved ")
+			.append("select screen_num, sum(personnel) reserved ")
 			.append("from book ")
 			.append("group by screen_num) b ")
 			.append("on a.screen_num = b.screen_num ")
@@ -189,18 +192,6 @@ public class SCUMovieDAO {
 				.append("on s.book_number = sq.book_number ")
 				.append("where screen_num = ? ");
 				
-//				select seat_num
-//				from
-//				(
-//				select b.screen_num, book_number
-//				from book b
-//				left join on_screen o
-//				on o.screen_num = b.screen_num
-//				) sq
-//				right join standard_seat s
-//				on s.book_number = sq.book_number
-//				where screen_num = 'N_1901291650';
-				
 			}else if(screenName.equals("橇府固决")){
 				sql
 				.append("select seat_num ")
@@ -234,30 +225,90 @@ public class SCUMovieDAO {
 	}//selectReservedSeat
 	
 	
-	public boolean insertBooking(List<SCUInsertSeatVO> listSeat) throws SQLException{
-		boolean result = false;
+	public boolean insertBooking(SCUInsertBookingVO sibVO, List<SCUInsertSeatVO> listSisVO, String screenName){
+		boolean transactionResult = false;
 		
 		con = null;
-		cstmt = null;
+		cstmt1 = null;
+		cstmt2 = null; 
 		
 		try {
 			
 			con = SCUConnect.getInstance().getConnection();
+			con.setAutoCommit(false);
+			cstmt1 = con.prepareCall("{ call procedure_insert_booking(?,?,?,?,?,?) }");
 			
+			cstmt1.setInt(1, sibVO.getPersonnel());
+			cstmt1.setString(2, sibVO.getBook_number());
+			cstmt1.setString(3, sibVO.getMovie_start());
+			cstmt1.setString(4, sibVO.getMember_id());
+			cstmt1.setString(5, sibVO.getScreen_num());
+			
+			cstmt1.registerOutParameter(6, OracleTypes.NUMERIC);
+			cstmt1.execute();
+			int cntBooking = cstmt1.getInt(6);
+			
+			
+			String screen_name = "";
+			if(screenName.equals("老馆")) {
+				screen_name = "N";
+			}else if(screenName.equals("橇府固决")) {
+				screen_name = "P";
+			}//end if
+			
+			int cntSeat = 0;
+			cstmt2 = con.prepareCall("{ call procedure_insert_seat(?,?,?,?) }"); 
+			for(int i = 0; i<listSisVO.size();i++) {
+				cstmt2.setString(1, listSisVO.get(i).getBook_number());
+				cstmt2.setInt(2, listSisVO.get(i).getSeat_num());
+				cstmt2.setString(3, screen_name);
+				
+				cstmt2.registerOutParameter(4, OracleTypes.NUMERIC);
+				cstmt2.execute();
+				cntSeat += cstmt2.getInt(4);
+			}//end for
+			
+			
+			
+			
+			transactionResult = insertBookingTransaction(cntBooking, cntSeat, listSisVO.size());
+			
+			
+		}catch(SQLException sqle) {
+			sqle.printStackTrace();
+		}//end try~catch
+		
+		
+		return transactionResult;
+	}//end insertBooking
+	
+	
+	public boolean insertBookingTransaction(int cntBooking, int cntSeat, int listSize) throws SQLException{
+		boolean transactionResult = false;
+		
+		try {
+			if(cntBooking==1&&cntSeat==listSize) {
+				con.commit();
+				transactionResult = true;
+			}else {
+				con.rollback();
+				transactionResult = false;
+			}//end if~else
 		}finally {
 			disconnect();
 		}//end try~finally
 		
-		
-		return result;
-	}//end insertBooking
+		return transactionResult;
+	}//insertBookingTransaction
+	
 	
 	
 	private void disconnect() {
 		try {
 			if(rs!=null) {rs.close();}
 			if(pstmt!=null) {pstmt.close();}
-			if(cstmt!=null) {cstmt.close();}
+			if(cstmt1!=null) {cstmt1.close();}
+			if(cstmt2!=null) {cstmt2.close();}
 			if(con!=null) {con.close();}
 		}catch(SQLException sqle) {
 			sqle.printStackTrace();
