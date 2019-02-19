@@ -11,14 +11,18 @@ import kr.co.sist.sc.user.controller.SCULoginController;
 
 @SuppressWarnings("serial")
 public class SCULoginView extends JDialog {
-
+	
+	private SCUMainView smv;
 	private JTextField jtfID;
 	private JPasswordField jpfPW;
 	private JButton jbtnLogin, jbtnSignUp, jbtnFindAccount;
 
 	public SCULoginView(SCUMainView smv) {
-
-
+		
+		super(smv, "로그인", false);
+		
+		this.smv = smv;
+		
 		jtfID = new JTextField();
 		jpfPW = new JPasswordField();
 		jbtnLogin = new JButton("로그인");

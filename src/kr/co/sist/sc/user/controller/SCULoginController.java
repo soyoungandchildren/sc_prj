@@ -65,7 +65,6 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 		// ∞°¿‘
 		if (ae.getSource() == slv.getJbtnSignUp()) {
 			new SCUSignUpView(slv);
-			slv.dispose();
 		} // jbtnSignup
 
 		if (ae.getSource() == slv.getJbtnFindAccount()) {

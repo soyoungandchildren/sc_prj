@@ -13,22 +13,19 @@ import kr.co.sist.sc.user.controller.SCUSeatController;
 
 @SuppressWarnings("serial")
 public class SCUSeatView extends JDialog{
-
+	
+	
 	private SCUBookingView sbv;
-	private int selectedPersonnel;
-	private String selectedScreenNum, selectedScreenName;
+	private SCUMovieListView smlv;
 	private JButton jbtnConfirm, jbtnExit;
 	private JCheckBox[] jckbSeat;
-	JCheckBox jcb;
 	
 	
-	public SCUSeatView(SCUBookingView sbv, int selectedPersonnel, String selectedScreenNum, String selectedScreenName) {
+	public SCUSeatView(SCUBookingView sbv) {
 		super(sbv, "좌석 선택", true);
 		
 		this.sbv = sbv;
-		this.selectedPersonnel = selectedPersonnel;
-		this.selectedScreenNum = selectedScreenNum;
-		this.selectedScreenName = selectedScreenName;
+		this.smlv = sbv.getSmlv();
 		
 		JPanel jpnlSeat = new JPanel();
 		jpnlSeat.setLayout(null);
@@ -38,7 +35,7 @@ public class SCUSeatView extends JDialog{
 		jbtnExit = new JButton("닫기");
 		
 		setLayout(null);
-		if(selectedScreenName.equals("일반")) {
+		if(sbv.getSelectedScreenName().equals("일반")) {
 			jckbSeat = new JCheckBox[20];
 			
 			int x = 0;
@@ -50,7 +47,6 @@ public class SCUSeatView extends JDialog{
 				
 				jckbSeat[i].setBounds(x,y,75,61);
 				
-				
 				x+=90;
 				cnt++;
 				if(cnt==5) {
@@ -61,13 +57,12 @@ public class SCUSeatView extends JDialog{
 				
 				jpnlSeat.add(jckbSeat[i]);
 				
-				
 			}//end for
 			jpnlSeat.setBounds(0, 150, 500, 300);
 			
 		
 			
-		}else if(selectedScreenName.equals("프리미엄")){
+		}else if(sbv.getSelectedScreenName().equals("프리미엄")){
 			
 			jckbSeat = new JCheckBox[10];
 			
@@ -80,7 +75,6 @@ public class SCUSeatView extends JDialog{
 				jckbSeat[i] = new JCheckBox(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_p_seat_selectable(77x49).png"));
 				
 				jckbSeat[i].setBounds(x,y,90,50);
-				
 				
 				x+=95;
 				cnt++;
@@ -99,7 +93,6 @@ public class SCUSeatView extends JDialog{
 				}//end if
 				
 				jpnlSeat.add(jckbSeat[i]);
-				
 				
 			}//end for
 			jpnlSeat.setBounds(0, 100, 500, 400);
@@ -129,15 +122,6 @@ public class SCUSeatView extends JDialog{
 	public SCUBookingView getSbv() {
 		return sbv;
 	}
-	public int getSelectedPersonnel() {
-		return selectedPersonnel;
-	}
-	public String getSelectedScreenNum() {
-		return selectedScreenNum;
-	}
-	public String getSelectedScreenName() {
-		return selectedScreenName;
-	}
 	public JButton getJbtnConfirm() {
 		return jbtnConfirm;
 	}
@@ -149,6 +133,9 @@ public class SCUSeatView extends JDialog{
 	}
 	public void setJckbSeat(JCheckBox[] jckbSeat) {
 		this.jckbSeat = jckbSeat;
+	}
+	public SCUMovieListView getSmlv() {
+		return smlv;
 	}
 	
 	
