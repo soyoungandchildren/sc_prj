@@ -69,8 +69,8 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 		try {
 			boolean result = SCULoginDAO.getInstance().selectPW(sfpvo);
 			if (result) {
-				new SCUModifyPWView(slv);
 				sfav.dispose();
+				new SCUModifyPWView(slv, sfav);
 			} else {
 				JOptionPane.showMessageDialog(sfav, "정보가 잘못 입력되었습니다.");
 			}
@@ -92,7 +92,6 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 		// 아이디 찾기버튼
 		if (ae.getSource().equals(sfav.getJbtnFindID())) {
 			findID();
-
 		} // end if
 
 		// 비밀번호 찾기 버튼

@@ -2,24 +2,37 @@ package kr.co.sist.sc.user.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+
+import kr.co.sist.sc.user.model.SCULoginDAO;
+import kr.co.sist.sc.user.vo.SCUFindPWVO;
+import kr.co.sist.sc.user.vo.SCUModifyPWVO;
 
 @SuppressWarnings("serial")
 public class SCUModifyPWView extends JDialog implements ActionListener {
 
 	private JPasswordField jpfPW, jpfConfirmPW;
 	private JButton jbtnConfirm, jbtnExit;
-
-	
+	private SCUFindAccountView sfav;
+	private String stringPW;
 	/**
 	 * 비밀번호 변경
 	 * @param slv
 	 */
-	public SCUModifyPWView(SCULoginView slv) {
+	public SCUModifyPWView(SCULoginView slv, SCUFindAccountView sfav) {
+		
+		super(slv,"비밀번호 변경",true);
+		
+		this.sfav = sfav;
 
 		JLabel jlPW = new JLabel("변경할 비밀번호");
 		jpfPW = new JPasswordField();
@@ -47,25 +60,72 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 		add(jbtnExit);
 
 		// 이벤트처리
+		jbtnConfirm.addActionListener(this);
 		jbtnExit.addActionListener(this);
 		
-		setVisible(true);
 		setBounds(90, 200, 340, 200);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-	}
+		setVisible(true);
+		//setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}//SCUModifyPWView
 
+	
+	
+	/**
+	 * 비밀번호 수정
+	 * @param password
+	 */
+	public void modifyPW(String password) throws SQLException {
+		String stringIDForPW = sfav.getJtfIDForPW().getText();
+		
+		String stringPW = new String(jpfPW.getPassword());
+		String stringConfirmPW = new String(jpfConfirmPW.getPassword());
+		
+		
+		if(!stringPW.equals(stringConfirmPW)) {
+			JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다.");
+			return;
+		}//end if
+		
+		SCUModifyPWVO sfpvo = new SCUModifyPWVO (stringPW.trim(), stringIDForPW.trim());
+		System.out.println("여기까지 코드옴");
+		try {
+			if(SCULoginDAO.getInstance().updatePW(sfpvo)) {
+				System.out.println("여기까지 코드옴 상황1");
+				JOptionPane.showMessageDialog(this, "변경되었습니다.");
+			}else {
+				System.out.println("여기까지 코드옴 상황2");
+				JOptionPane.showMessageDialog(this, "dsfd");
+			}
+		} catch (SQLException se) {
+			JOptionPane.showMessageDialog(this, "DB에서 문제가 발생하였습니다.");
+			se.printStackTrace();
+		} // end catch
+		
+	}//modifyPW
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+
+		String stringPW = new String(jpfPW.getPassword());
+		
 		 //비밀번호 변경창 '변경'버튼
 			if (ae.getSource() == getJbtnConfirm()) {
-				
-			} // end if
+				try {
+					modifyPW(stringPW.trim());
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			} // JbtnConfirm
+			
 
 //			 비밀번호 변경창 '취소'버튼
 			if (ae.getSource() == getJbtnExit()) {
 				dispose();
-			} // end if
-	}
+			} // JbtnExit
+			
+			
+	}//actionPerformed
+	
 
 	public JPasswordField getJpfPW() {
 		return jpfPW;

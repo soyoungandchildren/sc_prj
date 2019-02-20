@@ -51,8 +51,7 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 					jpf.setText("");
 					jtf.requestFocus();
 				} else { // 로그인이 되었을 때
-					// new SCUMainView(name);
-					// smv.dispose();//프로그램을 종료하고 로그인후 재실행 해서 로그인 함.
+					
 					slv.dispose();
 					smv.setIsLogin(true);
 					smv.setIdConnecting(idConnect);
@@ -61,6 +60,10 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 			} // end if
 
 		} // jbtnLogin
+		
+		if(ae.getSource() == slv.getJtfID()) {
+			slv.getJpfPW().requestFocus();
+		}//
 
 		// 가입
 		if (ae.getSource() == slv.getJbtnSignUp()) {
@@ -71,7 +74,8 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 			new SCUFindAccountView(slv);
 		}
 	}
-
+	
+	//아이디가 빈 칸인지 확인
 	private boolean checkIdEmpty() {
 		boolean flag = false;
 		JTextField jtfID = slv.getJtfID();
@@ -83,6 +87,7 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 		return flag;
 	}// checkIdEmpty
 
+	//비밀번호가 빈 칸인지 확인
 	private boolean checkPassEmpty() {
 		boolean flag = false;
 		JPasswordField jpfPW = slv.getJpfPW();
@@ -94,7 +99,7 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 		} // end if
 		return flag;
 	}// checkPassEmpty
-
+	
 	private String login(SCULoginVO slvo) {
 		String name = "";
 		SCULoginDAO slDao = SCULoginDAO.getInstance();

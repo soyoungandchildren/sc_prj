@@ -15,6 +15,8 @@ public class SCUFindAccountView extends JDialog {
 
 	public SCUFindAccountView(SCULoginView slv) {
 
+		super(slv,"아이디/비밀번호 찾기",true);
+		
 		// 전화번호로 아이디찾기
 		JLabel jlPhoneForID = new JLabel("전화번호");
 		jtfPhoneForID = new JTextField();
@@ -66,9 +68,9 @@ public class SCUFindAccountView extends JDialog {
 		jbtnFindPW.addActionListener(sfac);
 		
 		
-		setVisible(true);
 		setResizable(false);
 		setBounds(105, 140, 290, 450); // 완성 후에 창 뜨는 위치 약간 조정하기
+		setVisible(true);
 	}
 
 	public JTextField getJtfPhoneForID() {
