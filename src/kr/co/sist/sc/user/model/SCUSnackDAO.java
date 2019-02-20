@@ -102,8 +102,39 @@ public class SCUSnackDAO {
 		return ssodVO;
 	}//selectSnackOrderData
 	
-//	public List<SCUAddOrderSnackVO> insertOrderSnack() {
-//		
-//	}
+	public boolean insertOrderSnack(List<SCUAddOrderSnackVO> list, String totalOrderPrice) throws SQLException {
+		boolean flag = false;
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("insert into snack_sale(snack_order_num, snack_name, member_id, quan) ")
+				.append("values(snack_order_num,?,?,?) ");
+			
+			pstmt = con.prepareStatement(sql.toString());
+			
+			for(int i=0; i<list.size(); i++) {
+				pstmt.setString(1, list.get(i).getSnack_name());
+				pstmt.setString(2, list.get(i).getMember_id());
+				pstmt.setInt(3, list.get(i).getQuan());
+				
+				pstmt.executeQuery();
+			}//end for
+			
+		} finally {
+			if(pstmt != null) {
+				pstmt.close();
+			}//end if
+			if(con != null) {
+				con.close();
+			}//end if
+		}//end finally
+		
+		return flag;
+	}//insertOrderSnack
 	
 }//class

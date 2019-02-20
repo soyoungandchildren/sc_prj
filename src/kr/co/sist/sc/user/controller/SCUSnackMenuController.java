@@ -5,14 +5,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
 import kr.co.sist.sc.user.model.SCUSnackDAO;
 import kr.co.sist.sc.user.view.SCUOrderSnackView;
 import kr.co.sist.sc.user.view.SCUSnackMenuView;
+import kr.co.sist.sc.user.vo.SCUAddOrderSnackVO;
 import kr.co.sist.sc.user.vo.SCUSearchMenuVO;
 
 public class SCUSnackMenuController extends WindowAdapter implements ActionListener {
@@ -79,7 +85,60 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 	}//deleteSnackOnList
 	
 	public void checkOutSnack() {
+		String member = ssmv.getSmv().getIdConnecting();
+		String totalOrderPrice = ssmv.getJtOrderTotalPrice().getValueAt(0,1).toString();
+		JTextArea jtaBill = new JTextArea(13,17);
+		jtaBill.setEditable(false);
 		
+		JScrollPane jspBill = new JScrollPane(jtaBill);
+		
+		String[] chkname = new String[ssmv.getDtmOrderList().getRowCount()];
+		Integer[] chkQuan = new Integer[ssmv.getDtmOrderList().getRowCount()];
+		for(int i =0; i<ssmv.getDtmOrderList().getRowCount(); i++) {
+			chkname[i] = ssmv.getDtmOrderList().getValueAt(i, 0).toString();
+			chkQuan[i] = Integer.parseInt(ssmv.getDtmOrderList().getValueAt(i, 2).toString());
+		}//end for
+		
+		StringBuilder bill = new StringBuilder();
+		bill.append(" "+member+"님의 주문 내역\n")
+			.append(" ------------------------------------------\n");
+		
+			for(int i=0; i<chkname.length; i++) {
+				bill.append(" [ "+chkname[i]+" ] "+chkQuan[i]+"개\n");
+			}//end for
+		
+		bill.append(" ------------------------------------------\n")
+			.append(" 합 계 : "+totalOrderPrice+"\n")
+			.append(" ------------------------------------------\n")
+			.append(" 정말 결제를 진행하시겠습니까?");
+		
+		jtaBill.setText(bill.toString());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy");
+		Date d = new Date();
+		String date = sdf.format(d);
+		Object reset = 0;
+		
+		List<SCUAddOrderSnackVO> list = new ArrayList<>();
+		switch(JOptionPane.showConfirmDialog(ssmv, jspBill, "주문 확인", JOptionPane.OK_CANCEL_OPTION)) {
+		case JOptionPane.OK_OPTION :
+			for(int i =0; i<ssmv.getDtmOrderList().getRowCount(); i++) {
+				SCUAddOrderSnackVO saosVO = new SCUAddOrderSnackVO(chkname[i], member, chkQuan[i]);
+				list.add(saosVO);
+			}//end for
+			try {
+				ssDAO.insertOrderSnack(list, totalOrderPrice);
+				JOptionPane.showMessageDialog(ssmv, "결제가 완료되었습니다.", "결제 완료", JOptionPane.PLAIN_MESSAGE);
+				ssmv.getDtmOrderList().setRowCount(0);
+				ssmv.getJtOrderTotalPrice().setValueAt(reset, 0, 1);
+			} catch (SQLException se) {
+				se.printStackTrace();
+				JOptionPane.showMessageDialog(ssmv, "내부상의 문제로 결제가 취소되었습니다.", "결제 오류", JOptionPane.WARNING_MESSAGE);
+			}
+		case JOptionPane.CANCEL_OPTION :
+			return;
+		}//end switch
+			
 	}//checkOutSnack
 	
 	@Override
@@ -95,10 +154,16 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 		//결제
 		int rowCount = ssmv.getJtOrderList().getRowCount();
 		if(ae.getSource() == ssmv.getJbtnCheckOut()) {
-			if(rowCount != 0) {
-				checkOutSnack();
+			//로그인 여부 확인
+			if(ssmv.getSmv().getIsLogin()) {
+				//스낵 주문 확인
+				if(rowCount != 0) {
+					checkOutSnack();
+				} else {
+					JOptionPane.showMessageDialog(ssmv, "스낵 주문 후 결제 해주세요!", "Warning", JOptionPane.WARNING_MESSAGE);
+				}//end else
 			} else {
-				JOptionPane.showMessageDialog(ssmv, "스낵 주문 후 결제 해주세요!", "Warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(ssmv, "로그인 후에 가능합니다.", "Warning", JOptionPane.WARNING_MESSAGE);
 			}//end else
 		}//end if
 		
