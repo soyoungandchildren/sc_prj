@@ -113,6 +113,7 @@ public class SCUSeatView extends JDialog{
 		jbtnConfirm.addActionListener(ssc);
 		jbtnExit.addActionListener(ssc);
 		
+		setResizable(false);
 		setBounds(sbv.getX()+200, sbv.getY()+20, 500, 600);
 		setVisible(true);
 		

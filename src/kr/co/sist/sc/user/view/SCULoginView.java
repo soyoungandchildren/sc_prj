@@ -12,16 +12,13 @@ import kr.co.sist.sc.user.controller.SCULoginController;
 @SuppressWarnings("serial")
 public class SCULoginView extends JDialog {
 	
-	private SCUMainView smv;
 	private JTextField jtfID;
 	private JPasswordField jpfPW;
 	private JButton jbtnLogin, jbtnSignUp, jbtnFindAccount;
 
 	public SCULoginView(SCUMainView smv) {
 		
-		super(smv, "로그인", false);
-		
-		this.smv = smv;
+		super(smv, "로그인", true);
 		
 		jtfID = new JTextField();
 		jpfPW = new JPasswordField();
@@ -56,13 +53,16 @@ public class SCULoginView extends JDialog {
 		// 이벤트 등록
 		SCULoginController slc = new SCULoginController(this, smv);
 		addWindowListener(slc);
+		jtfID.addActionListener(slc);
 		jbtnFindAccount.addActionListener(slc);
 		jbtnLogin.addActionListener(slc);
 		jbtnSignUp.addActionListener(slc);
 		
-
-		setVisible(true);
+		
+		
 		setBounds(100, 100, 300, 400);
+		setVisible(true);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 	

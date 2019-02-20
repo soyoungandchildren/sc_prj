@@ -7,6 +7,7 @@ import java.sql.SQLException;
 
 import kr.co.sist.sc.user.vo.SCUFindPWVO;
 import kr.co.sist.sc.user.vo.SCULoginVO;
+import kr.co.sist.sc.user.vo.SCUModifyPWVO;
 import kr.co.sist.sc.user.vo.SCUSignUpVO;
 
 public class SCULoginDAO {
@@ -204,6 +205,12 @@ public class SCULoginDAO {
 		return findId;
 	}// selectID
 
+	/**
+	 * 비밀번호 찾기
+	 * @param sfpvo
+	 * @return
+	 * @throws SQLException
+	 */
 	public boolean selectPW(SCUFindPWVO sfpvo) throws SQLException {
 		boolean flag = false;
 
@@ -245,11 +252,49 @@ public class SCULoginDAO {
 
 		return flag;
 	}// selectPW
+	
+	public boolean updatePW(SCUModifyPWVO smpvo) throws SQLException {
+		boolean flag = false;
+
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		System.out.println(smpvo.getPassword());
+		System.out.println(smpvo.getMember_id());
+
+		try {
+			con = SCUConnect.getInstance().getConnection();
+
+			String updatePW = "update member set password=? where member_id=?";
+			
+			pstmt = con.prepareStatement(updatePW);
+			
+			pstmt.setString(1, smpvo.getPassword());
+			pstmt.setString(2, smpvo.getMember_id());
+			
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				flag = true;
+			}
+		} finally {
+
+			if (pstmt != null) {
+				pstmt.close();
+			}
+
+			if (con != null) {
+				con.close();
+			}//end if
+		}//finally
+
+		return flag;
+	}// selectPW
+	
 
 //	public static void main(String[] args) {
 //		try {
 //			boolean result = getInstance().selectCheckDup("love");
 //			boolean result = getInstance().selectPW("guest", "게스트", "011-2222-2222");
+//			int result = getInstance().updatePW("1234", "guest");
 //				System.out.println(result);
 //		} catch (SQLException e) {
 //			e.printStackTrace();

@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.sist.sc.user.vo.SCUInsertBookingVO;
+import kr.co.sist.sc.user.vo.SCUInsertRatingVO;
 import kr.co.sist.sc.user.vo.SCUInsertSeatVO;
 import kr.co.sist.sc.user.vo.SCUMovieDetailVO;
 import kr.co.sist.sc.user.vo.SCUMovieListVO;
+import kr.co.sist.sc.user.vo.SCUSearchRatingVO;
 import kr.co.sist.sc.user.vo.SCUSearchScreenVO;
 import oracle.jdbc.OracleTypes;
 
@@ -268,9 +270,6 @@ public class SCUMovieDAO {
 				cntSeat += cstmt2.getInt(4);
 			}//end for
 			
-			
-			
-			
 			transactionResult = insertBookingTransaction(cntBooking, cntSeat, listSisVO.size());
 			
 			
@@ -301,6 +300,155 @@ public class SCUMovieDAO {
 		return transactionResult;
 	}//insertBookingTransaction
 	
+	
+	public List<String> didWatch(String idConnecting, String selectedMovieCode) throws SQLException{
+		List<String> listBookNumber = new ArrayList<>();
+		
+		con = null;
+		pstmt = null;
+		rs = null;
+		
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql
+			.append("select book_number ")
+			.append("from ")
+			.append("( ")
+			.append("select screen_num, book_number ")
+			.append("from book ")
+			.append("where member_id=? ")
+			.append(") a ")
+			.append("inner join ")
+			.append("( ")
+			.append("select screen_num ")
+			.append("from on_screen ")
+			.append("where movie_code = ? ")
+			.append(") b ")
+			.append("on a.screen_num = b.screen_num ");
+			
+			con = SCUConnect.getInstance().getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			
+			pstmt.setString(1, idConnecting);
+			pstmt.setString(2, selectedMovieCode);
+			
+			rs = pstmt.executeQuery();
+			
+			
+			while(rs.next()) {
+				listBookNumber.add(rs.getString("book_number"));
+			}//end while
+			
+			
+		}finally {
+			disconnect();
+		}//end try finally
+		
+		return listBookNumber;
+	}//didWatch Method
+	
+	
+	
+	public String didWrite(List<String> listBookNumber) throws SQLException{
+		String bookNumber ="";
+		con = null;
+		pstmt = null;
+		rs = null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			StringBuilder sbSql = new StringBuilder();
+			sbSql
+			.append("select book_number ")
+			.append("from rating ")
+			.append("where book_number = ? ");
+			pstmt = con.prepareStatement(sbSql.toString());
+			
+			int i = 0;
+			
+			while(i < listBookNumber.size()) {
+				pstmt.setString(1, listBookNumber.get(i));
+				bookNumber = listBookNumber.get(0);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					return bookNumber ="";
+				}
+					
+				
+				i++;
+			}//end while
+			
+		}finally {
+			disconnect();
+		}
+		
+		
+		return bookNumber;
+	}
+	
+	
+	public List<SCUSearchRatingVO> selectRatingData(String selectedMovieCode) throws SQLException{
+		List<SCUSearchRatingVO> list = new ArrayList<>();
+		
+		con = null;
+		pstmt = null;
+		rs = null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			
+			StringBuilder sql = new StringBuilder();
+			sql
+			.append("select movie_rate, review, member_id ")
+			.append("from rating ")
+			.append("where substr(book_number, 2, 8) = ? ");
+			
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, selectedMovieCode);
+			
+			rs = pstmt.executeQuery();
+			
+			SCUSearchRatingVO ssrVO = null;
+			while(rs.next()) {
+				ssrVO = new SCUSearchRatingVO(rs.getInt("movie_rate"), rs.getString("review"), rs.getString("member_id"));
+				list.add(ssrVO);
+			}//end while
+			
+		}finally {
+			disconnect();
+		}
+		
+		return list;
+	}//selectRatingData
+	
+	
+	public int insertRating(SCUInsertRatingVO sirVO) throws SQLException{
+		int cnt = 0;
+		
+		con = null;
+		pstmt = null;
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql
+			.append("insert into rating(book_number, movie_rate, review, member_id) ")
+			.append("values(?,?,?,?) ");
+			pstmt = con.prepareStatement(sql.toString());
+			
+			pstmt.setString(1, sirVO.getBook_number());
+			pstmt.setInt(2, sirVO.getMovie_rate());
+			pstmt.setString(3, sirVO.getReview());
+			pstmt.setString(4, sirVO.getMember_id());
+			
+			cnt = pstmt.executeUpdate();
+			
+		}finally {
+			disconnect();
+		}
+		return cnt;
+	}
 	
 	
 	private void disconnect() {

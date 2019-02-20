@@ -1,7 +1,5 @@
 package kr.co.sist.sc.user.view;
 
-import java.awt.Dialog;
-
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -13,14 +11,13 @@ import kr.co.sist.sc.user.controller.SCUSignUpController;
 @SuppressWarnings("serial")
 public class SCUSignUpView extends JDialog {
 	
-	private SCULoginView slv;
 	private JButton jbtnCheckDuplication, jbtnReset, jbtnSignUp, jbtnExit;
 	private JTextField jtfID, jtfName, jtfBirth, jtfPhone;
 	private JPasswordField jpfPW, jpfConfirmPW;
 	
 	public SCUSignUpView(SCULoginView slv) {
 		
-		super(slv,"회원가입",false);
+		super(slv,"회원가입",true);
 		
 		jbtnCheckDuplication = new JButton("중복확인");
 		jbtnReset = new JButton("재작성");
@@ -87,15 +84,16 @@ public class SCUSignUpView extends JDialog {
 		// 이벤트 등록
 		SCUSignUpController ssuc = new SCUSignUpController(this);
 		addWindowListener(ssuc);
+		
 		jbtnCheckDuplication.addActionListener(ssuc);
 		jbtnReset.addActionListener(ssuc);
 		jbtnSignUp.addActionListener(ssuc);
 		jbtnExit.addActionListener(ssuc);
 		jtfID.addKeyListener(ssuc);
 
-		setVisible(true);
 		setBounds(100, 100, 420, 500);
 		setResizable(false);
+		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 

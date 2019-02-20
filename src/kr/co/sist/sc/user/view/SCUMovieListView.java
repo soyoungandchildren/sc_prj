@@ -82,6 +82,7 @@ public class SCUMovieListView extends JDialog {
 		jbtnExit.addActionListener(smlc);
 		
 		//Ã¢ ¼³Á¤
+		setResizable(false);
 		setBounds(smv.getX()+80, smv.getY()+50, 900, 600);
 		setVisible(true);
 		

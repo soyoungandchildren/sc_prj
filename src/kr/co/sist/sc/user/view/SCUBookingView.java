@@ -118,6 +118,7 @@ public class SCUBookingView extends JDialog{
 		
 		
 		//Ã¢ ¼³Á¤
+		setResizable(false);
 		setBounds(smlv.getX()+70, smlv.getY()-50, 600, 700);
 		setVisible(true);
 		

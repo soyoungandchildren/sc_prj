@@ -1,9 +1,9 @@
-package kr.co.sist.sc.user.vo;
+package kr.co.sist.sc.user.vo;	
 
 public class SCUModifyPWVO {
 	String member_id, password;
 
-	public SCUModifyPWVO(String member_id, String password) {
+	public SCUModifyPWVO(String password, String member_id) {
 		this.member_id = member_id;
 		this.password = password;
 	}
