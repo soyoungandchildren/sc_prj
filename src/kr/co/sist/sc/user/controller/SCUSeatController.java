@@ -13,10 +13,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
 
-import jdk.nashorn.internal.scripts.JO;
 import kr.co.sist.sc.user.model.SCUMovieDAO;
 import kr.co.sist.sc.user.view.SCUBookingView;
-import kr.co.sist.sc.user.view.SCUMovieListView;
 import kr.co.sist.sc.user.view.SCUSeatView;
 import kr.co.sist.sc.user.vo.SCUInsertBookingVO;
 import kr.co.sist.sc.user.vo.SCUInsertSeatVO;

@@ -12,6 +12,7 @@ import kr.co.sist.sc.user.vo.SCUInsertBookingVO;
 import kr.co.sist.sc.user.vo.SCUInsertSeatVO;
 import kr.co.sist.sc.user.vo.SCUMovieDetailVO;
 import kr.co.sist.sc.user.vo.SCUMovieListVO;
+import kr.co.sist.sc.user.vo.SCUSearchRatingVO;
 import kr.co.sist.sc.user.vo.SCUSearchScreenVO;
 import oracle.jdbc.OracleTypes;
 
@@ -20,7 +21,7 @@ public class SCUMovieDAO {
 
 	private static SCUMovieDAO smDAO;
 	private Connection con;
-	private PreparedStatement pstmt;
+	private PreparedStatement pstmt1, pstmt2;
 	private ResultSet rs;
 	private CallableStatement cstmt1, cstmt2;
 	
@@ -38,7 +39,7 @@ public class SCUMovieDAO {
 	public List<SCUMovieListVO> searchMovieList()  throws SQLException{
 		List<SCUMovieListVO> list = new ArrayList<>();
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs = null;
 		
 		try {
@@ -65,9 +66,9 @@ public class SCUMovieDAO {
 			.append(") ")
 			.append("on r_movie_code = movie_code ")
 			.append("order by audience desc, movie_title ");
-			pstmt = con.prepareStatement(sql.toString());
+			pstmt1 = con.prepareStatement(sql.toString());
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			SCUMovieListVO smlVO = null;
 			while(rs.next()) {
@@ -89,7 +90,7 @@ public class SCUMovieDAO {
 		
 		SCUMovieDetailVO smdVO = null;
 		Connection con = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
 		ResultSet rs = null;
 		
 		try {
@@ -102,9 +103,9 @@ public class SCUMovieDAO {
 			.append("from movie ")
 			.append("where movie_code = ?");
 			
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, movieCode);
-			rs = pstmt.executeQuery();
+			pstmt1 = con.prepareStatement(sql.toString());
+			pstmt1.setString(1, movieCode);
+			rs = pstmt1.executeQuery();
 			
 			if(rs.next()) {
 				smdVO = new SCUMovieDetailVO(rs.getString("movie_title"), rs.getString("movie_img"), rs.getString("genre"),
@@ -123,7 +124,7 @@ public class SCUMovieDAO {
 	public List<SCUSearchScreenVO> selectScreen(String movie_code) throws SQLException{
 		List<SCUSearchScreenVO> list = new ArrayList<>();
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs = null;
 		
 		try {
@@ -147,10 +148,10 @@ public class SCUMovieDAO {
 			.append("on a.screen_num = b.screen_num ")
 			.append("order by screen_date, start_time ");
 			
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, movie_code);
+			pstmt1 = con.prepareStatement(sql.toString());
+			pstmt1.setString(1, movie_code);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			SCUSearchScreenVO sssVO = null;
 			while(rs.next()) {
@@ -172,7 +173,7 @@ public class SCUMovieDAO {
 	public List<Integer> selectReservedSeat(String screenName, String screenNum) throws SQLException{
 		List<Integer> list = new ArrayList<>();
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs =null;
 		
 		try {
@@ -208,10 +209,10 @@ public class SCUMovieDAO {
 				
 			}//end if~else
 			
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, screenNum);
+			pstmt1 = con.prepareStatement(sql.toString());
+			pstmt1.setString(1, screenNum);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			while(rs.next()) {
 				list.add(new Integer(rs.getInt("seat_num")));
@@ -268,9 +269,6 @@ public class SCUMovieDAO {
 				cntSeat += cstmt2.getInt(4);
 			}//end for
 			
-			
-			
-			
 			transactionResult = insertBookingTransaction(cntBooking, cntSeat, listSisVO.size());
 			
 			
@@ -302,11 +300,122 @@ public class SCUMovieDAO {
 	}//insertBookingTransaction
 	
 	
+	public String didWatch(String idConnecting, String selectedMovieCode) throws SQLException{
+		String msg = "";
+		
+		con = null;
+		pstmt1 = null;
+		rs = null;
+		
+		try {
+			
+			StringBuilder sql = new StringBuilder();
+			sql
+			.append("select book_number ")
+			.append("from ")
+			.append("( ")
+			.append("select screen_num, book_number ")
+			.append("from book ")
+			.append("where member_id=? ")
+			.append(") a ")
+			.append("inner join ")
+			.append("( ")
+			.append("select screen_num ")
+			.append("from on_screen ")
+			.append("where movie_code = ? ")
+			.append(") b ")
+			.append("on a.screen_num = b.screen_num ");
+			
+			con = SCUConnect.getInstance().getConnection();
+			pstmt1 = con.prepareStatement(sql.toString());
+			
+			pstmt1.setString(1, idConnecting);
+			pstmt1.setString(2, selectedMovieCode);
+			
+			rs = pstmt1.executeQuery();
+			
+			
+			List<String> listBookNumber = new ArrayList<>();
+			
+			while(rs.next()) {
+				listBookNumber.add(rs.getString("book_number"));
+			}//end while
+			
+			if(listBookNumber.size() == 0) {
+				msg = "영화를 관람한 회원님에 한해 한줄 평 쓰기가 가능합니다.";
+				return msg;
+			}//end if
+			
+			
+			StringBuilder sbSql2 = new StringBuilder();
+			sbSql2
+			.append("select book_number ")
+			.append("from rating ")
+			.append("where book_number = ? ");
+			pstmt2 = con.prepareStatement(sbSql2.toString());
+			
+			int i = 0;
+			
+			while(i < listBookNumber.size()) {
+				pstmt2.setString(1, listBookNumber.get(i));
+				rs = pstmt2.executeQuery();
+				
+				if(rs.next()) {
+					msg = "이미 이 영화에 대해서 한줄 평을 작성하셨습니다.";
+				}//end if
+				
+				i++;
+			}//end while
+			return msg;
+			
+		}finally {
+			disconnect();
+		}//end try finally
+		
+	}//didWatch Method
+	
+	
+	public List<SCUSearchRatingVO> selectRatingData(String selectedMovieCode) throws SQLException{
+		List<SCUSearchRatingVO> list = new ArrayList<>();
+		
+		con = null;
+		pstmt1 = null;
+		rs = null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			
+			StringBuilder sql = new StringBuilder();
+			sql
+			.append("select movie_rate, review, member_id ")
+			.append("from rating ")
+			.append("where substr(book_number, 2, 8) = ? ");
+			
+			pstmt1 = con.prepareStatement(sql.toString());
+			pstmt1.setString(1, selectedMovieCode);
+			
+			rs = pstmt1.executeQuery();
+			
+			SCUSearchRatingVO ssrVO = null;
+			while(rs.next()) {
+				ssrVO = new SCUSearchRatingVO(rs.getInt("movie_rate"), rs.getString("review"), rs.getString("member_id"));
+				list.add(ssrVO);
+			}//end while
+			
+		}finally {
+			disconnect();
+		}
+		
+		return list;
+	}//selectRatingData
+	
+	
 	
 	private void disconnect() {
 		try {
 			if(rs!=null) {rs.close();}
-			if(pstmt!=null) {pstmt.close();}
+			if(pstmt1!=null) {pstmt1.close();}
+			if(pstmt2!=null) {pstmt2.close();}
 			if(cstmt1!=null) {cstmt1.close();}
 			if(cstmt2!=null) {cstmt2.close();}
 			if(con!=null) {con.close();}
