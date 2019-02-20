@@ -5,9 +5,9 @@ import java.awt.Component;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -19,6 +19,7 @@ public class SCURatingView extends JDialog {
 	private SCUMovieListView smlv;
 	private JButton jbtnWriteRating, jbtnClose;
 	private DefaultTableModel dtmRatingTable;
+	private JTable jtRatingTable;
 	
 	public SCURatingView(SCUMovieListView smlv) {
 		super(smlv, smlv.getSelectedMovieTitle()+" 리뷰", true);
@@ -29,7 +30,12 @@ public class SCURatingView extends JDialog {
 		
 		String[] columnNames = {"평 점", "한줄평", "작성자"};
 		dtmRatingTable = new DefaultTableModel(columnNames, 0);
-		JTable jtRatingTable = new JTable(dtmRatingTable);
+		jtRatingTable = new JTable(dtmRatingTable) {
+			@Override
+			public Class<?> getColumnClass(int column) {
+				return getValueAt(0, column).getClass();
+			}
+		};
 		JScrollPane jspRatingTable = new JScrollPane(jtRatingTable);
 		
 		StringBuilder sbTitle = new StringBuilder();
@@ -37,8 +43,8 @@ public class SCURatingView extends JDialog {
 		JLabel jlblTitle = new JLabel(sbTitle.toString());
 		
 		
-		jtRatingTable.getColumnModel().getColumn(1).setCellRenderer(this.new TextTableRenderer());
 		jtRatingTable.setRowHeight(100);
+		jtRatingTable.getColumnModel().getColumn(0).setCellRenderer(this.new customTableRenderer());
 		
 		
 		
@@ -58,6 +64,7 @@ public class SCURatingView extends JDialog {
 		jbtnWriteRating.addActionListener(src);
 		jbtnClose.addActionListener(src);
 		
+		setResizable(false);
 		setBounds(smlv.getX(), smlv.getY(), 700, 400);
 		setVisible(true);
 		
@@ -76,22 +83,22 @@ public class SCURatingView extends JDialog {
 		return dtmRatingTable;
 	}
 	
-	////////////////////////////////////////////////////////////////////////
-	class TextTableRenderer extends JTextArea implements TableCellRenderer{
-		
-		public TextTableRenderer() {
-			setOpaque(true);
-			setLineWrap(true);
-		}
+	public JTable getJtRatingTable() {
+		return jtRatingTable;
+	}
+	//////////////////////////////////////////////
+	class customTableRenderer extends JPanel implements TableCellRenderer{
+
+		public customTableRenderer() {
+		}//customTableRenderer
 		
 		@Override
 		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 				int row, int column) {
-			
-			setText(value.toString());
 			return this;
 		}
+		
 	}
-	////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////
 	
 }//Class
