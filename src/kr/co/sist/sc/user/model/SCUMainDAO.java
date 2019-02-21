@@ -17,7 +17,6 @@ public class SCUMainDAO {
 	}//Constructor
 	
 	public static SCUMainDAO getInstance() {
-		
 		if(smDAO==null) {
 			smDAO=new SCUMainDAO();
 		}//end if
@@ -35,9 +34,26 @@ public class SCUMainDAO {
 		try {
 			con = SCUConnect.getInstance().getConnection();
 			
-			String sql = "";
-			pstmt = con.prepareStatement(sql);
+			StringBuilder sql = new StringBuilder();
+			sql.append("select book_number, sum(personnel) audience, movie_img, movie_title ")
+				.append("from ")
+				.append("(select substr(book_number,2,8) book_number, personnel ")
+				.append("from book) ")
+				.append("left join ")
+				.append("(select movie_code, movie_img, movie_title ")
+				.append("from movie) ")
+				.append("on movie_code=book_number " )
+				.append("group by book_number, movie_img, movie_title ")
+				.append("order by audience desc, movie_title asc");
+			pstmt = con.prepareStatement(sql.toString());
 			
+			rs = pstmt.executeQuery();
+			
+			SCUMainVO smVO = null;
+			while(rs.next()) {
+				smVO = new SCUMainVO(rs.getString("movie_title"), rs.getString("movie_img"), rs.getInt("audience"));
+				list.add(smVO);
+			}//end while
 			
 		}finally {
 			if(rs!=null) {rs.close();}

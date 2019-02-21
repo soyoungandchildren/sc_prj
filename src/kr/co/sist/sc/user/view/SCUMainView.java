@@ -5,7 +5,6 @@ import java.awt.Color;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import kr.co.sist.sc.user.controller.SCUMainController;
@@ -24,9 +23,9 @@ public class SCUMainView extends JFrame {
 		
 		//컴포넌트 생성
 		jlblBookingRank = new JLabel("영화 순위 라벨");
-		jlblImageBoard1 = new JLabel("라벨 포스터 1", SwingConstants.CENTER);
-		jlblImageBoard2 = new JLabel("라벨 포스터 2", SwingConstants.CENTER);
-		jlblImageBoard3 = new JLabel("라벨 포스터 3", SwingConstants.CENTER);
+		jlblImageBoard1 = new JLabel();
+		jlblImageBoard2 = new JLabel();
+		jlblImageBoard3 = new JLabel();
 		
 		jbtnMyPage= new JButton("마이페이지");
 		jbtnLogin= new JButton("로그인/회원가입");
