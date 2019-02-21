@@ -21,6 +21,7 @@ import kr.co.sist.sc.user.vo.SCULoginVO;
 public class SCULoginController extends WindowAdapter implements ActionListener, KeyListener{
 	private SCULoginView slv;
 	private SCUMainView smv;
+	
 
 	public SCULoginController(SCULoginView slv, SCUMainView smv) {
 		this.slv = slv;
@@ -32,6 +33,9 @@ public class SCULoginController extends WindowAdapter implements ActionListener,
 		slv.dispose();
 	}
 
+	
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 
@@ -54,9 +58,10 @@ public class SCULoginController extends WindowAdapter implements ActionListener,
 					jpf.setText("");
 					jtf.requestFocus();
 				} else { // 로그인이 되었을 때
-					slv.dispose();
 					smv.setIsLogin(true);
 					smv.setIdConnecting(idConnect);
+					smv.getJbtnLogin().setText("로그아웃");
+					slv.dispose();
 				} // end if
 
 			} // end if

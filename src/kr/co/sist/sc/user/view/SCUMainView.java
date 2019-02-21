@@ -15,7 +15,7 @@ public class SCUMainView extends JFrame {
 	private JLabel jlblImageBoard1, jlblImageBoard2, jlblImageBoard3, jlblBookingRank;
 	private JButton jbtnLogin, jbtnBooking, jbtnSnack, jbtnRefund, jbtnMyPage;
 	private boolean isLogin;
-	private String idConnecting;
+	private String idConnecting;	
 	
 
 	public SCUMainView() {
