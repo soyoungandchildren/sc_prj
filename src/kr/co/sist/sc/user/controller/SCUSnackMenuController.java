@@ -5,9 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -114,9 +112,6 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 		
 		jtaBill.setText(bill.toString());
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("MMddyy");
-		Date d = new Date();
-		String date = sdf.format(d);
 		Object reset = 0;
 		
 		List<SCUAddOrderSnackVO> list = new ArrayList<>();
@@ -127,10 +122,15 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 				list.add(saosVO);
 			}//end for
 			try {
-				ssDAO.insertOrderSnack(list, totalOrderPrice);
-				JOptionPane.showMessageDialog(ssmv, "결제가 완료되었습니다.", "결제 완료", JOptionPane.PLAIN_MESSAGE);
-				ssmv.getDtmOrderList().setRowCount(0);
-				ssmv.getJtOrderTotalPrice().setValueAt(reset, 0, 1);
+				
+				boolean result = ssDAO.insertOrderSnack(list, totalOrderPrice, member);
+				if(result) {
+					JOptionPane.showMessageDialog(ssmv, "결제가 완료되었습니다.", "결제 완료", JOptionPane.PLAIN_MESSAGE);
+					ssmv.getDtmOrderList().setRowCount(0);
+					ssmv.getJtOrderTotalPrice().setValueAt(reset, 0, 1);
+				} else {
+					JOptionPane.showMessageDialog(ssmv, "포인트가 부족합니다.\n포인트 충전 후 이용해주세요", "결제 오류", JOptionPane.WARNING_MESSAGE);
+				}//end else
 			} catch (SQLException se) {
 				se.printStackTrace();
 				JOptionPane.showMessageDialog(ssmv, "내부상의 문제로 결제가 취소되었습니다.", "결제 오류", JOptionPane.WARNING_MESSAGE);
@@ -172,18 +172,14 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 		if(ae.getSource() == ssmv.getJbtnDeleteOrder()) {
 			if(selectIdx != -1) {
 				switch(JOptionPane.showConfirmDialog(ssmv, "["+ssmv.getJtOrderList().getValueAt(selectIdx, 0)+"] [수량 : "+
-						ssmv.getJtOrderList().getValueAt(selectIdx, 2)+"] [총 가격 : "+ssmv.getJtOrderList().getValueAt(selectIdx, 3)+
-						"]을\n주문 목록에 삭제하시겠습니까?")) {
+							ssmv.getJtOrderList().getValueAt(selectIdx, 2)+"] [총 가격 : "+ssmv.getJtOrderList().getValueAt(selectIdx, 3)+
+							"]을\n주문 목록에 삭제하시겠습니까?", "주문 삭제", JOptionPane.OK_CANCEL_OPTION)) {
 				case JOptionPane.OK_OPTION :
 					JOptionPane.showMessageDialog(ssmv, "["+ssmv.getJtOrderList().getValueAt(selectIdx, 0)+"] [수량 : "+
-							ssmv.getJtOrderList().getValueAt(selectIdx, 2)+"] [총 가격 : "+ssmv.getJtOrderList().getValueAt(selectIdx, 3)+
-							"]이\n주문 목록에서 삭제되었습니다!", "주문목록 삭제", JOptionPane.PLAIN_MESSAGE);
+									ssmv.getJtOrderList().getValueAt(selectIdx, 2)+"] [총 가격 : "+ssmv.getJtOrderList().getValueAt(selectIdx, 3)+
+									"]이\n주문 목록에서 삭제되었습니다!", "주문목록 삭제", JOptionPane.PLAIN_MESSAGE);
 					deleteSnackOnList();
-				case JOptionPane.NO_OPTION :
-					return;
 				case JOptionPane.CANCEL_OPTION :
-					return;
-				case JOptionPane.CLOSED_OPTION :
 					return;
 				}//end switch
 			} else {

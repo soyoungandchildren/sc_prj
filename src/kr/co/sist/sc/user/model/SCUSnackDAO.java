@@ -13,6 +13,11 @@ import kr.co.sist.sc.user.vo.SCUSnackOrderDataVO;
 
 public class SCUSnackDAO {
 	private static SCUSnackDAO ssDAO;
+	private Connection con;
+	private PreparedStatement pstmt;
+	private PreparedStatement pstmt2;
+	private PreparedStatement pstmt3;
+	private ResultSet rs;
 	
 	public SCUSnackDAO() {
 	}//SCUSnackDAO
@@ -28,9 +33,9 @@ public class SCUSnackDAO {
 	public List<SCUSearchMenuVO> selectSnackMenu() throws SQLException {
 		List<SCUSearchMenuVO> list = new ArrayList<>();
 		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		con = null;
+		pstmt = null;
+		rs = null;
 		
 		try {
 			//드라이버 로딩, connection
@@ -67,9 +72,9 @@ public class SCUSnackDAO {
 	
 	public SCUSnackOrderDataVO selectSnackOrderData(String selectName) throws SQLException {
 		SCUSnackOrderDataVO ssodVO = null;
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+		con = null;
+		pstmt = null;
+		rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
@@ -102,30 +107,90 @@ public class SCUSnackDAO {
 		return ssodVO;
 	}//selectSnackOrderData
 	
-	public boolean insertOrderSnack(List<SCUAddOrderSnackVO> list, String totalOrderPrice) throws SQLException {
-		boolean flag = false;
+	public boolean insertOrderSnack(List<SCUAddOrderSnackVO> list, String totalOrderPrice, String member) throws SQLException {
+		boolean result = false;
 		
-		Connection con = null;
-		PreparedStatement pstmt = null;
+		con = null;
+		pstmt = null;
+		pstmt2 = null;
+		pstmt3 = null;
+		rs = null;
+		
+		int point = 0;
+		int toPrice = Integer.parseInt(totalOrderPrice);
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
+			//오토커밋 해제
+			con.setAutoCommit(false);
 			
-			StringBuilder sql = new StringBuilder();
-			sql.append("insert into snack_sale(snack_order_num, snack_name, member_id, quan) ")
+			//결제하려는 회원의 보유포인트 조회
+			String sql = "select hold_point from member where member_id=?";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, member);
+			
+			rs = pstmt.executeQuery();
+			
+			//조회한 포인트를 변수에 저장
+			if(rs.next()) {
+				point = rs.getInt(1);
+			}//end if
+			
+			//스낵 정보들을 가져와 스낵판매정보 insert
+			StringBuilder sql2 = new StringBuilder();
+			sql2.append("insert into snack_sale(snack_order_num, snack_name, member_id, quan) ")
 				.append("values(snack_order_num,?,?,?) ");
-			
-			pstmt = con.prepareStatement(sql.toString());
-			
-			for(int i=0; i<list.size(); i++) {
-				pstmt.setString(1, list.get(i).getSnack_name());
-				pstmt.setString(2, list.get(i).getMember_id());
-				pstmt.setInt(3, list.get(i).getQuan());
 				
-				pstmt.executeQuery();
+			pstmt2 = con.prepareStatement(sql2.toString());
+			
+			int cnt = 0;
+			for(int i=0; i<list.size(); i++) {
+				pstmt2.setString(1, list.get(i).getSnack_name());
+				pstmt2.setString(2, list.get(i).getMember_id());
+				pstmt2.setInt(3, list.get(i).getQuan());
+					
+				cnt += pstmt2.executeUpdate();
 			}//end for
 			
+			//insert 후에 보유 포인트를 (보유포인트 - 결제한 스낵 주문 총 가격)로 update
+			int chgPoint = point-toPrice;
+			String sql3 = "update member set hold_point=? where member_id=?";
+			
+			pstmt3 = con.prepareStatement(sql3);
+			pstmt3.setInt(1, chgPoint);
+			pstmt3.setString(2, member);
+			
+			boolean chg = pstmt3.execute();
+//			System.out.println(chg);
+			result = insertOrderSnackTransaction(point, toPrice, cnt, list.size(), chg);
+			
+		} catch(SQLException se) {
+			se.printStackTrace();
+		}//end catch
+		
+		return result;
+	}//insertOrderSnack
+	
+	public boolean insertOrderSnackTransaction(int point, int toPrice, int cnt, int listSize, boolean chg) throws SQLException {
+		boolean result = false;
+		
+		try {
+			if(point >= toPrice && cnt == listSize && chg == false) {
+				con.commit();
+				result = true;
+			} else {
+				con.rollback();
+				result = false;
+			}//end else
+			
 		} finally {
+			if(rs != null) {
+				rs.close();
+			}//end if
+			if(pstmt2 != null) {
+				pstmt2.close();
+			}//end if
 			if(pstmt != null) {
 				pstmt.close();
 			}//end if
@@ -134,7 +199,7 @@ public class SCUSnackDAO {
 			}//end if
 		}//end finally
 		
-		return flag;
-	}//insertOrderSnack
+		return result;
+	}//insertOrderSnackTransaction
 	
 }//class
