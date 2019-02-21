@@ -65,8 +65,15 @@ public class SCUSeatController implements ActionListener, ItemListener{
 	
 	public void insertBooking() {
 		
+		String bookNumberChar = "";
+		if(sbv.getSelectedScreenName().equals("¿œπ›")) {
+			bookNumberChar = "N";
+		}else {
+			bookNumberChar = "P";
+		}//end if~else
+		
 		StringBuilder sbBookNumber = new StringBuilder();
-		sbBookNumber.append("N").append(ssv.getSmlv().getSelectedMovieCode());
+		sbBookNumber.append(bookNumberChar).append(ssv.getSmlv().getSelectedMovieCode());
 		StringBuilder sbSelectedScreenStart = new StringBuilder();
 		sbSelectedScreenStart.append(sbv.getSelectedScreenStartDate()).append(" ")
 			.append(sbv.getSelectedScreenStartTime()).insert(13, ":");

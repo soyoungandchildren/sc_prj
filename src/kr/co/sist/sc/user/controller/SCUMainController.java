@@ -13,11 +13,9 @@ import kr.co.sist.sc.user.view.SCUSnackMenuView;
 public class SCUMainController extends WindowAdapter implements ActionListener{
 	
 	private SCUMainView smv;
-//	private SCULogoutView slov;
 	
 	public SCUMainController(SCUMainView smv) {
 		this.smv = smv;
-//		setMain();
 	}//Constructor
 	
 	public void setMain() {
