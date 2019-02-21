@@ -2,8 +2,6 @@ package kr.co.sist.sc.user.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -11,10 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.model.SCULoginDAO;
-import kr.co.sist.sc.user.vo.SCUFindPWVO;
 import kr.co.sist.sc.user.vo.SCUModifyPWVO;
 
 @SuppressWarnings("serial")
