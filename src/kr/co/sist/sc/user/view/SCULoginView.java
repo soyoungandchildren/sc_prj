@@ -1,6 +1,7 @@
 package kr.co.sist.sc.user.view;
 
 
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -15,10 +16,10 @@ public class SCULoginView extends JDialog {
 	private JTextField jtfID;
 	private JPasswordField jpfPW;
 	private JButton jbtnLogin, jbtnSignUp, jbtnFindAccount;
-
+	
 	public SCULoginView(SCUMainView smv) {
 		
-		super(smv, "로그인", true);
+		super(smv, "로그인", true);	
 		
 		jtfID = new JTextField();
 		jpfPW = new JPasswordField();
@@ -57,8 +58,7 @@ public class SCULoginView extends JDialog {
 		jbtnFindAccount.addActionListener(slc);
 		jbtnLogin.addActionListener(slc);
 		jbtnSignUp.addActionListener(slc);
-		
-		
+		jpfPW.addKeyListener(slc);
 		
 		setBounds(100, 100, 300, 400);
 		setVisible(true);
@@ -73,6 +73,8 @@ public class SCULoginView extends JDialog {
 	public JTextField getJtfID() {
 		return jtfID;
 	}
+	
+	
 
 	public JPasswordField getJpfPW() {
 		return jpfPW;

@@ -23,7 +23,6 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 	private JPasswordField jpfPW, jpfConfirmPW;
 	private JButton jbtnConfirm, jbtnExit;
 	private SCUFindAccountView sfav;
-	private String stringPW;
 	/**
 	 * 비밀번호 변경
 	 * @param slv
@@ -84,20 +83,17 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 		if(!stringPW.equals(stringConfirmPW)) {
 			JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다.");
 			return;
-		}//end if
+		}//end if	
 		
 		SCUModifyPWVO sfpvo = new SCUModifyPWVO (stringPW.trim(), stringIDForPW.trim());
-		System.out.println("여기까지 코드옴");
 		try {
 			if(SCULoginDAO.getInstance().updatePW(sfpvo)) {
-				System.out.println("여기까지 코드옴 상황1");
 				JOptionPane.showMessageDialog(this, "변경되었습니다.");
 			}else {
-				System.out.println("여기까지 코드옴 상황2");
-				JOptionPane.showMessageDialog(this, "dsfd");
+				JOptionPane.showMessageDialog(this, "비밀번호가 일치하지 않습니다.");
 			}
 		} catch (SQLException se) {
-			JOptionPane.showMessageDialog(this, "DB에서 문제가 발생하였습니다.");
+			JOptionPane.showMessageDialog(this, "비밀번호는 필수 입력사항입니다!");
 			se.printStackTrace();
 		} // end catch
 		

@@ -14,13 +14,10 @@ import kr.co.sist.sc.user.view.SCUFindAccountView;
 import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUModifyPWView;
 import kr.co.sist.sc.user.vo.SCUFindPWVO;
-import kr.co.sist.sc.user.vo.SCULoginVO;
-import kr.co.sist.sc.user.vo.SCUModifyPWVO;
 
 public class SCUFindAccountController extends WindowAdapter implements ActionListener {
 
 	private SCUFindAccountView sfav;
-	private SCUModifyPWView smpv;
 	private SCULoginView slv;
 
 	public SCUFindAccountController(SCUFindAccountView sfav, SCULoginView slv) {
@@ -78,7 +75,7 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}
-
+		
 	}// findPW
 
 	@Override

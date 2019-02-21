@@ -2,6 +2,8 @@ package kr.co.sist.sc.user.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -16,7 +18,7 @@ import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUSignUpView;
 import kr.co.sist.sc.user.vo.SCULoginVO;
 
-public class SCULoginController extends WindowAdapter implements ActionListener {
+public class SCULoginController extends WindowAdapter implements ActionListener, KeyListener{
 	private SCULoginView slv;
 	private SCUMainView smv;
 
@@ -33,6 +35,7 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 
+		//로그인 버튼
 		if (ae.getSource() == slv.getJbtnLogin()) {
 
 			if (!checkIdEmpty() && !checkPassEmpty()) {
@@ -51,7 +54,6 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 					jpf.setText("");
 					jtf.requestFocus();
 				} else { // 로그인이 되었을 때
-					
 					slv.dispose();
 					smv.setIsLogin(true);
 					smv.setIdConnecting(idConnect);
@@ -61,15 +63,24 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 
 		} // jbtnLogin
 		
+		
+		//아이디에서 엔터가 눌리면 커서가 비밀번호로 옮겨감
 		if(ae.getSource() == slv.getJtfID()) {
 			slv.getJpfPW().requestFocus();
-		}//
+		}//getJtfID
+		
+		//엔터 치면 로그인 버튼 눌리게
+//		if(ae.getSource() == slv.getJpfPW()) {
+//			slv.getJpfPW().addKeyListener();
+//			slv.getJbtnLogin().doClick();
+//		}
 
 		// 가입
 		if (ae.getSource() == slv.getJbtnSignUp()) {
 			new SCUSignUpView(slv);
 		} // jbtnSignup
 
+		//아이디/비밀번호 찾기
 		if (ae.getSource() == slv.getJbtnFindAccount()) {
 			new SCUFindAccountView(slv);
 		}
@@ -107,9 +118,28 @@ public class SCULoginController extends WindowAdapter implements ActionListener 
 			name = slDao.selectLogin(slvo);
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(slv, "데이터 에러발생");
-			e.printStackTrace();
+			e.printStackTrace();	
 		}
 		return name;
 	}// end login
+
+	@Override
+	public void keyPressed(KeyEvent ke) {}
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent ke) {
+		int key=ke.getKeyCode();
+		
+		if(ke.getSource() == slv.getJpfPW()) { //jpfPW 에서 신호가 왔을 때
+			if(key == KeyEvent.VK_ENTER) {// 그 눌린 값의 키가 enter라면
+				slv.getJbtnLogin().doClick();
+			}//end if
+		}//end if
+	}//keyReleased
+
+
 
 }

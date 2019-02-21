@@ -26,7 +26,7 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 	public SCUSignUpController(SCUSignUpView ssuv) {
 		this.ssuv = ssuv;
 		slDao = SCULoginDAO.getInstance();
-	}//end SCUSignUpController
+	}//end SCUSignUpController	
 
 	/**
 	 * id 중복확인 (다이얼로그 창 내용 UI처럼 수정하기)
@@ -126,16 +126,26 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			return;
 		}//end else
 		
-		//이름, 생년월일, 전화번호 입력 확인
+		//이름
 		if(jtfName.getText().isEmpty()) { 
 			JOptionPane.showMessageDialog(ssuv, "이름을 입력하세요");
 			jtfName.requestFocus();
 			return;
-		} else if(jtfBirthdate.getText().isEmpty()) {
+		} else if(jtfName.getText().length()<2 || jtfName.getText().length() >31){
+			JOptionPane.showMessageDialog(ssuv, "이름은 2~10자 사이만 가능합니다.");
+			jtfName.requestFocus();
+		}
+		
+		//생년월일 (숫자만 입력되게)
+		
+				
+		if(jtfBirthdate.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(ssuv, "생년월일을 입력하세요");
 			jtfBirthdate.requestFocus();
 			return;
-		} else if(jtfPhone.getText().isEmpty()) {
+		}
+		//전화번호
+		if(jtfPhone.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(ssuv, "전화번호를 입력하세요");
 			jtfPhone.requestFocus();
 			return;
