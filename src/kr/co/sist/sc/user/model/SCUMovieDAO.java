@@ -22,8 +22,8 @@ public class SCUMovieDAO {
 
 	private static SCUMovieDAO smDAO;
 	private Connection con;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
+	private PreparedStatement pstmt1, pstmt2;
+	private ResultSet rs, rs2;
 	private CallableStatement cstmt1, cstmt2;
 	
 	private SCUMovieDAO(){
@@ -40,13 +40,13 @@ public class SCUMovieDAO {
 	public List<SCUMovieListVO> searchMovieList()  throws SQLException{
 		List<SCUMovieListVO> list = new ArrayList<>();
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
-			StringBuilder sql = new StringBuilder();
-			sql
+			StringBuilder sqlSelectMovieList = new StringBuilder();
+			sqlSelectMovieList
 			.append("select movie_img, movie_title, movie_grade, audience, nvl(rating_avg, 0) rating_avg, genre, ")
 			.append("		runningtime, playdate, actor, movie_code ")
 			.append("from ")
@@ -67,9 +67,9 @@ public class SCUMovieDAO {
 			.append(") ")
 			.append("on r_movie_code = movie_code ")
 			.append("order by audience desc, movie_title ");
-			pstmt = con.prepareStatement(sql.toString());
+			pstmt1 = con.prepareStatement(sqlSelectMovieList.toString());
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			SCUMovieListVO smlVO = null;
 			while(rs.next()) {
@@ -91,22 +91,22 @@ public class SCUMovieDAO {
 		
 		SCUMovieDetailVO smdVO = null;
 		Connection con = null;
-		PreparedStatement pstmt = null;
+		PreparedStatement pstmt1 = null;
 		ResultSet rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
 			
-			StringBuilder sql = new StringBuilder();
-			sql
+			StringBuilder sqlSelectMovieDetails = new StringBuilder();
+			sqlSelectMovieDetails
 			.append("select movie_title, movie_img, genre, country, director, movie_grade, playdate, ")
 			.append("synopsis, actor, runningtime ")
 			.append("from movie ")
 			.append("where movie_code = ?");
 			
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, movieCode);
-			rs = pstmt.executeQuery();
+			pstmt1 = con.prepareStatement(sqlSelectMovieDetails.toString());
+			pstmt1.setString(1, movieCode);
+			rs = pstmt1.executeQuery();
 			
 			if(rs.next()) {
 				smdVO = new SCUMovieDetailVO(rs.getString("movie_title"), rs.getString("movie_img"), rs.getString("genre"),
@@ -125,14 +125,14 @@ public class SCUMovieDAO {
 	public List<SCUSearchScreenVO> selectScreen(String movie_code) throws SQLException{
 		List<SCUSearchScreenVO> list = new ArrayList<>();
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
 			
-			StringBuilder sql = new StringBuilder();
-			sql
+			StringBuilder sqlSelectScreen = new StringBuilder();
+			sqlSelectScreen
 			.append("select screen_date, start_time, end_time, screen_name, seat_count-nvl(reserved,0) remain_seat, a.screen_num ")
 			.append("from ")
 			.append("( ")
@@ -149,10 +149,10 @@ public class SCUMovieDAO {
 			.append("on a.screen_num = b.screen_num ")
 			.append("order by screen_date, start_time ");
 			
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, movie_code);
+			pstmt1 = con.prepareStatement(sqlSelectScreen.toString());
+			pstmt1.setString(1, movie_code);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			SCUSearchScreenVO sssVO = null;
 			while(rs.next()) {
@@ -174,14 +174,14 @@ public class SCUMovieDAO {
 	public List<Integer> selectReservedSeat(String screenName, String screenNum) throws SQLException{
 		List<Integer> list = new ArrayList<>();
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs =null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
-			StringBuilder sql = new StringBuilder();
+			StringBuilder sqlSelectReservedSeat = new StringBuilder();
 			if(screenName.equals("일반")) {
-				sql
+				sqlSelectReservedSeat
 				.append("select seat_num ")
 				.append("from ")
 				.append("( ")
@@ -195,7 +195,7 @@ public class SCUMovieDAO {
 				.append("where screen_num = ? ");
 				
 			}else if(screenName.equals("프리미엄")){
-				sql
+				sqlSelectReservedSeat
 				.append("select seat_num ")
 				.append("from ")
 				.append("( ")
@@ -210,10 +210,10 @@ public class SCUMovieDAO {
 				
 			}//end if~else
 			
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, screenNum);
+			pstmt1 = con.prepareStatement(sqlSelectReservedSeat.toString());
+			pstmt1.setString(1, screenNum);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			while(rs.next()) {
 				list.add(new Integer(rs.getInt("seat_num")));
@@ -233,6 +233,7 @@ public class SCUMovieDAO {
 		con = null;
 		cstmt1 = null;
 		cstmt2 = null; 
+		pstmt1 = null;
 		
 		try {
 			
@@ -270,7 +271,28 @@ public class SCUMovieDAO {
 				cntSeat += cstmt2.getInt(4);
 			}//end for
 			
-			transactionResult = insertBookingTransaction(cntBooking, cntSeat, listSisVO.size());
+			
+			
+			StringBuilder sqlUpdateHoldPoint = new StringBuilder();
+			sqlUpdateHoldPoint
+			.append("update member ")
+			.append("set hold_point = (select hold_point from member where member_id = ?)-(select screen_price from theater where screen_name = ?)*?" )
+			.append("where member_id = ? ");
+			
+			pstmt1 = con.prepareStatement(sqlUpdateHoldPoint.toString());
+			pstmt1.setString(1, sibVO.getMember_id());
+			pstmt1.setString(2, screen_name);
+			pstmt1.setInt(3, sibVO.getPersonnel());
+			pstmt1.setString(4, sibVO.getMember_id());
+			
+			System.out.println(sibVO.getMember_id());
+			System.out.println(screen_name);
+			System.out.println(sibVO.getPersonnel());
+			System.out.println(sibVO.getMember_id());
+			int cntUpdatePoint = pstmt1.executeUpdate();
+			
+			
+			transactionResult = insertBookingTransaction(cntBooking, cntSeat, listSisVO.size(), cntUpdatePoint);
 			
 			
 		}catch(SQLException sqle) {
@@ -282,11 +304,64 @@ public class SCUMovieDAO {
 	}//end insertBooking
 	
 	
-	public boolean insertBookingTransaction(int cntBooking, int cntSeat, int listSize) throws SQLException{
+	public boolean checkHoldPoint(String memberID, int personnel, String screenName) throws SQLException{
+		boolean flag = false;
+		
+		con = null;
+		pstmt1 = null;
+		pstmt2 = null;
+		rs = null;
+		rs2 = null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			
+			StringBuilder sqlSelectHoldPoint = new StringBuilder();
+			sqlSelectHoldPoint
+			.append("select nvl(hold_point, 0) hold_point ")
+			.append("from member ")
+			.append("where member_id = ? ");
+			pstmt1 = con.prepareStatement(sqlSelectHoldPoint.toString());
+			pstmt1.setString(1, memberID);
+			rs = pstmt1.executeQuery();
+			
+			int holdPoint = 0;
+			if(rs.next()) {
+				holdPoint = rs.getInt("hold_point");
+			}//end if
+			
+			
+			StringBuilder sqlSelectScreenPrice = new StringBuilder();
+			sqlSelectScreenPrice
+			.append("select screen_price ")
+			.append("from theater ")
+			.append("where screen_name = ? ");
+			pstmt2 = con.prepareStatement(sqlSelectScreenPrice.toString());
+			pstmt2.setString(1, screenName);
+			rs2 = pstmt2.executeQuery();
+			
+			int screenPrice = 0;
+			if(rs2.next()) {
+				screenPrice = rs2.getInt("screen_price");
+			}//end if
+			
+			if(holdPoint>=screenPrice*personnel) {
+				flag = true;
+			}//end if
+			
+		}finally {
+			disconnect();
+		}
+		
+		return flag;
+	}//checkHoldPoint
+	
+	
+	public boolean insertBookingTransaction(int cntBooking, int cntSeat, int listSize, int cntUpdatePoint) throws SQLException{
 		boolean transactionResult = false;
 		
 		try {
-			if(cntBooking==1&&cntSeat==listSize) {
+			if(cntBooking==1&&cntSeat==listSize&&cntUpdatePoint==1) {
 				con.commit();
 				transactionResult = true;
 			}else {
@@ -305,13 +380,13 @@ public class SCUMovieDAO {
 		List<String> listBookNumber = new ArrayList<>();
 		
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs = null;
 		
 		try {
 			
-			StringBuilder sql = new StringBuilder();
-			sql
+			StringBuilder sqlDidWatch = new StringBuilder();
+			sqlDidWatch
 			.append("select book_number ")
 			.append("from ")
 			.append("( ")
@@ -328,12 +403,12 @@ public class SCUMovieDAO {
 			.append("on a.screen_num = b.screen_num ");
 			
 			con = SCUConnect.getInstance().getConnection();
-			pstmt = con.prepareStatement(sql.toString());
+			pstmt1 = con.prepareStatement(sqlDidWatch.toString());
 			
-			pstmt.setString(1, idConnecting);
-			pstmt.setString(2, selectedMovieCode);
+			pstmt1.setString(1, idConnecting);
+			pstmt1.setString(2, selectedMovieCode);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			
 			while(rs.next()) {
@@ -353,24 +428,24 @@ public class SCUMovieDAO {
 	public String didWrite(List<String> listBookNumber) throws SQLException{
 		String bookNumber ="";
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
-			StringBuilder sbSql = new StringBuilder();
-			sbSql
+			StringBuilder sqlDidWrite = new StringBuilder();
+			sqlDidWrite
 			.append("select book_number ")
 			.append("from rating ")
 			.append("where book_number = ? ");
-			pstmt = con.prepareStatement(sbSql.toString());
+			pstmt1 = con.prepareStatement(sqlDidWrite.toString());
 			
 			int i = 0;
 			
 			while(i < listBookNumber.size()) {
-				pstmt.setString(1, listBookNumber.get(i));
+				pstmt1.setString(1, listBookNumber.get(i));
 				bookNumber = listBookNumber.get(0);
-				rs = pstmt.executeQuery();
+				rs = pstmt1.executeQuery();
 				
 				if(rs.next()) {
 					return bookNumber ="";
@@ -393,22 +468,22 @@ public class SCUMovieDAO {
 		List<SCUSearchRatingVO> list = new ArrayList<>();
 		
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
 			
-			StringBuilder sql = new StringBuilder();
-			sql
+			StringBuilder sqlSelectRatingData = new StringBuilder();
+			sqlSelectRatingData
 			.append("select movie_rate, review, member_id ")
 			.append("from rating ")
 			.append("where substr(book_number, 2, 8) = ? ");
 			
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, selectedMovieCode);
+			pstmt1 = con.prepareStatement(sqlSelectRatingData.toString());
+			pstmt1.setString(1, selectedMovieCode);
 			
-			rs = pstmt.executeQuery();
+			rs = pstmt1.executeQuery();
 			
 			SCUSearchRatingVO ssrVO = null;
 			while(rs.next()) {
@@ -428,21 +503,21 @@ public class SCUMovieDAO {
 		int cnt = 0;
 		
 		con = null;
-		pstmt = null;
+		pstmt1 = null;
 		try {
 			con = SCUConnect.getInstance().getConnection();
-			StringBuilder sql = new StringBuilder();
-			sql
+			StringBuilder sqlInsertRating = new StringBuilder();
+			sqlInsertRating
 			.append("insert into rating(book_number, movie_rate, review, member_id) ")
 			.append("values(?,?,?,?) ");
-			pstmt = con.prepareStatement(sql.toString());
+			pstmt1 = con.prepareStatement(sqlInsertRating.toString());
 			
-			pstmt.setString(1, sirVO.getBook_number());
-			pstmt.setInt(2, sirVO.getMovie_rate());
-			pstmt.setString(3, sirVO.getReview());
-			pstmt.setString(4, sirVO.getMember_id());
+			pstmt1.setString(1, sirVO.getBook_number());
+			pstmt1.setInt(2, sirVO.getMovie_rate());
+			pstmt1.setString(3, sirVO.getReview());
+			pstmt1.setString(4, sirVO.getMember_id());
 			
-			cnt = pstmt.executeUpdate();
+			cnt = pstmt1.executeUpdate();
 			
 		}finally {
 			disconnect();
@@ -454,7 +529,9 @@ public class SCUMovieDAO {
 	private void disconnect() {
 		try {
 			if(rs!=null) {rs.close();}
-			if(pstmt!=null) {pstmt.close();}
+			if(rs2!=null) {rs2.close();}
+			if(pstmt1!=null) {pstmt1.close();}
+			if(pstmt2!=null) {pstmt2.close();}
 			if(cstmt1!=null) {cstmt1.close();}
 			if(cstmt2!=null) {cstmt2.close();}
 			if(con!=null) {con.close();}

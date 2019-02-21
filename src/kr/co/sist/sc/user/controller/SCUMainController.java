@@ -34,7 +34,13 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 	public void actionPerformed(ActionEvent ae) {
 		
 		if(ae.getSource().equals(smv.getJbtnLogin())) {//로그인버튼
-			new SCULoginView(smv);
+			if(!smv.getIsLogin()) {
+				new SCULoginView(smv);
+			}else {
+				smv.setIsLogin(false);
+				smv.setIdConnecting("");
+				smv.getJbtnLogin().setText("로그인/회원가입");
+			}
 		}
 		
 		if(ae.getSource().equals(smv.getJbtnBooking())) {//예매 버튼
