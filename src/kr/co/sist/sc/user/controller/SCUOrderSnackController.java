@@ -43,12 +43,6 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 	}//searchInfo
 	
 	public void insertSnackOnList() {
-		//수량 선택하지 않았을 때
-		if(sosv.getJcbQuan().getSelectedIndex() == 0) {
-			JOptionPane.showMessageDialog(sosv, "수량을 선택하세요", "주문 오류", JOptionPane.ERROR_MESSAGE);
-			return;
-		}//end if
-		
 		//주문 목록에 추가하기
 		if(ssmv.getDtmOrderList().getRowCount() != 0) {
 			
@@ -127,6 +121,12 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 		
 		//주문 목록에 추가하기
 		if(ae.getSource() == sosv.getJbtnAddOrder()) {
+			//수량 선택하지 않았을 때
+			if(sosv.getJcbQuan().getSelectedIndex() == 0) {
+				JOptionPane.showMessageDialog(sosv, "수량을 선택하세요", "주문 오류", JOptionPane.ERROR_MESSAGE);
+				return;
+			}//end if
+			
 			switch(JOptionPane.showConfirmDialog(sosv, "["+sosv.getJtfSnackName().getText()+"] [수량 : "+
 					sosv.getJcbQuan().getSelectedItem()+"] [총 가격 : "+sosv.getJtfTotalPrice().getText()+
 					"]을\n주문 목록에 추가하시겠습니까?", "주문 추가", JOptionPane.OK_CANCEL_OPTION)) {
