@@ -22,7 +22,7 @@ public class SCUMainView extends JFrame {
 		super("메인");
 		
 		//컴포넌트 생성
-		jlblBookingRank = new JLabel("영화 순위 라벨");
+		jlblBookingRank = new JLabel();
 		jlblImageBoard1 = new JLabel();
 		jlblImageBoard2 = new JLabel();
 		jlblImageBoard3 = new JLabel();
@@ -45,7 +45,7 @@ public class SCUMainView extends JFrame {
 		//컴포넌트 배치
 		setLayout(null);
 		
-		jlblBookingRank.setBounds(20, 30, 500, 20);
+		jlblBookingRank.setBounds(20, 22, 660, 30);
 		jlblImageBoard1.setBounds(100, 130, 200, 300);
 		jlblImageBoard2.setBounds(350, 130, 200, 300);
 		jlblImageBoard3.setBounds(600, 130, 200, 300);

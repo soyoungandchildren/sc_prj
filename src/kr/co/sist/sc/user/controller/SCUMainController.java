@@ -7,6 +7,8 @@ import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import kr.co.sist.sc.user.model.SCUMainDAO;
 import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
@@ -17,23 +19,55 @@ import kr.co.sist.sc.user.vo.SCUMainVO;
 public class SCUMainController extends WindowAdapter implements ActionListener{
 	private SCUMainView smv;
 	private SCUMainDAO smDAO;
+	private Integer[] cnt;
 	
 	public SCUMainController(SCUMainView smv) {
 		this.smv = smv;
 		smDAO = SCUMainDAO.getInstance();
-		setMain();
+		setImgBoard();
 	}//Constructor
 	
-	public void setMain() {
+	public void setImgBoard() {
 		try {
-			List<SCUMainVO> list = smDAO.setMain();
-			//리스트 넘어오는거 확인
+			List<SCUMainVO> list = smDAO.searchSetImgBoard();
+			String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
 			
+			cnt = new Integer[list.size()];
+			for(int i=0; i<list.size(); i++) {
+				cnt[i] = list.get(i).getCnt();
+			}//end for
+			
+			StringBuilder ranking = new StringBuilder();
+			ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ] 누적 관람객 "+list.get(0).getAudience()+"명         ")
+					.append("2위 - [ "+list.get(1).getMovie_title()+" ] 누적 관람객 "+list.get(1).getAudience()+"명         ")
+					.append("3위 - [ "+list.get(2).getMovie_title()+" ] 누적 관람객 "+list.get(2).getAudience()+"명");
+			
+			smv.getJlblBookingRank().setText(ranking.toString());
+			
+			smv.getJlblImageBoard1().setIcon(new ImageIcon(imgPath+list.get(0).getMovie_img()));
+			smv.getJlblImageBoard2().setIcon(new ImageIcon(imgPath+list.get(1).getMovie_img()));
+			smv.getJlblImageBoard3().setIcon(new ImageIcon(imgPath+list.get(2).getMovie_img()));
+			
+			rankMovie();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}//end catch
 		
-	}//setMain
+	}//setImgBoard
+	
+	public void rankMovie() {
+		try {
+			String rowCnt = smDAO.SearchRankMovie();
+			int bookingCnt = Integer.parseInt(rowCnt);
+			
+			
+			System.out.println(String.format("%.2f",(double)cnt[1]/(double)bookingCnt*100.0));
+			System.out.println("%");
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}//end catch
+	}//rankMovie
 	
 	
 	

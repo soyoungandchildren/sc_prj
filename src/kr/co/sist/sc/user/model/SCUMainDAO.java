@@ -24,7 +24,7 @@ public class SCUMainDAO {
 		return smDAO;
 	}//getInstance Method
 	
-	public List<SCUMainVO> setMain() throws SQLException{
+	public List<SCUMainVO> searchSetImgBoard() throws SQLException{
 		List<SCUMainVO> list = new ArrayList<>();
 		
 		Connection con = null;
@@ -35,7 +35,7 @@ public class SCUMainDAO {
 			con = SCUConnect.getInstance().getConnection();
 			
 			StringBuilder sql = new StringBuilder();
-			sql.append("select book_number, sum(personnel) audience, movie_img, movie_title ")
+			sql.append("select sum(personnel) audience, count(book_number) cnt, movie_img, movie_title ")
 				.append("from ")
 				.append("(select substr(book_number,2,8) book_number, personnel ")
 				.append("from book) ")
@@ -51,7 +51,7 @@ public class SCUMainDAO {
 			
 			SCUMainVO smVO = null;
 			while(rs.next()) {
-				smVO = new SCUMainVO(rs.getString("movie_title"), rs.getString("movie_img"), rs.getInt("audience"));
+				smVO = new SCUMainVO(rs.getString("movie_title"), rs.getString("movie_img"), rs.getInt("audience"), rs.getInt("cnt"));
 				list.add(smVO);
 			}//end while
 			
@@ -62,6 +62,26 @@ public class SCUMainDAO {
 		}//end finally
 		
 		return list;
-	}//setMain Method
+	}//setImgBoard Method
+	
+	public String SearchRankMovie() throws SQLException {
+		String rowCnt = "";
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		con = SCUConnect.getInstance().getConnection();
+		String sql = "select count(*) from book";
+		pstmt = con.prepareStatement(sql);
+		
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			rowCnt = rs.getString(1);
+		}//end if
+		
+		return rowCnt;
+	}//SearchRankMovie
 
 }//Class
