@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUMovieListView;
+import kr.co.sist.sc.user.view.SCURefundView;
 import kr.co.sist.sc.user.view.SCUSnackMenuView;
 
 public class SCUMainController extends WindowAdapter implements ActionListener{
@@ -45,6 +46,10 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 		
 		if(ae.getSource().equals(smv.getJbtnSnack())) {//스낵 버튼
 			new SCUSnackMenuView(smv);
+		}//end if
+
+		if(ae.getSource().equals(smv.getJbtnRefund())) {//환불 버튼
+			new SCURefundView(smv);
 		}//end if
 		
 	}//actionPerformed
