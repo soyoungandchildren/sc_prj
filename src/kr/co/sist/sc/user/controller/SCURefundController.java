@@ -29,7 +29,7 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	 * 예매 내역 확인
 	 */
 	public void searchBookingHistory() {
-		List<SCUGetBookingHistoryVO> = srDAO
+		List<SCUGetBookingHistoryVO> = srDAO;
 	}
 
 	/**
