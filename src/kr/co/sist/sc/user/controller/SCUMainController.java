@@ -55,6 +55,18 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			
 			smv.getJlblBookingRank().setText(ranking.toString());
 			
+			//1위 정보
+			smv.getJlblMovieName1().setText(list.get(0).getMovie_title());
+			smv.getJlblAudienceCnt1().setText(String.valueOf(list.get(0).getAudience())+"명");
+			
+			//2위 정보
+			smv.getJlblMovieName2().setText(list.get(1).getMovie_title());
+			smv.getJlblAudienceCnt2().setText(String.valueOf(list.get(1).getAudience())+"명");
+			
+			//3위 정보
+			smv.getJlblMovieName3().setText(list.get(2).getMovie_title());
+			smv.getJlblAudienceCnt3().setText(String.valueOf(list.get(2).getAudience())+"명");
+			
 //			ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ] 누적 관람객 "+list.get(0).getAudience()+"명         ")
 //			.append("2위 - [ "+list.get(1).getMovie_title()+" ] 누적 관람객 "+list.get(1).getAudience()+"명         ")
 //			.append("3위 - [ "+list.get(2).getMovie_title()+" ] 누적 관람객 "+list.get(2).getAudience()+"명");
@@ -64,24 +76,31 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			smv.getJlblImageBoard2().setIcon(new ImageIcon(imgPath+list.get(1).getMovie_img()));
 			smv.getJlblImageBoard3().setIcon(new ImageIcon(imgPath+list.get(2).getMovie_img()));
 			
-			
-			
 			rankMovie();
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}//end catch
 		
 	}//setImgBoard
-	
-	public void setMain() {
-//		List<SCUMainVO> list = new ArrayList<>();
-//		try {
-//			list = SCUMainDAO.getInstance().setMain();
-//		} catch (SQLException sqle) {
-//			sqle.printStackTrace();
-//		}//end catch
-		
-	}//setMain Method
+
+	public void rankMovie() {
+		try {
+			//bookingCnt는 총 예매 건수
+			String rowCnt = smDAO.SearchRankMovie();
+			int bookingCnt = Integer.parseInt(rowCnt);
+			
+			String rank1 = String.format("%.2f",(double)cnt[0]/(double)bookingCnt*100.0);
+			String rank2 = String.format("%.2f",(double)cnt[1]/(double)bookingCnt*100.0);
+			String rank3 = String.format("%.2f",(double)cnt[2]/(double)bookingCnt*100.0);
+			
+			smv.getJlblReserveRate1().setText(rank1+"%");
+			smv.getJlblReserveRate2().setText(rank2+"%");
+			smv.getJlblReserveRate3().setText(rank3+"%");
+			
+		} catch (SQLException se) {
+			se.printStackTrace();
+		}//end catch
+	}//rankMovie
 	
 	public void checkPassword() {
 		if(cntCheckPassword==5) {
@@ -114,24 +133,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			}//try~catch
 			
 		}//end if
-	}
-	
-	public void rankMovie() {
-		try {
-			//bookingCnt는 총 예매 건수
-			String rowCnt = smDAO.SearchRankMovie();
-			int bookingCnt = Integer.parseInt(rowCnt);
-			
-			String rank1 = String.format("%.2f",(double)cnt[0]/(double)bookingCnt*100.0);
-			String rank2 = String.format("%.2f",(double)cnt[1]/(double)bookingCnt*100.0);
-			String rank3 = String.format("%.2f",(double)cnt[2]/(double)bookingCnt*100.0);
-			
-		} catch (SQLException se) {
-			se.printStackTrace();
-		}//end catch
-	}//rankMovie
-	
-	
+	}//checkPassword
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {

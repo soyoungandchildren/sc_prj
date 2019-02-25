@@ -28,27 +28,6 @@ public class SCUMainDAO {
 		return smDAO;
 	}//getInstance Method
 	
-	public List<SCUMainVO> setMain() throws SQLException{
-		List<SCUMainVO> list = new ArrayList<>();
-		
-		con = null;
-		pstmt = null;
-		rs = null;
-		
-		try {
-			con = SCUConnect.getInstance().getConnection();
-			
-			String sql = "";
-			pstmt = con.prepareStatement(sql);
-			
-			
-		}finally {
-			disconnect();
-		}//end finally
-		
-		return list;
-	}//setMain Method
-	
 	public boolean checkPassword(SCULoginVO slVO) throws SQLException{
 		boolean flag = false;
 		
@@ -68,13 +47,9 @@ public class SCUMainDAO {
 			
 			pstmt = con.prepareStatement(sqlSelectPassword.toString());
 			pstmt.setString(1, idConnecting);
-			System.out.println("여기 오긴하냐");
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				System.out.println(inputPassword);
-				System.out.println(rs.getString("password"));
-				
 				if(rs.getString("password").equals(inputPassword)) {
 					flag = true;
 				}//end if
