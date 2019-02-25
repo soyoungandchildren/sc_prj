@@ -8,18 +8,23 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 
 import kr.co.sist.sc.user.model.SCUMainDAO;
 import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUMovieListView;
+import kr.co.sist.sc.user.view.SCUMyPageView;
 import kr.co.sist.sc.user.view.SCUSnackMenuView;
+import kr.co.sist.sc.user.vo.SCULoginVO;
 import kr.co.sist.sc.user.vo.SCUMainVO;
 
 public class SCUMainController extends WindowAdapter implements ActionListener{
 	private SCUMainView smv;
 	private SCUMainDAO smDAO;
 	private Integer[] cnt;
+	private int cntCheckPassword;
 	
 	public SCUMainController(SCUMainView smv) {
 		this.smv = smv;
@@ -67,6 +72,49 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 		
 	}//setImgBoard
 	
+	public void setMain() {
+//		List<SCUMainVO> list = new ArrayList<>();
+//		try {
+//			list = SCUMainDAO.getInstance().setMain();
+//		} catch (SQLException sqle) {
+//			sqle.printStackTrace();
+//		}//end catch
+		
+	}//setMain Method
+	
+	public void checkPassword() {
+		if(cntCheckPassword==5) {
+			JOptionPane.showMessageDialog(smv, "나중에 다시 시도해주세요");
+			cntCheckPassword=0;
+			return;
+		}//end if
+		
+		JPasswordField jpf = new JPasswordField();
+		int commit = JOptionPane.showConfirmDialog(smv, jpf, "패스워드 입력", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if(commit==0) {
+			String password = new String(jpf.getPassword());
+			
+			boolean checkPassword;
+			try {
+				SCULoginVO slVO = new SCULoginVO(smv.getIdConnecting(), password);
+				checkPassword = SCUMainDAO.getInstance().checkPassword(slVO);
+				
+				if(checkPassword) {
+					cntCheckPassword = 0;
+					new SCUMyPageView(smv);
+				}else {
+					JOptionPane.showMessageDialog(smv, "비밀번호를 확인해주세요.");
+					cntCheckPassword+=1;
+					checkPassword();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}//try~catch
+			
+		}//end if
+	}
+	
 	public void rankMovie() {
 		try {
 			//bookingCnt는 총 예매 건수
@@ -81,6 +129,8 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			se.printStackTrace();
 		}//end catch
 	}//rankMovie
+	
+	
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -101,6 +151,14 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 		
 		if(ae.getSource().equals(smv.getJbtnSnack())) {//스낵 버튼
 			new SCUSnackMenuView(smv);
+		}//end if
+		
+		if(ae.getSource().equals(smv.getJbtnMyPage())) {
+			if(smv.getIsLogin()) {
+				checkPassword();
+			}else {
+				JOptionPane.showMessageDialog(smv, "로그인을 해주세요.");
+			}
 		}//end if
 		
 	}//actionPerformed
