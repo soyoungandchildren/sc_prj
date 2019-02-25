@@ -6,6 +6,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import kr.co.sist.sc.user.model.SCURefundDAO;
@@ -29,7 +31,19 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	 * 예매 내역 확인
 	 */
 	public void searchBookingHistory() {
-		List<SCUGetBookingHistoryVO> = srDAO;
+		List<SCUGetBookingHistoryVO> list = new ArrayList<>();
+		
+		try {
+			list = SCURefundDAO.getInstace().searchBookingHistory();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 
 	/**
