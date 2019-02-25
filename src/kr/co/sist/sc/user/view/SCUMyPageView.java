@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import kr.co.sist.sc.user.controller.SCUMyPageController;
+
 @SuppressWarnings("serial")
 public class SCUMyPageView extends JDialog{
 
@@ -31,10 +33,10 @@ public class SCUMyPageView extends JDialog{
 		jtfHoldPoint = new JTextField(10);
 		jtfAccPoint = new JTextField(10);
 		jtfInputDate = new JTextField(10);
-		jbtnUpdateInfo = new JButton();
-		jbtnUpdatePW = new JButton();
-		jbtnResign = new JButton();
-		jbtnExit = new JButton();
+		jbtnUpdateInfo = new JButton("정보 수정");
+		jbtnUpdatePW = new JButton("비밀번호 수정");
+		jbtnResign = new JButton("회원 탈퇴");
+		jbtnExit = new JButton("나가기");
         
 		String[] lblTitleArr = {"아이디", "이름", "생년월일", "휴대폰번호",
 							"회원등급", "보유포인트", "누적 포인트",
@@ -57,8 +59,16 @@ public class SCUMyPageView extends JDialog{
 		jpnelArr[5].add(jtfHoldPoint);
 		jpnelArr[6].add(jtfAccPoint);
 		jpnelArr[7].add(jtfInputDate);
-
-		
+		//////////////////////////////////////////
+		jtfAccPoint.setEnabled(false);
+		jtfBirthdate.setEnabled(false);
+		jtfHoldPoint.setEnabled(false);
+		jtfInputDate.setEnabled(false);
+		jtfMemberID.setEnabled(false);
+		jtfMembership.setEnabled(false);
+		jtfName.setEnabled(false);
+		jtfPhone.setEnabled(false);
+		//////////////////////////////////////////
 		setLayout(new BorderLayout());
 		
 		JPanel jpnlNorth = new JPanel();
@@ -75,22 +85,73 @@ public class SCUMyPageView extends JDialog{
 		}//end for
 		jpnlCenter.add(centerField);
 		
+		
+		jpnlSouth.add(jbtnUpdateInfo);
+		jpnlSouth.add(jbtnUpdatePW);
+		jpnlSouth.add(jbtnResign);
+		jpnlSouth.add(jbtnExit);
+		
 		add("North", jpnlNorth);
 		add("Center", jpnlCenter);
 		add("South", jpnlSouth);
+		//////////////////////////////////////
+		SCUMyPageController smpc = new SCUMyPageController(this);
+		jbtnUpdatePW.addActionListener(smpc);
+		jbtnExit.addActionListener(smpc);
+		jbtnResign.addActionListener(smpc);
+		jbtnUpdateInfo.addActionListener(smpc);
+		/////////////////////////////////////
 		
-		setBounds(smv.getX()+50, smv.getY()+200, 300, 600);
+		setBounds(smv.getX()+50, smv.getY()+200, 600, 600);
+		setResizable(false);
 		setVisible(true);
-		
 		
 //jtfMemberID, jtfName, jtfBirthdate, jtfPhone,           
 //jtfMembership, jtfHoldPoint, jtfAccPoint, jtfInputDate
 //jbtnUpdateInfo, jbtnUpdatePW, jbtnResign, jbtnExit        
 		
-		
-		
-		
 	}//Constructor
+
+
+	public SCUMainView getSmv() {
+		return smv;
+	}
+	public JTextField getJtfMemberID() {
+		return jtfMemberID;
+	}
+	public JTextField getJtfName() {
+		return jtfName;
+	}
+	public JTextField getJtfBirthdate() {
+		return jtfBirthdate;
+	}
+	public JTextField getJtfPhone() {
+		return jtfPhone;
+	}
+	public JTextField getJtfMembership() {
+		return jtfMembership;
+	}
+	public JTextField getJtfHoldPoint() {
+		return jtfHoldPoint;
+	}
+	public JTextField getJtfAccPoint() {
+		return jtfAccPoint;
+	}
+	public JTextField getJtfInputDate() {
+		return jtfInputDate;
+	}
+	public JButton getJbtnUpdateInfo() {
+		return jbtnUpdateInfo;
+	}
+	public JButton getJbtnUpdatePW() {
+		return jbtnUpdatePW;
+	}
+	public JButton getJbtnResign() {
+		return jbtnResign;
+	}
+	public JButton getJbtnExit() {
+		return jbtnExit;
+	}
 	
 	
 }//Class
