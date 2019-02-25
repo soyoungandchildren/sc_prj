@@ -32,21 +32,33 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			List<SCUMainVO> list = smDAO.searchSetImgBoard();
 			String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
 			
+			//영화별 누적 관람객 수
 			cnt = new Integer[list.size()];
 			for(int i=0; i<list.size(); i++) {
 				cnt[i] = list.get(i).getCnt();
 			}//end for
 			
+			//상단 영화 순위
 			StringBuilder ranking = new StringBuilder();
-			ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ] 누적 관람객 "+list.get(0).getAudience()+"명         ")
-					.append("2위 - [ "+list.get(1).getMovie_title()+" ] 누적 관람객 "+list.get(1).getAudience()+"명         ")
-					.append("3위 - [ "+list.get(2).getMovie_title()+" ] 누적 관람객 "+list.get(2).getAudience()+"명");
+			ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ]         ")
+					.append("2위 - [ "+list.get(1).getMovie_title()+" ]         ")
+					.append("3위 - [ "+list.get(2).getMovie_title()+" ]         ")
+					.append("4위 - [ "+list.get(3).getMovie_title()+" ]         ")
+					.append("5위 - [ "+list.get(4).getMovie_title()+" ]         ")
+					.append("6위 - [ "+list.get(5).getMovie_title()+" ]         ");
 			
 			smv.getJlblBookingRank().setText(ranking.toString());
 			
+//			ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ] 누적 관람객 "+list.get(0).getAudience()+"명         ")
+//			.append("2위 - [ "+list.get(1).getMovie_title()+" ] 누적 관람객 "+list.get(1).getAudience()+"명         ")
+//			.append("3위 - [ "+list.get(2).getMovie_title()+" ] 누적 관람객 "+list.get(2).getAudience()+"명");
+			
+			//센터 영화 1~3위 포스터 배치
 			smv.getJlblImageBoard1().setIcon(new ImageIcon(imgPath+list.get(0).getMovie_img()));
 			smv.getJlblImageBoard2().setIcon(new ImageIcon(imgPath+list.get(1).getMovie_img()));
 			smv.getJlblImageBoard3().setIcon(new ImageIcon(imgPath+list.get(2).getMovie_img()));
+			
+			
 			
 			rankMovie();
 		} catch (SQLException se) {
@@ -57,19 +69,18 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 	
 	public void rankMovie() {
 		try {
+			//bookingCnt는 총 예매 건수
 			String rowCnt = smDAO.SearchRankMovie();
 			int bookingCnt = Integer.parseInt(rowCnt);
 			
-			
-			System.out.println(String.format("%.2f",(double)cnt[1]/(double)bookingCnt*100.0));
-			System.out.println("%");
+			String rank1 = String.format("%.2f",(double)cnt[0]/(double)bookingCnt*100.0);
+			String rank2 = String.format("%.2f",(double)cnt[1]/(double)bookingCnt*100.0);
+			String rank3 = String.format("%.2f",(double)cnt[2]/(double)bookingCnt*100.0);
 			
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}//end catch
 	}//rankMovie
-	
-	
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -81,8 +92,8 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 				smv.setIsLogin(false);
 				smv.setIdConnecting("");
 				smv.getJbtnLogin().setText("로그인/회원가입");
-			}
-		}
+			}//end else
+		}//end if
 		
 		if(ae.getSource().equals(smv.getJbtnBooking())) {//예매 버튼
 			new SCUMovieListView(smv);

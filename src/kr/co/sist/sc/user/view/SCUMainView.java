@@ -12,7 +12,7 @@ import kr.co.sist.sc.user.controller.SCUMainController;
 @SuppressWarnings("serial")
 public class SCUMainView extends JFrame {
 
-	private JLabel jlblImageBoard1, jlblImageBoard2, jlblImageBoard3, jlblBookingRank;
+	private JLabel jlblImageBoard1, jlblImageBoard2, jlblImageBoard3, jlblBookingRank, jlblMovieName, jlblAudience, jlblReserve;
 	private JButton jbtnLogin, jbtnBooking, jbtnSnack, jbtnRefund, jbtnMyPage;
 	private boolean isLogin;
 	private String idConnecting;	
@@ -26,6 +26,9 @@ public class SCUMainView extends JFrame {
 		jlblImageBoard1 = new JLabel();
 		jlblImageBoard2 = new JLabel();
 		jlblImageBoard3 = new JLabel();
+		jlblMovieName = new JLabel("영화명");
+		jlblAudience = new JLabel("영화명");
+		jlblReserve = new JLabel("영화명");
 		
 		jbtnMyPage= new JButton("마이페이지");
 		jbtnLogin= new JButton("로그인/회원가입");
@@ -46,20 +49,31 @@ public class SCUMainView extends JFrame {
 		setLayout(null);
 		
 		jlblBookingRank.setBounds(20, 22, 660, 30);
-		jlblImageBoard1.setBounds(100, 130, 200, 300);
-		jlblImageBoard2.setBounds(350, 130, 200, 300);
-		jlblImageBoard3.setBounds(600, 130, 200, 300);
+		jlblImageBoard1.setBounds(100, 120, 200, 300);
+		jlblImageBoard2.setBounds(350, 120, 200, 300);
+		jlblImageBoard3.setBounds(600, 120, 200, 300);
+		
+		jlblMovieName.setBounds(100, 450, 100, 30);
+		jlblAudience.setBounds(350, 450, 100, 30);
+		jlblReserve.setBounds(600, 450, 100, 30);
+		
+		jlblReserve.setBounds(600, 450, 100, 30);
+		jlblReserve.setBounds(600, 450, 100, 30);
+		jlblReserve.setBounds(600, 450, 100, 30);
 		
 		jbtnLogin.setBounds(700, 20, 130, 40);
-		jbtnBooking.setBounds(280, 500, 140, 60);
-		jbtnSnack.setBounds(480, 500, 140, 60);
-		jbtnRefund.setBounds(680, 500, 140, 60);
-		jbtnMyPage.setBounds(80, 500, 140, 60);
+		jbtnBooking.setBounds(280, 550, 140, 60);
+		jbtnSnack.setBounds(480, 550, 140, 60);
+		jbtnRefund.setBounds(680, 550, 140, 60);
+		jbtnMyPage.setBounds(80, 550, 140, 60);
 		
 		add(jlblBookingRank);
 		add(jlblImageBoard1);
 		add(jlblImageBoard2);
 		add(jlblImageBoard3);
+		add(jlblMovieName);
+		add(jlblAudience);
+		add(jlblReserve);
 		
 		add(jbtnMyPage);
 		add(jbtnRefund);
@@ -118,6 +132,15 @@ public class SCUMainView extends JFrame {
 	}
 	public String getIdConnecting() {
 		return idConnecting;
+	}
+	public JLabel getJlblMovieName() {
+		return jlblMovieName;
+	}
+	public JLabel getJlblAudience() {
+		return jlblAudience;
+	}
+	public JLabel getJlblReserve() {
+		return jlblReserve;
 	}
 	//end Getters
 	//Setters
