@@ -5,22 +5,38 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
+
+
+import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
+
 import java.util.List;
 
 import javax.swing.ImageIcon;
+
 
 import kr.co.sist.sc.user.model.SCUMainDAO;
 import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUMovieListView;
+
+import kr.co.sist.sc.user.view.SCUMyPageView;
+import kr.co.sist.sc.user.view.SCUSnackMenuView;
+import kr.co.sist.sc.user.vo.SCULoginVO;
+
 import kr.co.sist.sc.user.view.SCURefundView;
 import kr.co.sist.sc.user.view.SCUSnackMenuView;
 import kr.co.sist.sc.user.vo.SCUMainVO;
 
+
 public class SCUMainController extends WindowAdapter implements ActionListener{
 	private SCUMainView smv;
+
+	private int cntCheckPassword;
+
 	private SCUMainDAO smDAO;
 	private Integer[] cnt;
+
 	
 	public SCUMainController(SCUMainView smv) {
 		this.smv = smv;
@@ -33,28 +49,28 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			List<SCUMainVO> list = smDAO.searchSetImgBoard();
 			String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
 			
-			//¿µÈ­º° ´©Àû °ü¶÷°´ ¼ö
+			//ì˜í™”ë³„ ëˆ„ì  ê´€ëŒê° ìˆ˜
 			cnt = new Integer[list.size()];
 			for(int i=0; i<list.size(); i++) {
 				cnt[i] = list.get(i).getCnt();
 			}//end for
 			
-			//»ó´Ü ¿µÈ­ ¼øÀ§
+			//ìƒë‹¨ ì˜í™” ìˆœìœ„
 			StringBuilder ranking = new StringBuilder();
-			ranking.append("1À§ - [ "+list.get(0).getMovie_title()+" ]         ")
-					.append("2À§ - [ "+list.get(1).getMovie_title()+" ]         ")
-					.append("3À§ - [ "+list.get(2).getMovie_title()+" ]         ")
-					.append("4À§ - [ "+list.get(3).getMovie_title()+" ]         ")
-					.append("5À§ - [ "+list.get(4).getMovie_title()+" ]         ")
-					.append("6À§ - [ "+list.get(5).getMovie_title()+" ]         ");
+			ranking.append("1ìœ„ - [ "+list.get(0).getMovie_title()+" ]         ")
+					.append("2ìœ„ - [ "+list.get(1).getMovie_title()+" ]         ")
+					.append("3ìœ„ - [ "+list.get(2).getMovie_title()+" ]         ")
+					.append("4ìœ„ - [ "+list.get(3).getMovie_title()+" ]         ")
+					.append("5ìœ„ - [ "+list.get(4).getMovie_title()+" ]         ")
+					.append("6ìœ„ - [ "+list.get(5).getMovie_title()+" ]         ");
 			
 			smv.getJlblBookingRank().setText(ranking.toString());
 			
-//			ranking.append("1À§ - [ "+list.get(0).getMovie_title()+" ] ´©Àû °ü¶÷°´ "+list.get(0).getAudience()+"¸í         ")
-//			.append("2À§ - [ "+list.get(1).getMovie_title()+" ] ´©Àû °ü¶÷°´ "+list.get(1).getAudience()+"¸í         ")
-//			.append("3À§ - [ "+list.get(2).getMovie_title()+" ] ´©Àû °ü¶÷°´ "+list.get(2).getAudience()+"¸í");
+//			ranking.append("1ìœ„ - [ "+list.get(0).getMovie_title()+" ] ëˆ„ì  ê´€ëŒê° "+list.get(0).getAudience()+"ëª…         ")
+//			.append("2ìœ„ - [ "+list.get(1).getMovie_title()+" ] ëˆ„ì  ê´€ëŒê° "+list.get(1).getAudience()+"ëª…         ")
+//			.append("3ìœ„ - [ "+list.get(2).getMovie_title()+" ] ëˆ„ì  ê´€ëŒê° "+list.get(2).getAudience()+"ëª…");
 			
-			//¼¾ÅÍ ¿µÈ­ 1~3À§ Æ÷½ºÅÍ ¹èÄ¡
+			//ì„¼í„° ì˜í™” 1~3ìœ„ í¬ìŠ¤í„° ë°°ì¹˜
 			smv.getJlblImageBoard1().setIcon(new ImageIcon(imgPath+list.get(0).getMovie_img()));
 			smv.getJlblImageBoard2().setIcon(new ImageIcon(imgPath+list.get(1).getMovie_img()));
 			smv.getJlblImageBoard3().setIcon(new ImageIcon(imgPath+list.get(2).getMovie_img()));
@@ -68,9 +84,43 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 		
 	}//setImgBoard
 	
+
+	public void checkPassword() {
+		if(cntCheckPassword==5) {
+			JOptionPane.showMessageDialog(smv, "ë‚˜ì¤‘ì— ë‹¤ì‹œ ì‹œë„í•´ì£¼ì„¸ìš”");
+			cntCheckPassword=0;
+			return;
+		}//end if
+		
+		JPasswordField jpf = new JPasswordField();
+		int commit = JOptionPane.showConfirmDialog(smv, jpf, "íŒ¨ìŠ¤ì›Œë“œ ì…ë ¥", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+		if(commit==0) {
+			String password = new String(jpf.getPassword());
+			
+			boolean checkPassword;
+			try {
+				SCULoginVO slVO = new SCULoginVO(smv.getIdConnecting(), password);
+				checkPassword = SCUMainDAO.getInstance().checkPassword(slVO);
+				
+				if(checkPassword) {
+					cntCheckPassword = 0;
+					new SCUMyPageView(smv);
+				}else {
+					JOptionPane.showMessageDialog(smv, "ë¹„ë°€ë²ˆí˜¸ë¥¼ í™•ì¸í•´ì£¼ì„¸ìš”.");
+					cntCheckPassword+=1;
+					checkPassword();
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}//try~catch
+			
+		}//end if
+	}
+
 	public void rankMovie() {
 		try {
-			//bookingCnt´Â ÃÑ ¿¹¸Å °Ç¼ö
+			//bookingCntëŠ” ì´ ì˜ˆë§¤ ê±´ìˆ˜
 			String rowCnt = smDAO.SearchRankMovie();
 			int bookingCnt = Integer.parseInt(rowCnt);
 			
@@ -82,30 +132,39 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			se.printStackTrace();
 		}//end catch
 	}//rankMovie
+
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
-		if(ae.getSource().equals(smv.getJbtnLogin())) {//·Î±×ÀÎ¹öÆ°
+		if(ae.getSource().equals(smv.getJbtnLogin())) {//ë¡œê·¸ì¸ë²„íŠ¼
 			if(!smv.getIsLogin()) {
 				new SCULoginView(smv);
 			}else {
 				smv.setIsLogin(false);
 				smv.setIdConnecting("");
-				smv.getJbtnLogin().setText("·Î±×ÀÎ/È¸¿ø°¡ÀÔ");
+				smv.getJbtnLogin().setText("ë¡œê·¸ì¸/íšŒì›ê°€ì…");
 			}//end else
 		}//end if
 		
-		if(ae.getSource().equals(smv.getJbtnBooking())) {//¿¹¸Å ¹öÆ°
+		if(ae.getSource().equals(smv.getJbtnBooking())) {//ì˜ˆë§¤ ë²„íŠ¼
 			new SCUMovieListView(smv);
 		}//end if
 		
-		if(ae.getSource().equals(smv.getJbtnSnack())) {//½º³¼ ¹öÆ°
+		if(ae.getSource().equals(smv.getJbtnSnack())) {//ìŠ¤ë‚µ ë²„íŠ¼
 			new SCUSnackMenuView(smv);
 		}//end if
 
-		if(ae.getSource().equals(smv.getJbtnRefund())) {//È¯ºÒ ¹öÆ°
+		if(ae.getSource().equals(smv.getJbtnRefund())) {//í™˜ë¶ˆ ë²„íŠ¼
 			new SCURefundView(smv);
+		}//end if
+		
+		if(ae.getSource().equals(smv.getJbtnMyPage())) {
+			if(smv.getIsLogin()) {
+				checkPassword();
+			}else {
+				JOptionPane.showMessageDialog(smv, "ë¡œê·¸ì¸ì„ í•´ì£¼ì„¸ìš”.");
+			}
 		}//end if
 		
 	}//actionPerformed
