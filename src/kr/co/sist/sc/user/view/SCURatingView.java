@@ -44,7 +44,6 @@ public class SCURatingView extends JDialog {
 		
 		
 		jtRatingTable.setRowHeight(100);
-		jtRatingTable.getColumnModel().getColumn(0).setCellRenderer(this.new customTableRenderer());
 		
 		
 		
@@ -86,19 +85,5 @@ public class SCURatingView extends JDialog {
 	public JTable getJtRatingTable() {
 		return jtRatingTable;
 	}
-	//////////////////////////////////////////////
-	class customTableRenderer extends JPanel implements TableCellRenderer{
-
-		public customTableRenderer() {
-		}//customTableRenderer
-		
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			return this;
-		}
-		
-	}
-	////////////////////////////////////////////////
 	
 }//Class

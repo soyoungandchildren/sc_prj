@@ -40,11 +40,13 @@ public class SCURatingController extends WindowAdapter implements ActionListener
 			}else {
 				
 				Object[] objArr = new Object[3];
-				JPanel jpel = new JPanel();
-				jpel.add(new JLabel(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\imageicon_star_perfect(22x22).png")));
+				int star = 0;
+				ImageIcon imgStar = null;
 				for(int i =0; i<list.size(); i++) {
 					
-					objArr[0] = jpel;
+					star = list.get(i).getMovie_rate();
+					imgStar = new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/imageicon_star_"+star+"pt(22x22).png");
+					objArr[0] = imgStar;
 					objArr[1] = list.get(i).getReview();
 					objArr[2] = list.get(i).getMember_id();
 					
