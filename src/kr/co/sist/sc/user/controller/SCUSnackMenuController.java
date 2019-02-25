@@ -51,7 +51,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 				snackName[i] = rowData[1].toString();
 			}//end for
 			
-			//메뉴가 8개 미만이 되었을때 NoImage.pnc로 채우기
+			//메뉴가 8개 미만이 되었을때 NoImage.png로 채우기
 			int ex = 8-list.size();
 			if(list.size() != 8) {
 				for(int i=0; i<ex; i++) {

@@ -162,7 +162,6 @@ public class SCUSnackDAO {
 			pstmt3.setString(2, member);
 			
 			boolean chg = pstmt3.execute();
-//			System.out.println(chg);
 			result = insertOrderSnackTransaction(point, toPrice, cnt, list.size(), chg);
 			
 		} catch(SQLException se) {

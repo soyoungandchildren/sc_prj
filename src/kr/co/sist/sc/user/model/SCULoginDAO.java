@@ -286,19 +286,7 @@ public class SCULoginDAO {
 			}//end if
 		}//finally
 
-		return flag;
+		return flag;	
 	}// selectPW
 	
-
-//	public static void main(String[] args) {
-//		try {
-//			boolean result = getInstance().selectCheckDup("love");
-//			boolean result = getInstance().selectPW("guest", "°Ô½ºÆ®", "011-2222-2222");
-//			int result = getInstance().updatePW("1234", "guest");
-//				System.out.println(result);
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} // end catch
-//	}// main
-
 }// class

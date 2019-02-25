@@ -8,4 +8,5 @@ public class SCUMainRun {
 		new SCUMainView();
 	}//Main	
 	
+	
 }//SCUMainRun

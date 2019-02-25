@@ -19,7 +19,7 @@ public class SCUSnackMenuView extends JDialog{
 	
 	public SCUSnackMenuView(SCUMainView smv) {
 		super(smv, "스낵 주문", true);
-		this.smv = smv;
+		this.smv = smv;	
 		
 		//컴포넌트 생성
 		jbtnCheckOut = new JButton("결제");
@@ -134,7 +134,7 @@ public class SCUSnackMenuView extends JDialog{
 		//창 설정
 		setBounds(smv.getX()+100, smv.getY()+80, 800, 680);
 		setResizable(false);
-		setVisible(true);
+		setVisible(true);	
 		
 	}//SCUSnackMenuView
 	

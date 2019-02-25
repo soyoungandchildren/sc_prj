@@ -21,7 +21,6 @@ public class SCUMainDAO {
 	}//Constructor
 	
 	public static SCUMainDAO getInstance() {
-		
 		if(smDAO==null) {
 			smDAO=new SCUMainDAO();
 		}//end if
@@ -29,7 +28,7 @@ public class SCUMainDAO {
 		return smDAO;
 	}//getInstance Method
 	
-	public List<SCUMainVO> setMain() throws SQLException{
+	public List<SCUMainVO> searchSetImgBoard() throws SQLException{
 		List<SCUMainVO> list = new ArrayList<>();
 		
 		con = null;
@@ -39,15 +38,33 @@ public class SCUMainDAO {
 		try {
 			con = SCUConnect.getInstance().getConnection();
 			
-			String sql = "";
-			pstmt = con.prepareStatement(sql);
+			StringBuilder sql = new StringBuilder();
+			sql.append("select sum(personnel) audience, count(book_number) cnt, movie_img, movie_title ")
+				.append("from ")
+				.append("(select substr(book_number,2,8) book_number, personnel ")
+				.append("from book) ")
+				.append("left join ")
+				.append("(select movie_code, movie_img, movie_title ")
+				.append("from movie) ")
+				.append("on movie_code=book_number " )
+				.append("group by book_number, movie_img, movie_title ")
+				.append("order by audience desc, movie_title asc");
+			pstmt = con.prepareStatement(sql.toString());
 			
+			rs = pstmt.executeQuery();
+			
+			SCUMainVO smVO = null;
+			while(rs.next()) {
+				smVO = new SCUMainVO(rs.getString("movie_title"), rs.getString("movie_img"), rs.getInt("audience"), rs.getInt("cnt"));
+				list.add(smVO);
+			}//end while
 			
 		}finally {
 			disconnect();
 		}//end finally
 		
 		return list;
+
 	}//setMain Method
 	
 	public boolean checkPassword(SCULoginVO slVO) throws SQLException{
@@ -69,7 +86,7 @@ public class SCUMainDAO {
 			
 			pstmt = con.prepareStatement(sqlSelectPassword.toString());
 			pstmt.setString(1, idConnecting);
-			System.out.println("¿©±â ¿À±äÇÏ³Ä");
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Ï³ï¿½");
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
@@ -95,5 +112,28 @@ public class SCUMainDAO {
 		if(con!=null) {con.close();}
 	}
 	
+
+	}//setImgBoard Method
+	
+	public String SearchRankMovie() throws SQLException {
+		String rowCnt = "";
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		con = SCUConnect.getInstance().getConnection();
+		String sql = "select count(*) from book";
+		pstmt = con.prepareStatement(sql);
+		
+		rs = pstmt.executeQuery();
+		
+		if(rs.next()) {
+			rowCnt = rs.getString(1);
+		}//end if
+		
+		return rowCnt;
+	}//SearchRankMovie
+
 
 }//Class
