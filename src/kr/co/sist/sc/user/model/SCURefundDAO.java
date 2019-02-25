@@ -37,7 +37,7 @@ public class SCURefundDAO {
 
 			SCUGetBookingHistoryVO sgbhVO = null;
 			
-			String bh = "select book_number, personnel, payment_date, to_char(movie_start,'yyyy-mm-dd hh24:mm'),screen_num from book";
+			String bh = "select book_number, personnel, payment_date, to_char(movie_start,'yyyy-mm-dd hh24:mm') from book";
 			
 			pstmt = con.prepareStatement(bh);
 			pstmt.setString(1, sgbhVO.getBook_number());
