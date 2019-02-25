@@ -10,9 +10,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.plaf.SliderUI;
+
 import kr.co.sist.sc.user.model.SCURefundDAO;
 import kr.co.sist.sc.user.view.SCURefundView;
 import kr.co.sist.sc.user.vo.SCUGetBookingHistoryVO;
+import kr.co.sist.sc.user.vo.SCUGetSnackHistoryVO;
 
 public class SCURefundController extends WindowAdapter implements ActionListener, MouseListener, Runnable {
 
@@ -25,6 +28,7 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 
 		srDAO = SCURefundDAO.getInstace();
 		searchBookingHistory();
+		searchSnackHistory();
 	}// SCURefundController
 
 	/**
@@ -32,32 +36,66 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	 */
 	public void searchBookingHistory() {
 		List<SCUGetBookingHistoryVO> list = new ArrayList<>();
-		
+
 		try {
 			list = SCURefundDAO.getInstace().searchBookingHistory();
-			
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
+
+			Object[] objArr = null;
+//			SCUGetBookingHistoryVO sgbhvo = null;
+
+			for (int i = 0; i < list.size(); i++) {
+//				sgbhvo = list.get(i);
+				objArr = new Object[6];
+				objArr[0] = (i + 1);
+				objArr[1] = list.get(i).getBook_number();
+				objArr[2] = list.get(i).getPersonnel();
+				objArr[3] = list.get(i).getPayment_date();
+				objArr[4] = list.get(i).getScreen_price() *list.get(i).getPersonnel();
+				objArr[5] = list.get(i).getMovie_start();
+				srv.getDtmBookingList().addRow(objArr);
+			} // end for
+
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
 		}
-		
-		
-		
-		
-	}
+
+	}//searchBookingHistory
 
 	/**
 	 * 스낵 구매내역 확인
 	 */
 	public void searchSnackHistory() {
+		List<SCUGetSnackHistoryVO> list = new ArrayList<>();
+		try {
+			list = SCURefundDAO.getInstace().searchSnackHistory();
+			
+			Object[] objArr = null;
+			
+			for(int i =0; i<list.size(); i++) {
+				objArr = new Object[6];
+				objArr[0] = (i + 1);//번호
+				objArr[1] = list.get(i).getSnack_order_num();//구매번호
+				objArr[2] = list.get(i).getQuan();//수량
+				objArr[3] = list.get(i).getSnack_sale_date();//결제일
+				objArr[4] = list.get(i).getQuan()*list.get(i).getSnack_price();//
+				objArr[5] = list.get(i).getCheck_exchange();
+				srv.getDtmSnackList().addRow(objArr);			
+				}
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		}//end catch
 
-	}
+	}//searchSnackHistory
 
 	/**
 	 * 영화 예매 취소
 	 */
-	public void deleteBooking() {
-
+	public void deleteBooking(String code)  {
+		try {
+			if(srDAO.)
+		}catch(SQLException e ) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -81,7 +119,7 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 		 */
 		// 환불 버튼
 		if (ae.getSource() == srv.getJbtnRefund()) {
-
+			
 		}
 
 		// 닫기 버튼

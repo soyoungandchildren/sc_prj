@@ -43,14 +43,14 @@ public class SCURefundView extends JDialog {
 			}
 		};// jtBookingList
 
-		jtBookingList.getColumnModel().getColumn(0).setPreferredWidth(60);
-		jtBookingList.getColumnModel().getColumn(1).setPreferredWidth(100);
-		jtBookingList.getColumnModel().getColumn(2).setPreferredWidth(40);
-		jtBookingList.getColumnModel().getColumn(3).setPreferredWidth(80);
-		jtBookingList.getColumnModel().getColumn(4).setPreferredWidth(100);
-		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(40);
+		jtBookingList.getColumnModel().getColumn(0).setPreferredWidth(60);//번호
+		jtBookingList.getColumnModel().getColumn(1).setPreferredWidth(100);//예매번호
+		jtBookingList.getColumnModel().getColumn(2).setPreferredWidth(20);//예매수
+		jtBookingList.getColumnModel().getColumn(3).setPreferredWidth(80);//결제일시
+		jtBookingList.getColumnModel().getColumn(4).setPreferredWidth(50);//총가격
+		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(50);//환불가능여부
 
-		jtBookingList.setRowHeight(110);
+		jtBookingList.setRowHeight(50);
 
 		// 스낵 환불
 		String[] snackColumns = { "번호", "스낵주문번호", "수량", "결제일시", "총 가격", "환불가능여부" };
@@ -76,7 +76,7 @@ public class SCURefundView extends JDialog {
 		jtSnackList.getColumnModel().getColumn(4).setPreferredWidth(100);
 		jtSnackList.getColumnModel().getColumn(5).setPreferredWidth(40);
 
-		jtSnackList.setRowHeight(23);
+		jtSnackList.setRowHeight(50);
 
 		/////////////////////////////////////////
 		JScrollPane jspBooking = new JScrollPane(jtBookingList);

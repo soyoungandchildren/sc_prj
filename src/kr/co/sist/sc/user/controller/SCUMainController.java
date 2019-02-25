@@ -16,6 +16,7 @@ import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUMovieListView;
 import kr.co.sist.sc.user.view.SCUMyPageView;
+import kr.co.sist.sc.user.view.SCURefundView;
 import kr.co.sist.sc.user.view.SCUSnackMenuView;
 import kr.co.sist.sc.user.vo.SCULoginVO;
 import kr.co.sist.sc.user.vo.SCUMainVO;
@@ -161,6 +162,10 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			}
 		}//end if
 		
+		
+		if(ae.getSource().equals(smv.getJbtnRefund())) {//È¯ºÒ
+			new SCURefundView(smv);
+		}
 	}//actionPerformed
 	
 	@Override
