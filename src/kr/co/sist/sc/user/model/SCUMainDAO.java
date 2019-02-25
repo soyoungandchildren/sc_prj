@@ -7,15 +7,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.co.sist.sc.user.vo.SCULoginVO;
 import kr.co.sist.sc.user.vo.SCUMainVO;
 
 public class SCUMainDAO {
 	
 	private static SCUMainDAO smDAO;
-	private Connection con;
-	private PreparedStatement pstmt;
-	private ResultSet rs;
 	
 	private SCUMainDAO() {
 	}//Constructor
@@ -31,9 +27,9 @@ public class SCUMainDAO {
 	public List<SCUMainVO> searchSetImgBoard() throws SQLException{
 		List<SCUMainVO> list = new ArrayList<>();
 		
-		con = null;
-		pstmt = null;
-		rs = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		
 		try {
 			con = SCUConnect.getInstance().getConnection();
@@ -60,59 +56,12 @@ public class SCUMainDAO {
 			}//end while
 			
 		}finally {
-			disconnect();
+			if(rs!=null) {rs.close();}
+			if(pstmt!=null) {pstmt.close();}
+			if(con!=null){con.close();}
 		}//end finally
 		
 		return list;
-
-	}//setMain Method
-	
-	public boolean checkPassword(SCULoginVO slVO) throws SQLException{
-		boolean flag = false;
-		
-		con = null;
-		pstmt =null;
-		rs = null;
-		
-		try {
-			String idConnecting = slVO.getMember_id();
-			String inputPassword = slVO.getPassword();
-			con = SCUConnect.getInstance().getConnection();
-			StringBuilder sqlSelectPassword = new StringBuilder();
-			sqlSelectPassword
-			.append("select password ")
-			.append("from member ")
-			.append("where member_id = ? ");
-			
-			pstmt = con.prepareStatement(sqlSelectPassword.toString());
-			pstmt.setString(1, idConnecting);
-			System.out.println("���� ����ϳ�");
-			rs = pstmt.executeQuery();
-			
-			if(rs.next()) {
-				System.out.println(inputPassword);
-				System.out.println(rs.getString("password"));
-				
-				if(rs.getString("password").equals(inputPassword)) {
-					flag = true;
-				}//end if
-				
-			}//end if
-			
-		}finally {
-			disconnect();
-		}
-		
-		return flag;
-	}//checkPassword
-	
-	private void disconnect() throws SQLException{
-		if(rs!=null) {rs.close();}
-		if(pstmt!=null) {pstmt.close();}
-		if(con!=null) {con.close();}
-	}
-	
-
 	}//setImgBoard Method
 	
 	public String SearchRankMovie() throws SQLException {
@@ -134,6 +83,5 @@ public class SCUMainDAO {
 		
 		return rowCnt;
 	}//SearchRankMovie
-
 
 }//Class
