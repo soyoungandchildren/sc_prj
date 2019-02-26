@@ -12,6 +12,7 @@ import kr.co.sist.sc.user.model.SCUMyPageDAO;
 import kr.co.sist.sc.user.view.SCUModifyMemberInfoView;
 import kr.co.sist.sc.user.view.SCUModifyPWView;
 import kr.co.sist.sc.user.view.SCUMyPageView;
+import kr.co.sist.sc.user.vo.SCURemoveAccountVO;
 import kr.co.sist.sc.user.vo.SCUSearchMyPageVO;
 
 public class SCUMyPageController extends WindowAdapter implements ActionListener{
@@ -55,7 +56,24 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 		int confirm = JOptionPane.showConfirmDialog(smpv, msg, "리얼루?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 		switch (confirm) {
 		case JOptionPane.OK_OPTION:
-			
+			SCURemoveAccountVO sraVO = new SCURemoveAccountVO(smpv.getSmv().getIdConnecting(), "", "", "", "", "", 0, 0);
+			try {
+				int sqlResult = SCUMyPageDAO.getInstance().deleteAccount(sraVO);
+				
+				if(sqlResult == 1) {
+					JOptionPane.showMessageDialog(smpv, "이용해주셔서 감사합니다.");
+					smpv.dispose();
+					smpv.getSmv().getJbtnLogin().setText("로그인/회원가입");
+					smpv.getSmv().setIsLogin(false);
+					smpv.getSmv().setIdConnecting("");
+				}else {
+					
+				}
+				
+				
+			}catch(SQLException sqle) {
+				sqle.printStackTrace();
+			}
 			break;
 
 		case JOptionPane.CANCEL_OPTION:
