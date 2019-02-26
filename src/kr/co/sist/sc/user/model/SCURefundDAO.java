@@ -121,25 +121,41 @@ public class SCURefundDAO {
 		boolean flag = false;
 
 		con = null;
-		pstmt = null;//삭제
+		pstmt = null;// 삭제
 		pstmt2 = null;
 		rs = null;
-
+		String deleteSeat = "";
 		try {
 			con = SCUConnect.getInstance().getConnection();
-			con.setAutoCommit(false);
+			// con.setAutoCommit(false);
 
-			// 삭제하려는 회원의 좌석 삭제
-			String deleteSeat = "delete from PREMIUM_SEAT where book_number=?";
-			
+			// 예매의 좌석 삭제
+			if (code.substring(0, 1).equals("N")) {
+				deleteSeat = "delete from standard_seat where book_number=?";
+			} else if (code.substring(0, 1).equals("P")) {
+				deleteSeat = "delete from premium_seat where book_number=?";
+			}
+			pstmt = con.prepareStatement(deleteSeat);
 			pstmt.setString(1, code);
 			int cnt = pstmt.executeUpdate();
 			if (cnt == 1) {
 				flag = true;
 			}
 			
+			// 예매 삭제 (시간이랑 비교해서 영화 상영 전에만 취소될 수 있게 해야함.)
+			deleteSeat = "delete from book where book_number=?";
 			
-
+			pstmt2 = con.prepareStatement(deleteSeat);
+			pstmt2.setString(1, code);
+			int cnt2 = pstmt2.executeUpdate();
+			if(cnt2==1) {
+				flag = true;
+			}
+			
+			//포인트 환불
+			
+			
+			
 		} finally {
 			if (pstmt != null) {
 				pstmt.close();
@@ -147,7 +163,10 @@ public class SCURefundDAO {
 			if (con != null) {
 				con.close();
 			}
-		}//end finally
+			if (rs != null) {
+				rs.close();
+			}
+		} // end finally
 
 		return flag;
 	}//

@@ -40,10 +40,8 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 			list = srDAO.searchBookingHistory(srv.getSmv().getIdConnecting());
 
 			Object[] objArr = null;
-//			SCUGetBookingHistoryVO sgbhvo = null;
 
 			for (int i = 0; i < list.size(); i++) {
-//				sgbhvo = list.get(i);
 				objArr = new Object[6];
 				objArr[0] = (i + 1);
 				objArr[1] = list.get(i).getBook_number();
@@ -91,6 +89,16 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	 */
 	public void deleteBooking() {
 		int selectRow = srv.getJtBookingList().getSelectedRow();
+		String code = srv.getJtBookingList().getValueAt(selectRow, 1).toString();
+		try {
+			boolean flag = srDAO.deleteBooking(code);
+			if(flag) {
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		srv.getDtmBookingList().removeRow(selectRow);
 	}//deleteBooking
 
@@ -108,11 +116,6 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		/*
-		 * //ÅÇ if(ae.getSource() == srv.getJtpRefund()) {
-		 * 
-		 * }
-		 */
 		// È¯ºÒ ¹öÆ°
 		int selectIdx = srv.getJtBookingList().getSelectedRow();
 		if (ae.getSource() == srv.getJbtnRefund()) {
