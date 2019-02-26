@@ -5,6 +5,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import kr.co.sist.sc.user.controller.SCUModifyMemberInfoController;
+
 @SuppressWarnings("serial")
 public class SCUModifyMemberInfoView extends JDialog{
 	
@@ -41,6 +43,10 @@ public class SCUModifyMemberInfoView extends JDialog{
 		add(jbtnConfirm);
 		add(jbtnExit);
 		
+		
+		SCUModifyMemberInfoController smmic = new SCUModifyMemberInfoController(this);
+		jbtnConfirm.addActionListener(smmic);
+		jbtnExit.addActionListener(smmic);
 		
 		
 		

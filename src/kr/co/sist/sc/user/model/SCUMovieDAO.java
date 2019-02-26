@@ -478,7 +478,8 @@ public class SCUMovieDAO {
 			sqlSelectRatingData
 			.append("select movie_rate, review, member_id ")
 			.append("from rating ")
-			.append("where substr(book_number, 2, 8) = ? ");
+			.append("where substr(book_number, 2, 8) = ? ")
+			.append("order by input_date desc, movie_rate desc ");
 			
 			pstmt1 = con.prepareStatement(sqlSelectRatingData.toString());
 			pstmt1.setString(1, selectedMovieCode);

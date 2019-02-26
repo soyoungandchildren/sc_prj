@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import kr.co.sist.sc.user.vo.SCUSearchMyPageVO;
+import kr.co.sist.sc.user.vo.SCUUpdateMemberInfoVO;
 
 public class SCUMyPageDAO {
 	
@@ -58,6 +59,37 @@ public class SCUMyPageDAO {
 		}
 		
 		return ssmpVO;
+	}
+	
+	public int updateMemberInfo(SCUUpdateMemberInfoVO sumiVO) throws SQLException{
+		int sqlResult = 0;
+		
+		con = null;
+		pstmt = null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			StringBuilder sqlUpdateMemberInfo = new StringBuilder();
+			
+			sqlUpdateMemberInfo
+			.append("update member ")
+			.append("set name =?, phone=? ")
+			.append("where member_id = ? ");
+			
+			pstmt = con.prepareStatement(sqlUpdateMemberInfo.toString());
+			pstmt.setString(1, sumiVO.getName());
+			pstmt.setString(2, sumiVO.getPhone());
+			pstmt.setString(3, sumiVO.getMember_ID());
+			
+			sqlResult = pstmt.executeUpdate();
+		}finally {
+			disconnect();
+		}
+		return sqlResult;
+	}
+	
+	public void deleteAccount(String idConnecting) {
+		
 	}
 	
 	private void disconnect() throws SQLException{
