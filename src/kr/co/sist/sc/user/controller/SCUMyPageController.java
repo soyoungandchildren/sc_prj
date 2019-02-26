@@ -56,7 +56,7 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 		int confirm = JOptionPane.showConfirmDialog(smpv, msg, "¸®¾ó·ç?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
 		switch (confirm) {
 		case JOptionPane.OK_OPTION:
-			SCURemoveAccountVO sraVO = new SCURemoveAccountVO(smpv.getSmv().getIdConnecting(), "", "", "", "", "", 0, 0);
+			SCURemoveAccountVO sraVO = new SCURemoveAccountVO(smpv.getSmv().getIdConnecting(), " ", " ", " ", " ", " ", 0, 0);
 			try {
 				int sqlResult = SCUMyPageDAO.getInstance().deleteAccount(sraVO);
 				
