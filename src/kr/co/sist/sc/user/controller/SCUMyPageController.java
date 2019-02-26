@@ -6,7 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
-import javax.swing.JTextField;
+import javax.swing.JOptionPane;
 
 import kr.co.sist.sc.user.model.SCUMyPageDAO;
 import kr.co.sist.sc.user.view.SCUModifyMemberInfoView;
@@ -37,9 +37,6 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 			smpv.getJtfName().setText(ssmpVO.getName());
 			smpv.getJtfPhone().setText(ssmpVO.getPhone());
 			
-			
-			
-			
 		}catch(SQLException sqle) {
 			sqle.printStackTrace();
 		}
@@ -47,9 +44,23 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 	}//setMyPage
 	
 	
-	public void modifyMemberPW() {
+	private void modifyMemberPW() {
 		
 		new SCUModifyPWView(smpv);
+		
+	}
+	
+	private void resignAccount() {
+		String msg = "정말 회원탈퇴하시겠습니까?\n탈퇴하시면 같은 아이디로 재가입이 불가능합니다.";
+		int confirm = JOptionPane.showConfirmDialog(smpv, msg, "리얼루?", JOptionPane.OK_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE);
+		switch (confirm) {
+		case JOptionPane.OK_OPTION:
+			
+			break;
+
+		case JOptionPane.CANCEL_OPTION:
+			return;
+		}
 		
 	}
 	
@@ -61,6 +72,9 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 		}
 		if(ae.getSource().equals(smpv.getJbtnUpdatePW())) {
 			modifyMemberPW();
+		}
+		if(ae.getSource().equals(smpv.getJbtnResign())) {
+			resignAccount();
 		}
 		if(ae.getSource().equals(smpv.getJbtnUpdateInfo())) {
 			new SCUModifyMemberInfoView(smpv);
