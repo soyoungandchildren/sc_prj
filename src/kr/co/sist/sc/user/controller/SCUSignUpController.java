@@ -180,6 +180,7 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		if (ae.getSource().equals(ssuv.getJbtnSignUp())) {
 			if(booleanCheckDub) {
 				addSignUp();
+				ssuv.dispose();
 			}else {
 				JOptionPane.showMessageDialog(ssuv, "아이디 중복확인을 해주세요.");
 			}
