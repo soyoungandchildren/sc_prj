@@ -25,20 +25,19 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	public SCURefundController(SCURefundView srv) {
 		super();
 		this.srv = srv;
-
 		srDAO = SCURefundDAO.getInstace();
-		searchBookingHistory();
-		searchSnackHistory();
+		searchBookingHistory(srv.getSmv().getIdConnecting());
+		searchSnackHistory(srv.getSmv().getIdConnecting());
 	}// SCURefundController
 
 	/**
 	 * 예매 내역 확인
 	 */
-	public void searchBookingHistory() {
-		List<SCUGetBookingHistoryVO> list = new ArrayList<>();
+	public void searchBookingHistory(String id) {
 
 		try {
-			list = SCURefundDAO.getInstace().searchBookingHistory();
+			List<SCUGetBookingHistoryVO> list = new ArrayList<>();
+			list = srDAO.searchBookingHistory(srv.getSmv().getIdConnecting());
 
 			Object[] objArr = null;
 //			SCUGetBookingHistoryVO sgbhvo = null;
@@ -64,10 +63,10 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	/**
 	 * 스낵 구매내역 확인
 	 */
-	public void searchSnackHistory() {
-		List<SCUGetSnackHistoryVO> list = new ArrayList<>();
+	public void searchSnackHistory(String id) {
 		try {
-			list = SCURefundDAO.getInstace().searchSnackHistory();
+			List<SCUGetSnackHistoryVO> list = new ArrayList<>();
+			list = srDAO.searchSnackHistory(srv.getSmv().getIdConnecting());
 			
 			Object[] objArr = null;
 			
@@ -90,13 +89,10 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	/**
 	 * 영화 예매 취소
 	 */
-	public void deleteBooking(String code)  {
-		try {
-			if(srDAO.)
-		}catch(SQLException e ) {
-			e.printStackTrace();
-		}
-	}
+	public void deleteBooking() {
+		int selectRow = srv.getJtBookingList().getSelectedRow();
+		srv.getDtmBookingList().removeRow(selectRow);
+	}//deleteBooking
 
 	/**
 	 * 스낵 구매 취소
@@ -107,7 +103,7 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 
 	@Override
 	public void windowClosing(WindowEvent e) {
-		srv.dispose();
+		srv.dispose(); 
 	}
 
 	@Override
@@ -118,8 +114,9 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 		 * }
 		 */
 		// 환불 버튼
+		int selectIdx = srv.getJtBookingList().getSelectedRow();
 		if (ae.getSource() == srv.getJbtnRefund()) {
-			
+			deleteBooking();
 		}
 
 		// 닫기 버튼

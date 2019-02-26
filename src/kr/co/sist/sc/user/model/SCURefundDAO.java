@@ -11,121 +11,144 @@ import kr.co.sist.sc.user.vo.SCUGetBookingHistoryVO;
 import kr.co.sist.sc.user.vo.SCUGetSnackHistoryVO;
 
 public class SCURefundDAO {
-	//scuDAO -> srDAO
+	// scuDAO -> srDAO
 	static SCURefundDAO srDAO;
 	private Connection con;
 	private PreparedStatement pstmt;
+	private PreparedStatement pstmt2;
+	private PreparedStatement pstmt3;
+	private PreparedStatement pstmt4;
 	private ResultSet rs;
-	
+
 	public SCURefundDAO() {
 	}
-	
+
 	public static SCURefundDAO getInstace() {
 		if (srDAO == null) {
 			srDAO = new SCURefundDAO();
 		} // end if
-		
+
 		return srDAO;
 	}
-	
-	public List<SCUGetBookingHistoryVO> searchBookingHistory() throws SQLException{
+
+	public List<SCUGetBookingHistoryVO> searchBookingHistory(String id) throws SQLException {
 		List<SCUGetBookingHistoryVO> list = new ArrayList<>();
 
 		con = null;
 		pstmt = null;
 		rs = null;
-		
+
 		try {
-			con=SCUConnect.getInstance().getConnection();
+			con = SCUConnect.getInstance().getConnection();
 
 			SCUGetBookingHistoryVO sgbhVO = null;
-			
+
 			StringBuilder sb = new StringBuilder();
-					sb.append("select b.book_number, b.payment_date,  b.personnel, t.screen_price, to_char(b.movie_start,'yyyy-mm-dd hh24:mm') movie_start ")
+			sb.append(
+					"select b.book_number, b.payment_date,  b.personnel, t.screen_price, to_char(b.movie_start,'yyyy-mm-dd hh24:mm') movie_start ")
 					.append("from  book b, theater t, on_screen os ")
-					.append("where b.screen_num = os.screen_num and os.screen_name = t.screen_name");
-			
+					.append("where b.screen_num = os.screen_num and os.screen_name = t.screen_name and b.member_id =?");
+
 			pstmt = con.prepareStatement(sb.toString());
-			rs=pstmt.executeQuery();
-			
-			
-			while(rs.next()) {
-				sgbhVO = new SCUGetBookingHistoryVO(rs.getString("book_number"), rs.getString("payment_date"), rs.getInt("personnel"), rs.getInt("screen_price"),rs.getString("movie_start"));
+
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				sgbhVO = new SCUGetBookingHistoryVO(rs.getString("book_number"), rs.getString("payment_date"),
+						rs.getInt("personnel"), rs.getInt("screen_price"), rs.getString("movie_start"));
 				list.add(sgbhVO);
 			}
-		}finally{
-			if(rs != null) {
+		} finally {
+			if (rs != null) {
 				rs.close();
 			}
-			if(pstmt != null) {
+			if (pstmt != null) {
 				pstmt.close();
 			}
-			if(con != null) {
+			if (con != null) {
 				con.close();
 			}
 		}
 		return list;
-	}//searchBookingHistory
-	
-	public List<SCUGetSnackHistoryVO> searchSnackHistory() throws SQLException{
+	}// searchBookingHistory
+
+	public List<SCUGetSnackHistoryVO> searchSnackHistory(String id) throws SQLException {
 		List<SCUGetSnackHistoryVO> list = new ArrayList<>();
-		
+
 		con = null;
 		pstmt = null;
 		rs = null;
-		
+
 		try {
-			con=SCUConnect.getInstance().getConnection();
+			con = SCUConnect.getInstance().getConnection();
 
 			SCUGetSnackHistoryVO sgshvo = null;
-			
+
 			StringBuilder sb = new StringBuilder();
 			sb.append("select ss.snack_order_num, ss.quan, ss.snack_sale_date, ss.check_exchange, s.snack_price ")
-				.append("from snack_sale ss, snack s ")
-				.append("where ss.snack_name = s.snack_name ");
+					.append("from snack_sale ss, snack s ")
+					.append("where ss.snack_name = s.snack_name and ss.member_id =? ");
 
-			
-			
 			pstmt = con.prepareStatement(sb.toString());
-			rs=pstmt.executeQuery();
-			
-			
-			while(rs.next()) {
-				sgshvo = new SCUGetSnackHistoryVO(rs.getString("snack_order_num"), rs.getInt("quan"), rs.getString("snack_sale_date"), rs.getString("check_exchange"),  rs.getInt("snack_price"));
+
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				sgshvo = new SCUGetSnackHistoryVO(rs.getString("snack_order_num"), rs.getInt("quan"),
+						rs.getString("snack_sale_date"), rs.getString("check_exchange"), rs.getInt("snack_price"));
 				list.add(sgshvo);
 			}
-		}finally{
-			if(rs != null) {
+		} finally {
+			if (rs != null) {
 				rs.close();
 			}
-			if(pstmt != null) {
+			if (pstmt != null) {
 				pstmt.close();
 			}
-			if(con != null) {
+			if (con != null) {
 				con.close();
 			}
 		}
 		return list;
-		
-	}//searchSnackHistory
-	
-	public boolean deleteBooking(String code) throws SQLException{
+
+	}// searchSnackHistory
+
+	public boolean deleteBooking(String code) throws SQLException {
 		boolean flag = false;
+
 		con = null;
-		pstmt = null;
-		
+		pstmt = null;//삭제
+		pstmt2 = null;
+		rs = null;
+
 		try {
-			con=SCUConnect.getInstance().getConnection();
+			con = SCUConnect.getInstance().getConnection();
+			con.setAutoCommit(false);
+
+			// 삭제하려는 회원의 좌석 삭제
+			String deleteSeat = "delete from PREMIUM_SEAT where book_number=?";
 			
-			String 
+			pstmt.setString(1, code);
+			int cnt = pstmt.executeUpdate();
+			if (cnt == 1) {
+				flag = true;
+			}
 			
-		}finally {
-			if(pstmt != null) {pstmt.close();}
-			if(con != null) {con.close();}
-		}
-		
-		
-		
+			
+
+		} finally {
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (con != null) {
+				con.close();
+			}
+		}//end finally
+
 		return flag;
 	}//
-}//class
+}// class
