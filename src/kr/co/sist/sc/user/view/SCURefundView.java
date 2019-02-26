@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
@@ -15,13 +16,15 @@ import kr.co.sist.sc.user.controller.SCURefundController;
 
 @SuppressWarnings("serial")
 public class SCURefundView extends JDialog {
-
+	private SCUMainView smv;
 	private JTabbedPane jtpRefund;
 	private JButton jbtnRefund, jbtnExit;
 	private DefaultTableModel dtmBookingList, dtmSnackList;
 	private JTable jtBookingList, jtSnackList;
 
 	public SCURefundView(SCUMainView smv) {
+		
+		this.smv = smv;
 
 		jtpRefund = new JTabbedPane(); // ег
 
@@ -127,6 +130,10 @@ public class SCURefundView extends JDialog {
 		setResizable(false);
 		setVisible(true);
 	}// SCURefundView
+	
+	public SCUMainView getSmv() {
+		return smv;
+	}
 
 	public JTabbedPane getJtpRefund() {
 		return jtpRefund;

@@ -166,7 +166,11 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 		
 		
 		if(ae.getSource().equals(smv.getJbtnRefund())) {//환불
-			new SCURefundView(smv);
+			if(smv.getIsLogin()) {
+				new SCURefundView(smv);
+			}else {
+				JOptionPane.showMessageDialog(smv, "로그인을 해주세요.");
+			}
 		}
 	}//actionPerformed
 	
