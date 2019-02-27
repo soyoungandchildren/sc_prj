@@ -17,13 +17,14 @@ import kr.co.sist.sc.user.controller.SCURefundController;
 @SuppressWarnings("serial")
 public class SCURefundView extends JDialog {
 	private SCUMainView smv;
+	private SCUMyPageView smpv;
 	private JTabbedPane jtpRefund;
 	private JButton jbtnRefund, jbtnExit;
 	private DefaultTableModel dtmBookingList, dtmSnackList;
 	private JTable jtBookingList, jtSnackList;
 
 	public SCURefundView(SCUMainView smv) {
-		
+
 		this.smv = smv;
 
 		jtpRefund = new JTabbedPane(); // 탭
@@ -46,12 +47,12 @@ public class SCURefundView extends JDialog {
 			}
 		};// jtBookingList
 
-		jtBookingList.getColumnModel().getColumn(0).setPreferredWidth(60);//번호
-		jtBookingList.getColumnModel().getColumn(1).setPreferredWidth(100);//예매번호
-		jtBookingList.getColumnModel().getColumn(2).setPreferredWidth(20);//예매수
-		jtBookingList.getColumnModel().getColumn(3).setPreferredWidth(80);//결제일시
-		jtBookingList.getColumnModel().getColumn(4).setPreferredWidth(50);//총가격
-		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(50);//환불가능여부
+		jtBookingList.getColumnModel().getColumn(0).setPreferredWidth(60);// 번호
+		jtBookingList.getColumnModel().getColumn(1).setPreferredWidth(100);// 예매번호
+		jtBookingList.getColumnModel().getColumn(2).setPreferredWidth(20);// 예매수
+		jtBookingList.getColumnModel().getColumn(3).setPreferredWidth(80);// 결제일시
+		jtBookingList.getColumnModel().getColumn(4).setPreferredWidth(50);// 총가격
+		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(50);// 환불가능여부
 
 		jtBookingList.setRowHeight(50);
 
@@ -122,7 +123,7 @@ public class SCURefundView extends JDialog {
 		jtpRefund.addMouseListener(srfc);
 		jtBookingList.addMouseListener(srfc);
 		jtSnackList.addMouseListener(srfc);
-		
+
 		jbtnRefund.addActionListener(srfc);
 		jbtnExit.addActionListener(srfc);
 
@@ -130,7 +131,11 @@ public class SCURefundView extends JDialog {
 		setResizable(false);
 		setVisible(true);
 	}// SCURefundView
-	
+
+	public SCUMyPageView getSmpv() {
+		return smpv;
+	}
+
 	public SCUMainView getSmv() {
 		return smv;
 	}

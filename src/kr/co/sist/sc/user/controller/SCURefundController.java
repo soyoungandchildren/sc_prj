@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.plaf.SliderUI;
+import javax.swing.JOptionPane;
 
 import kr.co.sist.sc.user.model.SCURefundDAO;
 import kr.co.sist.sc.user.view.SCURefundView;
@@ -85,21 +85,30 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 	}//searchSnackHistory
 
 	/**
-	 * 영화 예매 취소
+	 * 영화 예매 환불
 	 */
 	public void deleteBooking() {
+		//선택한 열의 번호 구함
 		int selectRow = srv.getJtBookingList().getSelectedRow();
+		
+		//선택한 (열, 행)의 값을 구함
 		String code = srv.getJtBookingList().getValueAt(selectRow, 1).toString();
+		String id = new String(srv.getSmv().getIdConnecting()); // 아이디 불러옴
+		String refundPrice = new String (srv.getJtBookingList().getValueAt(selectRow, 4).toString());//영화예매 비용
+//		String holdPoint = new String (srv.getSmpv().getJtfHoldPoint().getText());
+//		System.out.println(holdPoint);
 		try {
-			boolean flag = srDAO.deleteBooking(code);
-			if(flag) {
-				
+			switch (JOptionPane.showConfirmDialog(srv, "예매를 취소하시겠습니까?", "취소 확인", JOptionPane.OK_CANCEL_OPTION)) {
+			case JOptionPane.OK_OPTION:
+				boolean flag = srDAO.deleteBooking(code, id, refundPrice); //선택된 코드의 예매 취소
+				srv.getDtmBookingList().removeRow(selectRow);//리스트 열 삭제
+				break;
 			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
-		srv.getDtmBookingList().removeRow(selectRow);
 	}//deleteBooking
 
 	/**

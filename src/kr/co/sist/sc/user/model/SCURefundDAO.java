@@ -7,12 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import kr.co.sist.sc.user.view.SCURefundView;
 import kr.co.sist.sc.user.vo.SCUGetBookingHistoryVO;
 import kr.co.sist.sc.user.vo.SCUGetSnackHistoryVO;
 
 public class SCURefundDAO {
 	// scuDAO -> srDAO
 	static SCURefundDAO srDAO;
+	private SCURefundView srv;
 	private Connection con;
 	private PreparedStatement pstmt;
 	private PreparedStatement pstmt2;
@@ -94,7 +96,6 @@ public class SCURefundDAO {
 			pstmt = con.prepareStatement(sb.toString());
 
 			pstmt.setString(1, id);
-
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -117,19 +118,26 @@ public class SCURefundDAO {
 
 	}// searchSnackHistory
 
-	public boolean deleteBooking(String code) throws SQLException {
+	public boolean deleteBooking(String code,  String id, String refundPrice) throws SQLException {
 		boolean flag = false;
 
 		con = null;
 		pstmt = null;// 삭제
 		pstmt2 = null;
+		pstmt3 = null;
+		pstmt4 = null;
 		rs = null;
+		
 		String deleteSeat = "";
+		int holdPoint = 0;
+		int refundPoint = Integer.parseInt(refundPrice);
+		
 		try {
 			con = SCUConnect.getInstance().getConnection();
 			// con.setAutoCommit(false);
 
 			// 예매의 좌석 삭제
+
 			if (code.substring(0, 1).equals("N")) {
 				deleteSeat = "delete from standard_seat where book_number=?";
 			} else if (code.substring(0, 1).equals("P")) {
@@ -152,21 +160,34 @@ public class SCURefundDAO {
 				flag = true;
 			}
 			
-			//포인트 환불
+			//보유한 포인트 조회
+			String selectPoint = "select hold_point from member where member_id=?";
+			
+			System.out.println(id);
+			pstmt3 = con.prepareStatement(selectPoint);
+			pstmt3.setString(1, id);
 			
 			
+			rs = pstmt3.executeQuery();
 			
-		} finally {
-			if (pstmt != null) {
-				pstmt.close();
+			if(rs.next()) {
+				holdPoint = rs.getInt(1);
 			}
-			if (con != null) {
-				con.close();
-			}
-			if (rs != null) {
-				rs.close();
-			}
-		} // end finally
+			System.out.println(holdPoint);
+			
+			//포인트 환불 (update) (보유 포인트 + 환불 포인트)
+			int chgPoint = holdPoint + refundPoint;
+			String updatePoint = "update member set hold_point=? where member_id=?";
+			
+			pstmt4 = con.prepareStatement(updatePoint);
+			pstmt4.setInt(1, chgPoint);
+			pstmt4.setString(2, id);
+			
+			boolean chg = pstmt4.execute();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 
 		return flag;
 	}//
