@@ -2,8 +2,10 @@ package kr.co.sist.sc.user.view;
 
 import java.awt.Component;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
@@ -28,10 +30,10 @@ public class SCUMovieListView extends JDialog {
 		
 		
 		//컴포넌트 생성
-		jbtnDetail = new JButton("상세 정보");
-		jbtnRating = new JButton("평점 보기");
-		jbtnBooking = new JButton("예매하기");
-		jbtnExit = new JButton("나가기");
+		jbtnDetail = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_detail_info(125x40).png"));
+		jbtnRating = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_read_review(125x40).png"));
+		jbtnBooking = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_book(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_close(125x40).png"));
 		
 		String[] columnNames = {"순위","포스터","영화 제목", "등급", "누적 관람", "평점", "장르", "러닝타임", "개봉일", "출연진", "영화코드"};
 		dtmMovieTable = new DefaultTableModel(columnNames,0) {
@@ -58,14 +60,24 @@ public class SCUMovieListView extends JDialog {
 		jtMovieTable.getColumnModel().getColumn(9).setCellRenderer(this.new TextTableRenderer());
 		jtMovieTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		jbtnDetail.setBorderPainted(false);
+		jbtnDetail.setContentAreaFilled(false);
+		jbtnBooking.setBorderPainted(false);
+		jbtnBooking.setContentAreaFilled(false);
+		jbtnExit.setBorderPainted(false);
+		jbtnExit.setContentAreaFilled(false);
+		jbtnRating.setBorderPainted(false);
+		jbtnRating.setContentAreaFilled(false);
+		
+		
 		//컴포넌트 배치
 		setLayout(null);
 		
 		jspMovieTable.setBounds(20, 20, 840, 440);
-		jbtnDetail.setBounds(105, 470, 150, 50);
-		jbtnBooking.setBounds(285, 470, 150, 50);
-		jbtnRating.setBounds(465 ,470, 150, 50);
-		jbtnExit.setBounds(645, 470, 150, 50);
+		jbtnDetail.setBounds(105, 470, 125, 40);
+		jbtnBooking.setBounds(285, 470, 125, 40);
+		jbtnRating.setBounds(465 ,470, 125, 40);
+		jbtnExit.setBounds(645, 470, 125, 40);
 		
 		add(jspMovieTable);
 		add(jbtnDetail);
@@ -82,8 +94,13 @@ public class SCUMovieListView extends JDialog {
 		jbtnExit.addActionListener(smlc);
 		
 		//창 설정
+		ImageIcon ii = new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_book_bg1(1000x800).png");
+		JLabel jlbl = new JLabel(ii);
+		jlbl.setBounds(0, 0, 1000, 800);
+		add(jlbl);
+		
 		setResizable(false);
-		setBounds(smv.getX()+80, smv.getY()+50, 900, 600);
+		setBounds(smv.getX()+80, smv.getY()+50, 1000, 800);
 		setVisible(true);
 		
 	}//Constructor

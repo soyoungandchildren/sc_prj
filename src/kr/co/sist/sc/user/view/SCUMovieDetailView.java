@@ -1,5 +1,6 @@
 package kr.co.sist.sc.user.view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -28,7 +29,7 @@ public class SCUMovieDetailView extends JDialog{
 		this.movieCode = movieCode;
 		
 		//ÄÄÆ÷³ÍÆ® »ý¼º
-		jbtnClose = new JButton("´Ý±â");
+		jbtnClose = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_close(125x40).png"));
 		
 		jtfMovieCode = new JTextField(); 
 		jtfMovieTitle = new JTextField();
@@ -72,6 +73,9 @@ public class SCUMovieDetailView extends JDialog{
 		
 		jtaSynopsis.setEditable(false);
 		
+		jbtnClose.setBorderPainted(false);
+		jbtnClose.setContentAreaFilled(false);
+		
 		
 		//ÄÄÆ÷³ÍÆ® ¹èÄ¡
 		setLayout(null);
@@ -101,7 +105,7 @@ public class SCUMovieDetailView extends JDialog{
 		
 		jlblMovieImg.setBounds(20, 60, 185, 260);
 		
-		jbtnClose.setBounds(300, 610, 100, 45);
+		jbtnClose.setBounds(300, 610, 125, 40);
 		
 		
 		add(jtfMovieCode);
@@ -145,8 +149,14 @@ public class SCUMovieDetailView extends JDialog{
 //		jtfPlayDate
 //		jtfActor
 		
+		
+		JLabel background = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_book_bg2(830x820).png"));
+		background.setBounds(0, 0, 830, 820);
+		add(background);
+		
+		
 		setResizable(false);
-		setBounds(smlv.getX()+150, smlv.getY()+30, 700, 700);
+		setBounds(smlv.getX()+150, smlv.getY()+30, 830, 820);
 		setVisible(true);
 	}//Constructor
 
