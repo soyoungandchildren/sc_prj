@@ -90,8 +90,8 @@ public class SCUSeatController implements ActionListener, ItemListener{
 			listSisVO.add(sisVO);
 		}//end for
 		
-		
 		boolean result = SCUMovieDAO.getInstance().insertBooking(sibVO, listSisVO, sbv.getSelectedScreenName());
+		System.out.println("여기까지옴");
 		if(result) {
 			JOptionPane.showMessageDialog(ssv, "감사합니다 고갱뉨");
 		}else {

@@ -276,7 +276,7 @@ public class SCUMovieDAO {
 			StringBuilder sqlUpdateHoldPoint = new StringBuilder();
 			sqlUpdateHoldPoint
 			.append("update member ")
-			.append("set hold_point = (select hold_point from member where member_id = ?)-(select screen_price from theater where screen_name = ?)*?" )
+			.append("set hold_point = (select hold_point from member where member_id = ?)-(select screen_price from theater where screen_name = ?)*? ")
 			.append("where member_id = ? ");
 			
 			pstmt1 = con.prepareStatement(sqlUpdateHoldPoint.toString());
@@ -285,12 +285,7 @@ public class SCUMovieDAO {
 			pstmt1.setInt(3, sibVO.getPersonnel());
 			pstmt1.setString(4, sibVO.getMember_id());
 			
-			System.out.println(sibVO.getMember_id());
-			System.out.println(screen_name);
-			System.out.println(sibVO.getPersonnel());
-			System.out.println(sibVO.getMember_id());
 			int cntUpdatePoint = pstmt1.executeUpdate();
-			
 			
 			transactionResult = insertBookingTransaction(cntBooking, cntSeat, listSisVO.size(), cntUpdatePoint);
 			
