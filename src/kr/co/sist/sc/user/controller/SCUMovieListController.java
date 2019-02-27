@@ -49,7 +49,7 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 			
 			Object[] objArr = null;
 			SCUMovieListVO smlVO = null;
-			String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/s";
+			String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/movie/s";
 			for(int i = 0; i<list.size(); i++) {
 				smlVO = list.get(i);
 				objArr= new Object[11];
