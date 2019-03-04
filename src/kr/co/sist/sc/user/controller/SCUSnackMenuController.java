@@ -36,7 +36,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 			List<SCUSearchMenuVO> list = ssDAO.selectSnackMenu();
 			SCUSearchMenuVO ssmVO = null;
 			Object[] rowData = null;
-			String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
+			String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/snack/";
 			snackName = new String[list.size()];
 			
 			for(int i=0; i<list.size(); i++) {

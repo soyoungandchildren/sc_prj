@@ -1,6 +1,9 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
+
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -10,12 +13,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.controller.SCUOrderSnackController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUOrderSnackView extends JDialog {
 	private SCUSnackMenuView ssmv;
 	private JTextField jtfSnackName, jtfPrice, jtfTotalPrice;
-	private JLabel jlbSnackImg;
+	private JLabel jlbSnackImg, jlbTitle;
 	private JComboBox<String> jcbQuan;
 	private JTextArea jtaSnackInfo;
 	private JButton jbtnAddOrder, jbtnClose;
@@ -26,6 +30,9 @@ public class SCUOrderSnackView extends JDialog {
 		this.ssmv = ssmv;
 		
 		//컴포넌트 생성
+		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
+		
+		jlbTitle = new JLabel("스낵 정보");
 		jlbSnackImg = new JLabel();
 		JLabel jlbSnackName = new JLabel("스낵명");
 		JLabel jlbPrice = new JLabel("가격");
@@ -49,9 +56,35 @@ public class SCUOrderSnackView extends JDialog {
 		jtaSnackInfo = new JTextArea();
 		JScrollPane jspSnackInfo = new JScrollPane(jtaSnackInfo);
 		
-		jbtnAddOrder = new JButton("주문 추가");
-		jbtnClose = new JButton("취소");
+		jbtnAddOrder = new JButton(new ImageIcon(imgPath+"jbt_add_order(125x40).png"));
+		jbtnClose = new JButton(new ImageIcon(imgPath+"jbt_cancel(125x40).png"));
 		
+		//버튼 테두리 없애기
+		jbtnAddOrder.setContentAreaFilled(false);
+		jbtnAddOrder.setBorderPainted(false);
+		jbtnClose.setContentAreaFilled(false);
+		jbtnClose.setBorderPainted(false);
+		
+		//라벨 폰트
+		jlbTitle.setForeground(Color.WHITE);
+		jlbTitle.setFont(CustomFontList.getInstance().getFontTitle());
+		
+		jlbSnackName.setForeground(Color.WHITE);
+		jlbSnackName.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		jlbPrice.setForeground(Color.WHITE);
+		jlbPrice.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		jlbQuan.setForeground(Color.WHITE);
+		jlbQuan.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		jlbTotalPrice.setForeground(Color.WHITE);
+		jlbTotalPrice.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		jlbSnackInfo.setForeground(Color.WHITE);
+		jlbSnackInfo.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		add(jlbTitle);
 		add(jlbSnackImg);
 		add(jlbSnackName);
 		add(jtfSnackName);
@@ -69,19 +102,20 @@ public class SCUOrderSnackView extends JDialog {
 		//배치
 		setLayout(null);
 		
-		jlbSnackImg.setBounds(10, 20, 250, 230);
-		jlbSnackName.setBounds(270, 20, 60, 30);
-		jtfSnackName.setBounds(325, 23, 130, 25);
-		jlbPrice.setBounds(270, 50, 60,30);
-		jtfPrice.setBounds(325, 53, 130, 25);
-		jlbQuan.setBounds(270, 80, 60,30);
-		jcbQuan.setBounds(325, 83, 130, 25);
-		jlbTotalPrice.setBounds(270, 110, 60,30);
-		jtfTotalPrice.setBounds(325, 113, 130, 25);
-		jlbSnackInfo.setBounds(270, 140, 60,30);
-		jspSnackInfo.setBounds(270, 165, 185, 85);
-		jbtnAddOrder.setBounds(150, 265, 90, 30);
-		jbtnClose.setBounds(260, 265, 90, 30);
+		jlbTitle.setBounds(20, 35, 140, 40);
+		jlbSnackImg.setBounds(50, 90, 325, 325);
+		jlbSnackName.setBounds(340, 100, 60, 30);
+		jtfSnackName.setBounds(390, 103, 130, 25);
+		jlbPrice.setBounds(340, 50, 60,30);
+		jtfPrice.setBounds(390, 53, 130, 25);
+		jlbQuan.setBounds(340, 80, 60,30);
+		jcbQuan.setBounds(390, 83, 130, 25);
+		jlbTotalPrice.setBounds(340, 110, 60,30);
+		jtfTotalPrice.setBounds(390, 113, 130, 25);
+		jlbSnackInfo.setBounds(340, 140, 60,30);
+		jspSnackInfo.setBounds(340, 165, 185, 85);
+		jbtnAddOrder.setBounds(175, 370, 125, 40);
+		jbtnClose.setBounds(315, 370, 125, 40);
 		
 		jtfSnackName.setEditable(false);
 		jtfPrice.setEditable(false);
@@ -90,6 +124,11 @@ public class SCUOrderSnackView extends JDialog {
 		jtaSnackInfo.setEditable(false);
 		jtaSnackInfo.setLineWrap(true);
 		
+		//배경 설정
+		JLabel background = new JLabel(new ImageIcon(imgPath+"user_snackcorner_bg2(620x450).png"));
+		background.setBounds(0, 0, 620, 450);
+		add(background);
+		
 		//이벤트
 		SCUOrderSnackController sosc = new SCUOrderSnackController(this, ssmv, snackName);
 		addWindowListener(sosc);
@@ -97,7 +136,7 @@ public class SCUOrderSnackView extends JDialog {
 		jbtnClose.addActionListener(sosc);
 		jcbQuan.addActionListener(sosc);
 		
-		setBounds(ssmv.getX()+880, ssmv.getY()+100, 490, 350);
+		setBounds(ssmv.getX()+880, ssmv.getY()+100, 620, 450);
 		setResizable(false);
 		setVisible(true);
 		
