@@ -39,9 +39,9 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 		try {
 			if (inputId.equals("")) {
-				JOptionPane.showMessageDialog(ssuv, "아이디를 입력하세요.");
+				JOptionPane.showMessageDialog(ssuv, ".");
 			} else if(inputId.length() < 3 || inputId.length() > 30) {
-				JOptionPane.showMessageDialog(ssuv, "아이디는 3~30자 이내만 가능합니다.");
+				JOptionPane.showMessageDialog(ssuv, "아이디는 3~30자 이아이디를 입력하세요내만 가능합니다.");
 			} else if (slDao.selectCheckDup(id) && !inputId.equals("")) { // 같은 아이디가 존재할 때
 				JOptionPane.showMessageDialog(ssuv, "같은 아이디가 존재합니다.");
 				jtf.setText("");
@@ -71,7 +71,6 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 	/**
 	 * 회원가입
-	 * 3. ...다이얼로그 창이 흠.. :( (생각 중)
 	 */
 	public void addSignUp() {
 		
@@ -141,6 +140,8 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			JOptionPane.showMessageDialog(ssuv, "생년월일을 입력하세요");
 			jtfBirthdate.requestFocus();
 			return;
+		}else if() {
+			JOptionPane.showMessageDialog(ssuv, "생년월일은 숫자만 가능합니다.");
 		}
 		
 		//전화번호
