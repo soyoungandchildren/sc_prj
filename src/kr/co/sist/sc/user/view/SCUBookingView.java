@@ -1,7 +1,10 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
+
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -13,6 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.sc.user.controller.SCUBookingController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUBookingView extends JDialog{
@@ -50,6 +54,15 @@ public class SCUBookingView extends JDialog{
 		bg.add(jrbStandard);
 		bg.add(jrbPremium);
 		
+		jrbAll.setFont(CustomFontList.getInstance().getFontLabel());
+		jrbPremium.setFont(CustomFontList.getInstance().getFontLabel());
+		jrbStandard.setFont(CustomFontList.getInstance().getFontLabel());
+		jrbAll.setForeground(Color.WHITE);
+		jrbPremium.setForeground(Color.WHITE);
+		jrbStandard.setForeground(Color.WHITE);
+		
+		
+		
 		dcbmPersonnel = new DefaultComboBoxModel<>();
 		jcbPersonnel = new JComboBox<>(dcbmPersonnel);
 		
@@ -63,8 +76,8 @@ public class SCUBookingView extends JDialog{
 		};
 		JScrollPane jspOnScreen = new JScrollPane(jtOnScreen);
 		
-		jbtnCheckSeat = new JButton("좌석 확인");
-		jbtnExit = new JButton("닫기");
+		jbtnCheckSeat = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_check_seat(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_close(125x40).png"));
 		
 		//컴포넌트 설정
 		jtOnScreen.setRowHeight(30);
@@ -77,6 +90,21 @@ public class SCUBookingView extends JDialog{
 		jtOnScreen.getTableHeader().setResizingAllowed(false);
 		jtOnScreen.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
+		jrbAll.setBorderPainted(false);
+		jrbAll.setContentAreaFilled(false);
+		jrbAll.setFocusPainted(false);
+		jrbPremium.setBorderPainted(false);
+		jrbPremium.setContentAreaFilled(false);
+		jrbPremium.setFocusPainted(false);
+		jrbStandard.setBorderPainted(false);
+		jrbStandard.setContentAreaFilled(false);
+		jrbStandard.setFocusPainted(false);
+		
+		jbtnCheckSeat.setBorderPainted(false);
+		jbtnCheckSeat.setContentAreaFilled(false);
+		jbtnExit.setBorderPainted(false);
+		jbtnExit.setContentAreaFilled(false);
+		
 		
 		//배치
 		setLayout(null);
@@ -88,8 +116,8 @@ public class SCUBookingView extends JDialog{
 		jrbPremium.setBounds(190, 90, 100, 25);
 		jcbPersonnel.setBounds(290, 60, 110, 25);
 		jspOnScreen.setBounds(30, 120, 520, 470);
-		jbtnCheckSeat.setBounds(420, 50, 130, 45);
-		jbtnExit.setBounds(240, 600, 120, 30);
+		jbtnCheckSeat.setBounds(420, 50, 125, 40);
+		jbtnExit.setBounds(240, 600, 125, 40);
 		jlblPersonnel.setBounds(240, 60, 50, 25);
 		
 		
@@ -118,8 +146,12 @@ public class SCUBookingView extends JDialog{
 		
 		
 		//창 설정
+		JLabel background = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_book_bg5(650x780).png"));
+		background.setBounds(0, 0, 650, 780);
+		add(background);
+		
 		setResizable(false);
-		setBounds(smlv.getX()+70, smlv.getY()-50, 600, 700);
+		setBounds(smlv.getX()+70, smlv.getY()-50, 650, 780);
 		setVisible(true);
 		
 	}//Constructor

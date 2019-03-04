@@ -140,7 +140,7 @@ public class SCUMovieDAO {
 			.append("from theater t ")
 			.append("left join on_screen o ")
 			.append("on t.screen_name = o.screen_name ")
-			.append("where movie_code = ? ")
+			.append("where movie_code = ? and concat(replace(screen_date,'-',''), start_time) >  to_char(sysdate, 'yyyymmddhh24mi') ")
 			.append(") a ")
 			.append("left join ( ")
 			.append("select screen_num, sum(personnel) reserved ")

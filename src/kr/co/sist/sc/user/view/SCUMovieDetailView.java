@@ -1,5 +1,7 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -7,8 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.border.TitledBorder;
 
 import kr.co.sist.sc.user.controller.SCUMovieDetailController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUMovieDetailView extends JDialog{
@@ -57,6 +61,31 @@ public class SCUMovieDetailView extends JDialog{
 		JLabel jlblActor = new JLabel("출연진");
 		JLabel jlblSynopsis = new JLabel("줄거리");
 		
+		
+		jlblDetailTitle.setForeground(Color.WHITE);
+		jlblMovieTitle.setForeground(Color.WHITE);
+		jlblMovieCode.setForeground(Color.WHITE);
+		jlblGenre.setForeground(Color.WHITE);
+		jlblCountry.setForeground(Color.WHITE);
+		jlblDirector.setForeground(Color.WHITE);
+		jlblMovieGrade.setForeground(Color.WHITE);
+		jlblRunningTime.setForeground(Color.WHITE);
+		jlblPlayDate.setForeground(Color.WHITE);
+		jlblActor.setForeground(Color.WHITE);
+		jlblSynopsis.setForeground(Color.WHITE);
+		
+		jlblDetailTitle.setFont(CustomFontList.getInstance().getFontTitle());
+		jlblMovieTitle.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblMovieCode.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblGenre.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblCountry.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblDirector.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblMovieGrade.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblRunningTime.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblPlayDate.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblActor.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblSynopsis.setFont(CustomFontList.getInstance().getFontLabel());
+		
 		jlblMovieImg = new JLabel("");
 
 		
@@ -91,7 +120,7 @@ public class SCUMovieDetailView extends JDialog{
 		jtfActor.setBounds(325, 377, 300, 25);
 		jspJtaSynopsis.setBounds(20, 435, 660, 160);
 		
-		jlblDetailTitle.setBounds(20,10,100, 40);
+		jlblDetailTitle.setBounds(20,10,200, 40);
 		jlblMovieCode.setBounds(240, 50, 70, 40); 
 		jlblMovieTitle.setBounds(240, 90, 70, 40);
 		jlblGenre.setBounds(240, 130, 70, 40);

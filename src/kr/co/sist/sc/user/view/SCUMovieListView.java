@@ -1,6 +1,9 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -10,10 +13,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import kr.co.sist.sc.user.controller.SCUMovieListController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUMovieListView extends JDialog {
@@ -27,6 +34,10 @@ public class SCUMovieListView extends JDialog {
 	public SCUMovieListView(SCUMainView smv) {
 		super(smv, "예매", true);
 		this.smv = smv;
+		
+		JLabel jlblTitle = new JLabel("영화 예매");
+		jlblTitle.setFont(CustomFontList.getInstance().getFontTitle());
+		jlblTitle.setForeground(Color.white);
 		
 		
 		//컴포넌트 생성
@@ -50,6 +61,8 @@ public class SCUMovieListView extends JDialog {
 			
 		};
 		JScrollPane jspMovieTable = new JScrollPane(jtMovieTable);
+		
+		
 		//컴포넌트 설정
 		jtMovieTable.getTableHeader().setReorderingAllowed(false);
 		jtMovieTable.getTableHeader().setResizingAllowed(false);
@@ -73,17 +86,21 @@ public class SCUMovieListView extends JDialog {
 		//컴포넌트 배치
 		setLayout(null);
 		
-		jspMovieTable.setBounds(20, 20, 840, 440);
-		jbtnDetail.setBounds(105, 470, 125, 40);
-		jbtnBooking.setBounds(285, 470, 125, 40);
-		jbtnRating.setBounds(465 ,470, 125, 40);
-		jbtnExit.setBounds(645, 470, 125, 40);
+		jspMovieTable.setBounds(40, 80, 910, 600);
+		jbtnDetail.setBounds(500-125-30-125-60, 800-40-55, 125, 40);
+		jbtnBooking.setBounds(500-125-30, 705, 125, 40);
+		jbtnRating.setBounds(500+30 ,705, 125, 40);
+		jbtnExit.setBounds(500+30+60+125, 705, 125, 40);
+		
+		jlblTitle.setBounds(40, 10, 200, 70);
 		
 		add(jspMovieTable);
 		add(jbtnDetail);
 		add(jbtnBooking);
 		add(jbtnRating);
 		add(jbtnExit);
+		
+		add(jlblTitle);
 		
 		//이벤트 등록
 		SCUMovieListController smlc = new SCUMovieListController(this);

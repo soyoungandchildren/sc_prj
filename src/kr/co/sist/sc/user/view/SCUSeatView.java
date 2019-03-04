@@ -6,6 +6,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -29,10 +30,16 @@ public class SCUSeatView extends JDialog{
 		
 		JPanel jpnlSeat = new JPanel();
 		jpnlSeat.setLayout(null);
-		jpnlSeat.setBorder(new LineBorder(Color.BLACK));
 		
-		jbtnConfirm = new JButton("예매하기");
-		jbtnExit = new JButton("닫기");
+		jbtnConfirm = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_book(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_close(125x40).png"));
+		
+		JPanel panelScreen = new JPanel();
+		panelScreen.setOpaque(false);
+		panelScreen.setLayout(null);
+		panelScreen.setBorder(new LineBorder(Color.WHITE));
+		
+		JLabel imageScreen = null;
 		
 		setLayout(null);
 		if(sbv.getSelectedScreenName().equals("일반")) {
@@ -55,12 +62,14 @@ public class SCUSeatView extends JDialog{
 					cnt=0;
 				}//end if
 				
+				jckbSeat[i].setContentAreaFilled(false);
 				jpnlSeat.add(jckbSeat[i]);
 				
 			}//end for
-			jpnlSeat.setBounds(0, 150, 500, 300);
+			jpnlSeat.setBounds(60, 280, (jckbSeat[0].getWidth()+15)*5-15, (jckbSeat[0].getHeight()+9)*4-9);
+			imageScreen = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/imageicon_standard_screen(440x65).png"));
+			jpnlSeat.setOpaque(false);
 			
-		
 			
 		}else if(sbv.getSelectedScreenName().equals("프리미엄")){
 			
@@ -92,18 +101,32 @@ public class SCUSeatView extends JDialog{
 					cnt=0;
 				}//end if
 				
+				jckbSeat[i].setContentAreaFilled(false);
 				jpnlSeat.add(jckbSeat[i]);
 				
 			}//end for
-			jpnlSeat.setBounds(0, 100, 500, 400);
+			jpnlSeat.setBounds(40, 350, (jckbSeat[0].getWidth()+5)*5-5, jckbSeat[0].getHeight()*2+55);
+			imageScreen = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/imageicon_premium_screen(440x85).png"));
+			jpnlSeat.setOpaque(false);
 			
 		}//end if~else
-		jbtnConfirm.setBounds(143, 500, 100, 30);
-		jbtnExit.setBounds(257, 500, 100, 30);
 		
+		jbtnConfirm.setBounds((650/2)-125-5, 780-90, 125, 40);
+		jbtnExit.setBounds((650/2)+5, 780-90, 125, 40);
+		jbtnConfirm.setContentAreaFilled(false);
+		jbtnConfirm.setBorderPainted(false);
+		jbtnExit.setContentAreaFilled(false);
+		jbtnExit.setBorderPainted(false);
+		
+		imageScreen.setBounds(55, 100, 440, 85);
+		
+		panelScreen.add(imageScreen);
+		panelScreen.add(jpnlSeat);
+		panelScreen.setBounds(50, 50, 550, 620);
+		
+		add(panelScreen);
 		add(jbtnConfirm);
 		add(jbtnExit);
-		add(jpnlSeat);
 		
 		
 		SCUSeatController ssc = new SCUSeatController(this);
@@ -113,8 +136,13 @@ public class SCUSeatView extends JDialog{
 		jbtnConfirm.addActionListener(ssc);
 		jbtnExit.addActionListener(ssc);
 		
+		
+		JLabel background = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_book_bg5(650x780).png"));
+		background.setBounds(0,0,650,780);
+		add(background);
+		
 		setResizable(false);
-		setBounds(sbv.getX()+200, sbv.getY()+20, 500, 600);
+		setBounds(sbv.getX()+200, sbv.getY()+20, 650, 780);
 		setVisible(true);
 		
 	}//Constructor

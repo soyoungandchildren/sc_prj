@@ -46,6 +46,9 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 			
 			sbv.getDtmOnScreen().setRowCount(0);
 			for(int i = 0; i<list.size(); i++) {
+				if("0".equals(list.get(i).getRemain_seat())) {//만약 잔여좌석이 0이라면 보여주지 않는다.
+					continue;
+				}//end if
 				
 				objArr = new Object[6];
 				setDate.add(list.get(i).getScreen_date());
