@@ -17,7 +17,7 @@ public class SCUMyPageView extends JDialog{
 	private SCUMainView smv;
 	private JTextField jtfMemberID, jtfName, jtfBirthdate, jtfPhone,
 						jtfMembership, jtfHoldPoint, jtfAccPoint, jtfInputDate;
-	private JButton jbtnUpdateInfo, jbtnUpdatePW, jbtnResign, jbtnExit;
+	private JButton jbtnUpdateInfo, jbtnUpdatePW, jbtnPointUpdate, jbtnResign, jbtnExit;
 	
 	public SCUMyPageView(SCUMainView smv) {
 		super(smv,"마이 페이지",true);
@@ -34,6 +34,7 @@ public class SCUMyPageView extends JDialog{
 		jtfInputDate = new JTextField(10);
 		jbtnUpdateInfo = new JButton("정보 수정");
 		jbtnUpdatePW = new JButton("비밀번호 수정");
+		jbtnPointUpdate = new JButton("포인트 충전");
 		jbtnResign = new JButton("회원 탈퇴");
 		jbtnExit = new JButton("나가기");
         
@@ -84,9 +85,9 @@ public class SCUMyPageView extends JDialog{
 		}//end for
 		jpnlCenter.add(centerField);
 		
-		
 		jpnlSouth.add(jbtnUpdateInfo);
 		jpnlSouth.add(jbtnUpdatePW);
+		jpnlSouth.add(jbtnPointUpdate);
 		jpnlSouth.add(jbtnResign);
 		jpnlSouth.add(jbtnExit);
 		
@@ -96,6 +97,7 @@ public class SCUMyPageView extends JDialog{
 		//////////////////////////////////////
 		SCUMyPageController smpc = new SCUMyPageController(this);
 		jbtnUpdatePW.addActionListener(smpc);
+		jbtnPointUpdate.addActionListener(smpc);
 		jbtnExit.addActionListener(smpc);
 		jbtnResign.addActionListener(smpc);
 		jbtnUpdateInfo.addActionListener(smpc);
@@ -144,6 +146,9 @@ public class SCUMyPageView extends JDialog{
 	}
 	public JButton getJbtnUpdatePW() {
 		return jbtnUpdatePW;
+	}
+	public JButton getJbtnPointUpdate() {
+		return jbtnPointUpdate;
 	}
 	public JButton getJbtnResign() {
 		return jbtnResign;

@@ -139,6 +139,10 @@ public class SCURefundDAO {
 		try {
 			con = SCUConnect.getInstance().getConnection();
 
+			// 오토커밋 해제
+			con.setAutoCommit(false);
+
+			// 영화 예매 취소
 			if ("Y".equals(removable)) {
 				deleteSeat = "delete from book where book_number=?";
 				pstmt = con.prepareStatement(deleteSeat);
@@ -172,40 +176,67 @@ public class SCURefundDAO {
 			pstmt4.setInt(1, chgPoint);
 			pstmt4.setString(2, id);
 
-//			boolean chg = pstmt4.execute();
+			boolean chg = pstmt4.execute();
+			flag = deleteBookingTransaction(flag, chg);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			if (con != null) {
-				con.close();
-			}
-			if (pstmt != null) {
-				pstmt.close();
-			}
-			if (rs != null) {
-				rs.close();
-			}
 		}
 
 		// return한 flag 값이 어떻게 사용되는지 확인!
 		return flag;
 	}// deleteBooking
 
-	public boolean deleteSnack(String snackOrderNum, String id, int refundPrice, String removable) throws SQLException {
+	public boolean deleteBookingTransaction(boolean flag, boolean chg) throws SQLException {
+		boolean result = false;
+
+		try {
+			if (flag == true && chg == false) { // true / false 에러, false/ false 에러, false/true
+				con.commit();
+				result = true;
+			} else {
+				con.rollback();
+				result = false;
+			}
+		} finally {
+			if (rs != null) {
+				rs.close();
+			} // end if
+			if (pstmt4 != null) {
+				pstmt4.close();
+			} // end if
+			if (pstmt3 != null) {
+				pstmt3.close();
+			} // end if
+			if (pstmt != null) {
+				pstmt.close();
+			} // end if
+			if (con != null) {
+				con.close();
+			} // end if
+		} // end finally
+		return result;
+	}// deleteBookingTransaction
+
+	public boolean deleteSnack(String snackOrderNum, String id, String refundPrice, String removable) throws SQLException {
 		boolean flag = false;
+
+		System.out.println("1");
+		// 오토커밋 해제
+//		con.setAutoCommit(false);
 
 		con = null;
 		pstmt = null;
-		pstmt2 = null;
+		pstmt3 = null;
+		pstmt4 = null;
 		rs = null;
 
 		String deleteSanck = "";
 		int holdPoint = 0;
-
+		int refundPoint = Integer.parseInt(refundPrice);
+		
 		try {
 			con = SCUConnect.getInstance().getConnection();
-
 			if ("Y".equals(removable)) {
 				deleteSanck = "delete from snack_sale where snack_order_num=?";
 				pstmt = con.prepareStatement(deleteSanck);
@@ -215,7 +246,7 @@ public class SCURefundDAO {
 					flag = true;
 				}
 			} else {
-				JOptionPane.showMessageDialog(srv, "예매취소 가능 시간이 아닙니다!");
+				JOptionPane.showMessageDialog(srv, "구매취소가 불가능합니다.");
 				flag = false;
 			}
 
@@ -232,7 +263,7 @@ public class SCURefundDAO {
 			}
 
 			// 포인트 환불 (update) (보유 포인트 + 환불 포인트)
-			int chgPoint = holdPoint + refundPrice;
+			int chgPoint = holdPoint + refundPoint;
 			String updatePoint = "update member set hold_point=? where member_id=?";
 
 			pstmt4 = con.prepareStatement(updatePoint);
@@ -240,23 +271,43 @@ public class SCURefundDAO {
 			pstmt4.setString(2, id);
 
 			boolean chg = pstmt4.execute();
+//			flag = deleteSnackTransaction(flag, chg);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 
-		} finally {
-			if (con != null) {
-				con.close();
-			}
-			if (pstmt != null) {
-				pstmt.close();
-			}
-			if (rs != null) {
-				rs.close();
-			}
-		} // finally
-
+		} // catch
 		return flag;
 	}// deleteSnack
+
+//	public boolean deleteSnackTransaction(boolean flag, boolean chg) throws SQLException{
+//		boolean result = false;
+//		
+//		try {
+//			if(flag == true && chg == false ) { 
+//				result = true;
+//			}else {
+//				con.rollback();
+//				result = false;
+//			}
+//		}finally {
+//			if(rs != null) {
+//				rs.close();
+//			}//end if
+//			if(pstmt4 != null) {
+//				pstmt4.close();
+//			}//end if
+//			if(pstmt3 != null) {
+//				pstmt3.close();
+//			}//end if
+//			if(pstmt != null) {
+//				pstmt.close();
+//			}//end if
+//			if(con != null) {
+//				con.close();
+//			}//end if
+//		}//end finally
+//		return result;
+//	}// deleteSnackTransaction
 
 }// class

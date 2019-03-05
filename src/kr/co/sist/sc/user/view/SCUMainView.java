@@ -2,6 +2,7 @@ package kr.co.sist.sc.user.view;
 
 import java.awt.Color;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,12 +20,13 @@ public class SCUMainView extends JFrame {
 	private JButton jbtnLogin, jbtnBooking, jbtnSnack, jbtnRefund, jbtnMyPage;
 	private boolean isLogin;
 	private String idConnecting;	
-	
 
 	public SCUMainView() {
 		super("메인");
 		
 		//컴포넌트 생성
+		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
+		
 		jlblBookingRank = new JLabel();
 		jlblImageBoard1 = new JLabel();
 		jlblImageBoard2 = new JLabel();
@@ -48,12 +50,11 @@ public class SCUMainView extends JFrame {
 		jlblReserve3 = new JLabel("예매율 ");
 		jlblReserveRate3 = new JLabel();
 		
-		jbtnMyPage= new JButton("마이페이지");
-		jbtnLogin= new JButton("로그인/회원가입");
-		jbtnBooking= new JButton("예매");
-		jbtnSnack= new JButton("스낵");
-		jbtnRefund= new JButton("환불");
-		
+		jbtnMyPage= new JButton(new ImageIcon(imgPath+"jbt_payment(125x40).png"));
+		jbtnLogin= new JButton(new ImageIcon(imgPath+"jbt_payment(125x40).png"));
+		jbtnBooking= new JButton(new ImageIcon(imgPath+"jbt_ticketing(175x175).png"));
+		jbtnSnack= new JButton(new ImageIcon(imgPath+"jbt_buy_the_snack(175x175).png"));
+		jbtnRefund= new JButton(new ImageIcon(imgPath+"jbt_cancel_payment(175x175).png"));
 		
 		//컴포넌트 설정
 		jlblImageBoard1.setBorder(new LineBorder(Color.RED));
@@ -92,9 +93,9 @@ public class SCUMainView extends JFrame {
 		jlblReserveRate3.setBounds(680, 470, 50, 30);
 		
 		jbtnLogin.setBounds(700, 20, 130, 40);
-		jbtnBooking.setBounds(280, 550, 140, 60);
-		jbtnSnack.setBounds(480, 550, 140, 60);
-		jbtnRefund.setBounds(680, 550, 140, 60);
+		jbtnBooking.setBounds(280, 550, 175, 175);
+		jbtnSnack.setBounds(480, 550, 175, 175);
+		jbtnRefund.setBounds(680, 550, 175, 175);
 		jbtnMyPage.setBounds(80, 550, 140, 60);
 		
 		add(jlblBookingRank);
@@ -129,6 +130,11 @@ public class SCUMainView extends JFrame {
 		add(jbtnBooking);
 		add(jbtnLogin);
 		
+		//창 설정
+		JLabel background = new JLabel(new ImageIcon(imgPath+"user_main_bg(1000x800).png"));
+		background.setBounds(0, 0, 1000, 800);
+		add(background);
+		
 		//이벤트 추가 
 		SCUMainController smc = new SCUMainController(this);
 		addWindowListener(smc);
@@ -140,9 +146,8 @@ public class SCUMainView extends JFrame {
 		
 		//창 설정
 		setResizable(false);
-		setBounds(100, 100, 900, 700);
+		setBounds(100, 100, 1000, 800);
 		setVisible(true);
-		
 	}//Constructor
 
 	//Getters

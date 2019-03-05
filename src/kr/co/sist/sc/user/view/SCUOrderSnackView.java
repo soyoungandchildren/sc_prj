@@ -53,6 +53,9 @@ public class SCUOrderSnackView extends JDialog {
 		
 		jtaSnackInfo = new JTextArea();
 		JScrollPane jspSnackInfo = new JScrollPane(jtaSnackInfo);
+//		jtaSnackInfo.setOpaque(false);
+//		jspSnackInfo.setOpaque(false);
+//		jspSnackInfo.getViewport().setOpaque(false);
 		
 		jbtnAddOrder = new JButton(new ImageIcon(imgPath+"jbt_add_order(125x40).png"));
 		jbtnClose = new JButton(new ImageIcon(imgPath+"jbt_cancel(125x40).png"));

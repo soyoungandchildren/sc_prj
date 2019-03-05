@@ -12,6 +12,7 @@ import kr.co.sist.sc.user.model.SCUMyPageDAO;
 import kr.co.sist.sc.user.view.SCUModifyMemberInfoView;
 import kr.co.sist.sc.user.view.SCUModifyPWView;
 import kr.co.sist.sc.user.view.SCUMyPageView;
+import kr.co.sist.sc.user.view.SCUPointView;
 import kr.co.sist.sc.user.vo.SCURemoveAccountVO;
 import kr.co.sist.sc.user.vo.SCUSearchMyPageVO;
 
@@ -69,8 +70,6 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 				}else {
 					
 				}
-				
-				
 			}catch(SQLException sqle) {
 				sqle.printStackTrace();
 			}
@@ -96,6 +95,9 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 		}
 		if(ae.getSource().equals(smpv.getJbtnUpdateInfo())) {
 			new SCUModifyMemberInfoView(smpv);
+		}
+		if(ae.getSource().equals(smpv.getJbtnPointUpdate())) {
+			new SCUPointView(smpv);
 		}
 	}
 	
