@@ -21,17 +21,36 @@ import kr.co.sist.sc.user.view.SCUSnackMenuView;
 import kr.co.sist.sc.user.vo.SCULoginVO;
 import kr.co.sist.sc.user.vo.SCUMainVO;
 
-public class SCUMainController extends WindowAdapter implements ActionListener{
+public class SCUMainController extends WindowAdapter implements ActionListener, Runnable{
 	private SCUMainView smv;
 	private SCUMainDAO smDAO;
 	private Integer[] cnt;
 	private int cntCheckPassword;
+	private Thread t;
 	
 	public SCUMainController(SCUMainView smv) {
 		this.smv = smv;
 		smDAO = SCUMainDAO.getInstance();
+		runThread();
 		setImgBoard();
 	}//Constructor
+	
+	public void runThread() {
+		t = new Thread(this);
+		t.start();
+	}//runThread
+	
+	@Override
+	public void run() {
+		while(true) {
+			try {
+				setImgBoard();
+				Thread.sleep(1000*10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}//end catch
+		}//end while
+	}//run
 	
 	public void setImgBoard() {
 		try {
@@ -164,14 +183,13 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 			}
 		}//end if
 		
-		
 		if(ae.getSource().equals(smv.getJbtnRefund())) {//환불
 			if(smv.getIsLogin()) {
 				new SCURefundView(smv);
 			}else {
 				JOptionPane.showMessageDialog(smv, "로그인을 해주세요.");
-			}
-		}
+			}//end else
+		}//end if
 	}//actionPerformed
 	
 	@Override
@@ -179,4 +197,8 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 		smv.dispose();
 	}//windowClosing
 	
+	@Override
+	public void windowClosed(WindowEvent e) {
+		System.exit(0);
+	}//windowClosed
 }//Class
