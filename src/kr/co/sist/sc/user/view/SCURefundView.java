@@ -62,9 +62,9 @@ public class SCURefundView extends JDialog {
 		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(40);// 총가격
 		jtBookingList.getColumnModel().getColumn(6).setPreferredWidth(50);// 환불가능여부
 		
-		
-
 		jtBookingList.setRowHeight(50);
+		
+		
 
 		// 스낵 환불
 		String[] snackColumns = { "번호", "스낵주문번호", "수량", "결제일시", "총 가격", "환불가능여부" };
