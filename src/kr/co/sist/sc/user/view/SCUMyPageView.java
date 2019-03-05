@@ -19,7 +19,6 @@ public class SCUMyPageView extends JDialog{
 						jtfMembership, jtfHoldPoint, jtfAccPoint, jtfInputDate;
 	private JButton jbtnUpdateInfo, jbtnUpdatePW, jbtnResign, jbtnExit;
 	
-	
 	public SCUMyPageView(SCUMainView smv) {
 		super(smv,"마이 페이지",true);
 		this.smv = smv;
@@ -60,14 +59,14 @@ public class SCUMyPageView extends JDialog{
 		jpnelArr[6].add(jtfAccPoint);
 		jpnelArr[7].add(jtfInputDate);
 		//////////////////////////////////////////
-		jtfAccPoint.setEnabled(false);
-		jtfBirthdate.setEnabled(false);
-		jtfHoldPoint.setEnabled(false);
-		jtfInputDate.setEnabled(false);
-		jtfMemberID.setEnabled(false);
-		jtfMembership.setEnabled(false);
-		jtfName.setEnabled(false);
-		jtfPhone.setEnabled(false);
+		jtfAccPoint.setEditable(false);
+		jtfBirthdate.setEditable(false);
+		jtfHoldPoint.setEditable(false);
+		jtfInputDate.setEditable(false);
+		jtfMemberID.setEditable(false);
+		jtfMembership.setEditable(false);
+		jtfName.setEditable(false);
+		jtfPhone.setEditable(false);
 		//////////////////////////////////////////
 		setLayout(new BorderLayout());
 		

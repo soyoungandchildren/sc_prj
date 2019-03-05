@@ -15,12 +15,10 @@ import kr.co.sist.sc.user.controller.SCUSeatController;
 @SuppressWarnings("serial")
 public class SCUSeatView extends JDialog{
 	
-	
 	private SCUBookingView sbv;
 	private SCUMovieListView smlv;
 	private JButton jbtnConfirm, jbtnExit;
 	private JCheckBox[] jckbSeat;
-	
 	
 	public SCUSeatView(SCUBookingView sbv) {
 		super(sbv, "ÁÂ¼® ¼±ÅÃ", true);
