@@ -155,15 +155,11 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 		String id = new String(srv.getSmv().getIdConnecting()); // 아이디 불러옴
 		String refundPrice = new String(srv.getJtSnackList().getValueAt(selectRow, 4).toString());// 스낵구매 비용
 		String removable = new String(srv.getJtSnackList().getValueAt(selectRow, 5).toString());
-		System.out.println(snackOrderNum);
-		System.out.println(id);
-		System.out.println(refundPrice);
-		System.out.println(removable);
 		try {
 			switch (JOptionPane.showConfirmDialog(srv, "구매를 취소하시겠습니까?", "취소 확인", JOptionPane.OK_CANCEL_OPTION)) {
 			case JOptionPane.OK_OPTION:
 
-				boolean flag = srDAO.deleteBooking(snackOrderNum, id, refundPrice, removable); // 선택된 코드의 예매 취소
+				boolean flag = srDAO.deleteSnack(snackOrderNum, id, refundPrice, removable); // 선택된 코드의 예매 취소
 				if ("Y".equals(removable)) {
 					srv.getDtmSnackList().removeRow(selectRow);// 리스트 열 삭제
 					break;
@@ -178,6 +174,8 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 		// 포인트 반환
 
 	}// deleteSnack
+	
+	
 
 	@Override
 	public void windowClosing(WindowEvent e) {
