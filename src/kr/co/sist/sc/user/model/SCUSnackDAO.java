@@ -30,6 +30,7 @@ public class SCUSnackDAO {
 		return ssDAO;
 	}//getInstance
 	
+	//현재 판매중인 메뉴 불러오기
 	public List<SCUSearchMenuVO> selectSnackMenu() throws SQLException {
 		List<SCUSearchMenuVO> list = new ArrayList<>();
 		
@@ -70,6 +71,7 @@ public class SCUSnackDAO {
 		return list;
 	}//selectSnackMenu
 	
+	//스낵 상세정보 불러오기
 	public SCUSnackOrderDataVO selectSnackOrderData(String selectName) throws SQLException {
 		SCUSnackOrderDataVO ssodVO = null;
 		con = null;
@@ -107,6 +109,7 @@ public class SCUSnackDAO {
 		return ssodVO;
 	}//selectSnackOrderData
 	
+	//결제하기
 	public boolean insertOrderSnack(List<SCUAddOrderSnackVO> list, String totalOrderPrice, String member) throws SQLException {
 		boolean result = false;
 		
@@ -171,6 +174,7 @@ public class SCUSnackDAO {
 		return result;
 	}//insertOrderSnack
 	
+	//결제하기-트랜잭션(커밋과 롤백)
 	public boolean insertOrderSnackTransaction(int point, int toPrice, int cnt, int listSize, boolean chg) throws SQLException {
 		boolean result = false;
 		
@@ -200,5 +204,4 @@ public class SCUSnackDAO {
 		
 		return result;
 	}//insertOrderSnackTransaction
-	
 }//class

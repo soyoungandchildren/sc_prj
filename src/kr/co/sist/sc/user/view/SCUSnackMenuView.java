@@ -1,16 +1,20 @@
 package kr.co.sist.sc.user.view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import kr.co.sist.sc.user.controller.SCUSnackMenuController;
 
 @SuppressWarnings("serial")
 public class SCUSnackMenuView extends JDialog{
-	
 	private SCUMainView smv;
 	private DefaultTableModel dtmOrderList, dtmOrderTotalPrice;
 	private JTable jtOrderList, jtOrderTotalPrice;
@@ -22,14 +26,18 @@ public class SCUSnackMenuView extends JDialog{
 		this.smv = smv;	
 		
 		//컴포넌트 생성
-		jbtnCheckOut = new JButton("결제");
-		jbtnDeleteOrder = new JButton("주문 삭제");
-		jbtnExit = new JButton("닫기");
+		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
+		
+		jbtnCheckOut = new JButton(new ImageIcon(imgPath+"jbt_payment(125x40).png"));
+		jbtnDeleteOrder = new JButton(new ImageIcon(imgPath+"jbt_delete_order(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon(imgPath+"jbt_close(125x40).png"));
 		
 		jbtnMenu = new JButton[8];
 		for(int i =0; i<jbtnMenu.length; i++) {
 			jbtnMenu[i] = new JButton();
-		}
+			jbtnMenu[i].setContentAreaFilled(false);
+			jbtnMenu[i].setBorderPainted(false);
+		}//end for
 
 		String[] columnNames = {"스낵명", "가격", "수량", "총 가격"};
 		dtmOrderList = new DefaultTableModel(columnNames, 0) {
@@ -68,6 +76,30 @@ public class SCUSnackMenuView extends JDialog{
 		dtmOrderTotalPrice.addRow(rowData);
 		jtOrderTotalPrice.setTableHeader(null);
 		
+		//테이블 가운데 정렬
+		DefaultTableCellRenderer dtcrSort = new DefaultTableCellRenderer();
+		dtcrSort.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcmTab1 = jtOrderList.getColumnModel();
+		TableColumnModel tcmTab2 = jtOrderTotalPrice.getColumnModel();
+		
+		//주문 목록 가운데 정렬
+		for(int i=0; i<tcmTab1.getColumnCount(); i++) {
+			tcmTab1.getColumn(i).setCellRenderer(dtcrSort);
+		}//end for
+		
+		//합계 가운데 정렬
+		for(int i=0; i<tcmTab2.getColumnCount(); i++) {
+			tcmTab2.getColumn(i).setCellRenderer(dtcrSort);
+		}//end for
+		
+		//버튼 테두리 없애기
+		jbtnCheckOut.setContentAreaFilled(false);
+		jbtnCheckOut.setBorderPainted(false);
+		jbtnDeleteOrder.setContentAreaFilled(false);
+		jbtnDeleteOrder.setBorderPainted(false);
+		jbtnExit.setContentAreaFilled(false);
+		jbtnExit.setBorderPainted(false);
+		
 		//테이블 컬럼 길이
 		jtOrderList.getColumnModel().getColumn(0).setPreferredWidth(250);
 		jtOrderList.getColumnModel().getColumn(1).setPreferredWidth(175);
@@ -101,24 +133,24 @@ public class SCUSnackMenuView extends JDialog{
 		
 		setLayout(null);
 		
-		jspOrderList.setBounds(60,330,670,200);
-		jbtnCheckOut.setBounds(210,590,100,40);
-		jbtnDeleteOrder.setBounds(340,590,100,40);
-		jbtnExit.setBounds(470,590,100,40);
+		jspOrderList.setBounds(55,410,788,200);
+		jbtnCheckOut.setBounds(240,695,125,40);
+		jbtnDeleteOrder.setBounds(390,695,125,40);
+		jbtnExit.setBounds(540,695,125,40);
 		
-		int x = 60;
+		int x = 55;
 		for(int i = 0; i<4; i++) {
-			jbtnMenu[i].setBounds(x, 30, 160, 140);
-			x+=170;
+			jbtnMenu[i].setBounds(x, 40, 187, 162);
+			x+=200;
 		}//end for
 		
-		int y = 60;
+		int y = 55;
 		for(int i=4; i<8; i++) {
-			jbtnMenu[i].setBounds(y, 180, 160, 140);
-			y+=170;
+			jbtnMenu[i].setBounds(y, 215, 187, 162);
+			y+=200;
 		}//end for
 		
-		jtOrderTotalPrice.setBounds(60,540,670,35);
+		jtOrderTotalPrice.setBounds(55,630,788,35);
 		
 		//이벤트
 		SCUSnackMenuController ssmc = new SCUSnackMenuController(this);
@@ -132,7 +164,11 @@ public class SCUSnackMenuView extends JDialog{
 		}//end for
 		
 		//창 설정
-		setBounds(smv.getX()+100, smv.getY()+80, 800, 680);
+		JLabel background = new JLabel(new ImageIcon(imgPath+"user_snackcorner_bg1(900x800).png"));
+		background.setBounds(0, 0, 900, 800);
+		add(background);
+		
+		setBounds(smv.getX()+100, smv.getY()+80, 900, 800);
 		setResizable(false);
 		setVisible(true);	
 		
@@ -141,41 +177,31 @@ public class SCUSnackMenuView extends JDialog{
 	public SCUMainView getSmv() {
 		return smv;
 	}
-
 	public DefaultTableModel getDtmOrderList() {
 		return dtmOrderList;
 	}
-
 	public DefaultTableModel getDtmOrderTotalPrice() {
 		return dtmOrderTotalPrice;
 	}
-
 	public JTable getJtOrderList() {
 		return jtOrderList;
 	}
-
 	public JTable getJtOrderTotalPrice() {
 		return jtOrderTotalPrice;
 	}
-
 	public JButton getJbtnCheckOut() {
 		return jbtnCheckOut;
 	}
-
 	public JButton getJbtnDeleteOrder() {
 		return jbtnDeleteOrder;
 	}
-
 	public JButton getJbtnExit() {
 		return jbtnExit;
 	}
-
 	public JButton[] getJbtnMenu() {
 		return jbtnMenu;
 	}
-
 	public void setJbtnMenu(JButton[] jbtnMenu) {
 		this.jbtnMenu = jbtnMenu;
 	}
-
 }//class

@@ -34,7 +34,7 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 			SCUSnackOrderDataVO ssodVO = ssDAO.selectSnackOrderData(selectName);
 			
 			sosv.getJtfPrice().setText(String.valueOf(ssodVO.getSnack_price()));
-			sosv.getJlbSnackImg().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/"+ssodVO.getSnack_img()));
+			sosv.getJlbSnackImg().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/snack/"+ssodVO.getSnack_img()));
 			sosv.getJtaSnackInfo().setText(ssodVO.getSnack_info());
 			
 		} catch (SQLException se) {
@@ -133,7 +133,7 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 			case JOptionPane.OK_OPTION :
 				JOptionPane.showMessageDialog(sosv, "["+sosv.getJtfSnackName().getText()+"] [수량 : "+
 						sosv.getJcbQuan().getSelectedItem()+"] [총 가격 : "+sosv.getJtfTotalPrice().getText()+
-						"]이\n추가 되었습니다!", "주문 완료", JOptionPane.PLAIN_MESSAGE);
+						"]이\n주문 목록에 추가 되었습니다!", "주문 완료", JOptionPane.PLAIN_MESSAGE);
 				insertSnackOnList();
 			case JOptionPane.CANCEL_OPTION :
 				return;
