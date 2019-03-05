@@ -1,5 +1,8 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -8,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import kr.co.sist.sc.user.controller.SCUWriteRatingController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUWriteRatingView extends JDialog{
@@ -25,15 +29,29 @@ public class SCUWriteRatingView extends JDialog{
 		
 		this.srv = srv;
 		StringBuilder sbTitle = new StringBuilder();
-		sbTitle.append("[").append(srv.getSmlv().getSelectedMovieTitle()).append("]").append("한줄평 쓰기");
+		sbTitle.append("[").append(srv.getSmlv().getSelectedMovieTitle()).append("]").append(" 한줄평 쓰기");
 		JLabel jlblTitle = new JLabel(sbTitle.toString());
+		JLabel jlblRating = new JLabel("평점 : ");
+		
+		
 		
 		jcbRating = new JComboBox<>();
 		jtaReview = new JTextArea();
 		JScrollPane jspReview = new JScrollPane(jtaReview);
 		jtaReview.setLineWrap(true);
-		jbtnCommit = new JButton("작성");
-		jbtnExit = new JButton("닫기");
+		jbtnCommit = new JButton(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\jbt_write_complete(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\jbt_close(125x40).png"));
+		
+		
+		jbtnCommit.setContentAreaFilled(false);
+		jbtnCommit.setBorderPainted(false);
+		jbtnExit.setContentAreaFilled(false);
+		jbtnExit.setBorderPainted(false);
+		
+		jlblTitle.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblTitle.setForeground(Color.WHITE);
+		jlblRating.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblRating.setForeground(Color.WHITE);
 		
 		for(int i =10; i>=0; i--) {
 			jcbRating.addItem(i);
@@ -41,12 +59,14 @@ public class SCUWriteRatingView extends JDialog{
 		
 		setLayout(null);
 		
-		jlblTitle.setBounds(10, 20, 460, 40);
-		jcbRating.setBounds(10, 70, 460, 30);
-		jspReview.setBounds(10, 105, 460, 200);
-		jbtnCommit.setBounds(145, 310, 100, 50);
-		jbtnExit.setBounds(255, 310, 100, 50);
+		jlblRating.setBounds(20, 40, 100, 30);
+		jlblTitle.setBounds(20, 0, 400, 40);
+		jcbRating.setBounds(70, 43, 80, 25);
+		jspReview.setBounds(20, 80, 450, 220);
+		jbtnCommit.setBounds(500/2-140, 310, 125, 40);
+		jbtnExit.setBounds(500/2+15, 310, 125, 40);
 		
+		add(jlblRating);
 		add(jlblTitle);
 		add(jcbRating);
 		add(jspReview);
@@ -56,6 +76,10 @@ public class SCUWriteRatingView extends JDialog{
 		SCUWriteRatingController swrc = new SCUWriteRatingController(this);
 		jbtnCommit.addActionListener(swrc);
 		jbtnExit.addActionListener(swrc);
+		
+		JLabel background = new JLabel(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\user_book_bg4(500x400).png"));
+		background.setBounds(0, 0, 500, 400);
+		add(background);
 		
 		setResizable(false);
 		setBounds(srv.getX()+150, srv.getY()+50, 500, 400);
