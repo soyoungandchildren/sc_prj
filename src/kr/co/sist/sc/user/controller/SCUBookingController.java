@@ -133,7 +133,6 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 	public void filterScreen(String screenType) {
 	
 		sbv.getDcbmPersonnel().removeAllElements();
-		sbv.getJcbPersonnel().setEnabled(false);
 		sbv.setSelectedPersonnel(0);
 		sbv.getDtmOnScreen().setRowCount(0);
 		
@@ -174,7 +173,6 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 		
 		if(ae.getSource().equals(sbv.getJcbDate())) {
 			sbv.getDcbmPersonnel().removeAllElements();
-			sbv.getJcbPersonnel().setEnabled(false);
 			sbv.setSelectedPersonnel(0);
 			sbv.getJrbAll().setSelected(true);
 			filterDate();
@@ -254,7 +252,6 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 	public void mouseReleased(MouseEvent me) {
 		if(me.getSource().equals(sbv.getJtOnScreen())) {
 			
-			sbv.getJcbPersonnel().setEnabled(true);
 			JTable jt = sbv.getJtOnScreen();
 			
 			

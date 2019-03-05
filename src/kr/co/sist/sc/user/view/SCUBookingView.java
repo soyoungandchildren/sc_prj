@@ -86,7 +86,7 @@ public class SCUBookingView extends JDialog{
 		//컴포넌트 설정
 		jtOnScreen.setRowHeight(30);
 		jtOnScreen.getTableHeader().setReorderingAllowed(false);
-		jcbPersonnel.setEnabled(false);
+		
 		
 		jtOnScreen.getColumn("상영코드").setMaxWidth(0);
 		jtOnScreen.getColumn("상영코드").setMinWidth(0);
@@ -108,6 +108,20 @@ public class SCUBookingView extends JDialog{
 		jbtnCheckSeat.setContentAreaFilled(false);
 		jbtnExit.setBorderPainted(false);
 		jbtnExit.setContentAreaFilled(false);
+		
+		
+		jcbDate.setBackground(new Color(20, 34, 65));
+		jcbDate.setForeground(Color.WHITE);
+		jcbDate.setFont(CustomFontList.getInstance().getFontLabel());
+		jcbPersonnel.setBackground(new Color(20, 34, 65));
+		jcbPersonnel.setForeground(Color.WHITE);
+		jcbPersonnel.setFont(CustomFontList.getInstance().getFontLabel());
+		jcbPersonnel.setOpaque(false);
+		
+		
+		jrbAll.setBackground(new Color(20, 34, 65));
+		jrbPremium.setBackground(new Color(20, 34, 65));
+		jrbStandard.setBackground(new Color(20, 34, 65));
 		
 		
 		//배치
