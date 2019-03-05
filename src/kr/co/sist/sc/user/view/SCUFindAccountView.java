@@ -1,5 +1,6 @@
 package kr.co.sist.sc.user.view;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -15,8 +16,10 @@ public class SCUFindAccountView extends JDialog {
 
 	public SCUFindAccountView(SCULoginView slv) {
 
-		super(slv,"아이디/비밀번호 찾기",true);
-		
+		super(slv, "아이디/비밀번호 찾기", true);
+		// 컴포넌트 생성
+		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
+
 		// 전화번호로 아이디찾기
 		JLabel jlPhoneForID = new JLabel("전화번호");
 		jtfPhoneForID = new JTextField();
@@ -30,7 +33,6 @@ public class SCUFindAccountView extends JDialog {
 		jtfNameForPW = new JTextField();
 		jtfPhoneForPW = new JTextField();
 		jbtnFindPW = new JButton("비밀번호 찾기");
-
 
 		setLayout(null);
 
@@ -66,7 +68,11 @@ public class SCUFindAccountView extends JDialog {
 		addWindowListener(sfac);
 		jbtnFindID.addActionListener(sfac);
 		jbtnFindPW.addActionListener(sfac);
-		
+
+		// 창 설정
+		JLabel background = new JLabel(new ImageIcon(imgPath + "user_snackcorner_bg1(900x800).png"));
+		background.setBounds(0, 0, 900, 800);
+		add(background);
 		
 		setResizable(false);
 		setBounds(105, 140, 290, 450); // 완성 후에 창 뜨는 위치 약간 조정하기
@@ -97,4 +103,4 @@ public class SCUFindAccountView extends JDialog {
 		return jbtnFindPW;
 	}
 
-}//class
+}// class

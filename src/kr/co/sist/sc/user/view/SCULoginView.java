@@ -1,7 +1,6 @@
 package kr.co.sist.sc.user.view;
 
-
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -12,15 +11,17 @@ import kr.co.sist.sc.user.controller.SCULoginController;
 
 @SuppressWarnings("serial")
 public class SCULoginView extends JDialog {
-	
+
 	private JTextField jtfID;
 	private JPasswordField jpfPW;
 	private JButton jbtnLogin, jbtnSignUp, jbtnFindAccount;
-	
+
 	public SCULoginView(SCUMainView smv) {
-		
-		super(smv, "로그인", true);	
-		
+
+		super(smv, "로그인", true);
+		// 컴포넌트 생성
+		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
+
 		jtfID = new JTextField();
 		jpfPW = new JPasswordField();
 		jbtnLogin = new JButton("로그인");
@@ -41,7 +42,7 @@ public class SCULoginView extends JDialog {
 		jbtnFindAccount.setBounds(40, 130, 200, 30);
 		jbtnLogin.setBounds(20, 260, 110, 40);
 		jbtnSignUp.setBounds(150, 260, 110, 40);
-		
+
 		add(jlId);
 		add(jtfID);
 		add(jbtnFindAccount);
@@ -59,13 +60,17 @@ public class SCULoginView extends JDialog {
 		jbtnLogin.addActionListener(slc);
 		jbtnSignUp.addActionListener(slc);
 		jpfPW.addKeyListener(slc);
-		
+
+		// 창 설정
+		JLabel background = new JLabel(new ImageIcon(imgPath + "user_snackcorner_bg1(900x800).png"));
+		background.setBounds(0, 0, 900, 800);
+		add(background);
+
 		setBounds(100, 100, 300, 400);
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
-	
 	public JButton getJbtnFindAccount() {
 		return jbtnFindAccount;
 	}
@@ -73,8 +78,6 @@ public class SCULoginView extends JDialog {
 	public JTextField getJtfID() {
 		return jtfID;
 	}
-	
-	
 
 	public JPasswordField getJpfPW() {
 		return jpfPW;
