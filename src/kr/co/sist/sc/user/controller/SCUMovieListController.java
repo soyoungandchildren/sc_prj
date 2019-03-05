@@ -81,11 +81,7 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 	
 	
 	public void dialogBooking(String selectedMovieCode) {
-		if(smv.getIsLogin()) {
-			new SCUBookingView(smlv, selectedMovieCode);
-		}else {
-			JOptionPane.showMessageDialog(smlv, "로그인을 해주세요!");
-		}//end if else
+		new SCUBookingView(smlv, selectedMovieCode);
 	}//dialogBooking Method
 	
 	

@@ -35,6 +35,8 @@ public class SCUWriteRatingController extends WindowAdapter implements ActionLis
 			
 			if(cnt==1) {
 				JOptionPane.showMessageDialog(swrv, "한줄평이 등록되었습니다.");
+				swrv.getSrv().getDtmRatingTable().setRowCount(0);
+				new SCURatingController(swrv.getSrv());
 				swrv.dispose();
 			}else {
 				JOptionPane.showMessageDialog(swrv, "죄송합니다. 시스템 오류가 발생했습니다.");

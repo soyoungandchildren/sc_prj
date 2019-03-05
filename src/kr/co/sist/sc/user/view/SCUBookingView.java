@@ -54,9 +54,13 @@ public class SCUBookingView extends JDialog{
 		bg.add(jrbStandard);
 		bg.add(jrbPremium);
 		
+		jlblPersonnel.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblTitle.setFont(CustomFontList.getInstance().getFontTitle());
 		jrbAll.setFont(CustomFontList.getInstance().getFontLabel());
 		jrbPremium.setFont(CustomFontList.getInstance().getFontLabel());
 		jrbStandard.setFont(CustomFontList.getInstance().getFontLabel());
+		jlblPersonnel.setForeground(Color.WHITE);
+		jlblTitle.setForeground(Color.WHITE);
 		jrbAll.setForeground(Color.WHITE);
 		jrbPremium.setForeground(Color.WHITE);
 		jrbStandard.setForeground(Color.WHITE);
@@ -109,18 +113,16 @@ public class SCUBookingView extends JDialog{
 		//배치
 		setLayout(null);
 		
-		jlblTitle.setBounds(15, 15, 200, 40);
-		jcbDate.setBounds(30, 60, 200, 25);
-		jrbAll.setBounds(30, 90, 70, 25);
-		jrbStandard.setBounds(110, 90, 70, 25);
-		jrbPremium.setBounds(190, 90, 100, 25);
-		jcbPersonnel.setBounds(290, 60, 110, 25);
-		jspOnScreen.setBounds(30, 120, 520, 470);
-		jbtnCheckSeat.setBounds(420, 50, 125, 40);
-		jbtnExit.setBounds(240, 600, 125, 40);
-		jlblPersonnel.setBounds(240, 60, 50, 25);
-		
-		
+		jlblTitle.setBounds(30, 15, 500, 40);
+		jcbDate.setBounds(50, 70, 220, 25);
+		jrbAll.setBounds(50, 105, 70, 25);
+		jrbStandard.setBounds(130, 105, 70, 25);
+		jrbPremium.setBounds(210, 105, 100, 25);
+		jcbPersonnel.setBounds(345, 70, 110, 25);
+		jspOnScreen.setBounds(50, 135, 550, 550);
+		jbtnCheckSeat.setBounds(475, 60, 125, 40);
+		jbtnExit.setBounds(650/2-125/2, 695, 125, 40);
+		jlblPersonnel.setBounds(290, 70, 70, 25);
 		
 		add(jlblTitle);
 		add(jcbDate);
@@ -143,7 +145,6 @@ public class SCUBookingView extends JDialog{
 		jbtnExit.addActionListener(sbc);
 		jtOnScreen.addMouseListener(sbc);
 		jcbPersonnel.addActionListener(sbc);
-		
 		
 		//창 설정
 		JLabel background = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_book_bg5(650x780).png"));

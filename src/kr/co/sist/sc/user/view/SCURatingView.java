@@ -81,9 +81,9 @@ public class SCURatingView extends JDialog {
 	public DefaultTableModel getDtmRatingTable() {
 		return dtmRatingTable;
 	}
-	
 	public JTable getJtRatingTable() {
 		return jtRatingTable;
 	}
+	
 	
 }//Class

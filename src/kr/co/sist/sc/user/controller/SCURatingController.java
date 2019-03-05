@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 
 import kr.co.sist.sc.user.model.SCUMovieDAO;
 import kr.co.sist.sc.user.view.SCURatingView;
@@ -35,11 +36,15 @@ public class SCURatingController extends WindowAdapter implements ActionListener
 		try {
 			list = SCUMovieDAO.getInstance().selectRatingData(srv.getSmlv().getSelectedMovieCode());
 			
+			Object[] objArr = new Object[3];
 			if(list.size()==0) {
-				JOptionPane.showMessageDialog(srv, "등록된 한줄평이 없습니다!");
+				
+				objArr[0] = "";
+				objArr[1] = "등록된 한줄평이 없습니다.";
+				objArr[2] = "";
+				srv.getDtmRatingTable().addRow(objArr);
 			}else {
 				
-				Object[] objArr = new Object[3];
 				int star = 0;
 				ImageIcon imgStar = null;
 				for(int i =0; i<list.size(); i++) {
@@ -50,8 +55,8 @@ public class SCURatingController extends WindowAdapter implements ActionListener
 					objArr[1] = list.get(i).getReview();
 					objArr[2] = list.get(i).getMember_id();
 					
-					srv.getDtmRatingTable().addRow(objArr);
 					
+					srv.getDtmRatingTable().addRow(objArr);
 				}//end for
 				
 			}//end if
