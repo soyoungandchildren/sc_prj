@@ -4,8 +4,8 @@ public class SCUGetSnackHistoryVO {
 	private String snack_order_num, snack_sale_date, check_exchange;
 	private int quan, snack_price;
 
-	public SCUGetSnackHistoryVO(String snack_order_num, int quan, String snack_sale_date,  
-			 String check_exchange , int snack_price) {
+	public SCUGetSnackHistoryVO(String snack_order_num, int quan, String snack_sale_date, String check_exchange,
+			int snack_price) {
 		super();
 		this.snack_order_num = snack_order_num;
 		this.snack_sale_date = snack_sale_date;

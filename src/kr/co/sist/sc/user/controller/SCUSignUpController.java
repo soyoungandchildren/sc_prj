@@ -140,8 +140,6 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			JOptionPane.showMessageDialog(ssuv, "생년월일을 입력하세요");
 			jtfBirthdate.requestFocus();
 			return;
-		}else if() {
-			JOptionPane.showMessageDialog(ssuv, "생년월일은 숫자만 가능합니다.");
 		}
 		
 		//전화번호

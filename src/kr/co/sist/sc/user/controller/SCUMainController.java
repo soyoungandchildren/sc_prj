@@ -170,6 +170,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener{
 				new SCURefundView(smv);
 			}else {
 				JOptionPane.showMessageDialog(smv, "로그인을 해주세요.");
+				new SCULoginView(smv);
 			}
 		}
 	}//actionPerformed

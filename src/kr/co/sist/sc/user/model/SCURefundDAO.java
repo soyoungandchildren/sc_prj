@@ -5,7 +5,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import javax.swing.JOptionPane;
 
 import kr.co.sist.sc.user.view.SCURefundView;
 import kr.co.sist.sc.user.vo.SCUGetBookingHistoryVO;
@@ -47,9 +50,10 @@ public class SCURefundDAO {
 
 			StringBuilder sb = new StringBuilder();
 			sb.append(
-					"select b.book_number, b.payment_date,  b.personnel, t.screen_price, to_char(b.movie_start,'yyyy-mm-dd hh24:mm') movie_start ")
-					.append("from  book b, theater t, on_screen os ")
-					.append("where b.screen_num = os.screen_num and os.screen_name = t.screen_name and b.member_id =?");
+					"select b.book_number, m.movie_title, b.payment_date,  b.personnel, t.screen_price, to_char(b.movie_start,'yyyymmddhh24miss') movie_start ")
+					.append("from book b, theater t, on_screen os, movie m ")
+					.append("where b.screen_num = os.screen_num and os.screen_name = t.screen_name and os.movie_code = m.movie_code ")
+					.append("and b.member_id = ? ");
 
 			pstmt = con.prepareStatement(sb.toString());
 
@@ -58,8 +62,9 @@ public class SCURefundDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				sgbhVO = new SCUGetBookingHistoryVO(rs.getString("book_number"), rs.getString("payment_date"),
-						rs.getInt("personnel"), rs.getInt("screen_price"), rs.getString("movie_start"));
+				sgbhVO = new SCUGetBookingHistoryVO(rs.getString("book_number"), rs.getString("movie_title"),
+						rs.getString("payment_date"), rs.getString("movie_start"), rs.getInt("personnel"),
+						rs.getInt("screen_price"));
 				list.add(sgbhVO);
 			}
 		} finally {
@@ -115,10 +120,9 @@ public class SCURefundDAO {
 			}
 		}
 		return list;
-
 	}// searchSnackHistory
 
-	public boolean deleteBooking(String code,  String id, String refundPrice) throws SQLException {
+	public boolean deleteBooking(String code, String id, String refundPrice, String removable) throws SQLException {
 		boolean flag = false;
 
 		con = null;
@@ -127,68 +131,132 @@ public class SCURefundDAO {
 		pstmt3 = null;
 		pstmt4 = null;
 		rs = null;
-		
+
 		String deleteSeat = "";
 		int holdPoint = 0;
 		int refundPoint = Integer.parseInt(refundPrice);
-		
+
 		try {
 			con = SCUConnect.getInstance().getConnection();
-			// con.setAutoCommit(false);
 
-			// 예매의 좌석 삭제
+			if ("Y".equals(removable)) {
+				deleteSeat = "delete from book where book_number=?";
+				pstmt = con.prepareStatement(deleteSeat);
+				pstmt.setString(1, code);
+				int cnt = pstmt.executeUpdate();
+				if (cnt == 1) {
+					flag = true;
+				}
+			} else {
+				JOptionPane.showMessageDialog(srv, "예매취소 가능 시간이 아닙니다!");
+				flag = false;
+			}
 
-			if (code.substring(0, 1).equals("N")) {
-				deleteSeat = "delete from standard_seat where book_number=?";
-			} else if (code.substring(0, 1).equals("P")) {
-				deleteSeat = "delete from premium_seat where book_number=?";
-			}
-			pstmt = con.prepareStatement(deleteSeat);
-			pstmt.setString(1, code);
-			int cnt = pstmt.executeUpdate();
-			if (cnt == 1) {
-				flag = true;
-			}
-			
-			// 예매 삭제 (시간이랑 비교해서 영화 상영 전에만 취소될 수 있게 해야함.)
-			deleteSeat = "delete from book where book_number=?";
-			
-			pstmt2 = con.prepareStatement(deleteSeat);
-			pstmt2.setString(1, code);
-			int cnt2 = pstmt2.executeUpdate();
-			if(cnt2==1) {
-				flag = true;
-			}
-			
-			//보유한 포인트 조회
+			// 보유한 포인트 조회
 			String selectPoint = "select hold_point from member where member_id=?";
-			
-			System.out.println(id);
+
 			pstmt3 = con.prepareStatement(selectPoint);
 			pstmt3.setString(1, id);
-			
-			
+
 			rs = pstmt3.executeQuery();
-			
-			if(rs.next()) {
+
+			if (rs.next()) {
 				holdPoint = rs.getInt(1);
 			}
-			System.out.println(holdPoint);
-			
-			//포인트 환불 (update) (보유 포인트 + 환불 포인트)
+
+			// 포인트 환불 (update) (보유 포인트 + 환불 포인트)
 			int chgPoint = holdPoint + refundPoint;
 			String updatePoint = "update member set hold_point=? where member_id=?";
-			
+
 			pstmt4 = con.prepareStatement(updatePoint);
 			pstmt4.setInt(1, chgPoint);
 			pstmt4.setString(2, id);
-			
-			boolean chg = pstmt4.execute();
-			
+
+//			boolean chg = pstmt4.execute();
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		} 
+		} finally {
+			if (con != null) {
+				con.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (rs != null) {
+				rs.close();
+			}
+		}
+
+		// return한 flag 값이 어떻게 사용되는지 확인!
+		return flag;
+	}// deleteBooking
+
+	public boolean deleteSnack(String snackOrderNum, String id, int refundPrice, String removable) throws SQLException {
+		boolean flag = false;
+
+		con = null;
+		pstmt = null;
+		pstmt2 = null;
+		rs = null;
+
+		String deleteSanck = "";
+		int holdPoint = 0;
+
+		try {
+			con = SCUConnect.getInstance().getConnection();
+
+			if ("Y".equals(removable)) {
+				deleteSanck = "delete from snack_sale where snack_order_num=?";
+				pstmt = con.prepareStatement(deleteSanck);
+				pstmt.setString(1, snackOrderNum);
+				int cnt = pstmt.executeUpdate();
+				if (cnt == 1) {
+					flag = true;
+				}
+			} else {
+				JOptionPane.showMessageDialog(srv, "예매취소 가능 시간이 아닙니다!");
+				flag = false;
+			}
+
+			// 보유한 포인트 조회
+			String selectPoint = "select hold_point from member where member_id=?";
+
+			pstmt3 = con.prepareStatement(selectPoint);
+			pstmt3.setString(1, id);
+
+			rs = pstmt3.executeQuery();
+
+			if (rs.next()) {
+				holdPoint = rs.getInt(1);
+			}
+
+			// 포인트 환불 (update) (보유 포인트 + 환불 포인트)
+			int chgPoint = holdPoint + refundPrice;
+			String updatePoint = "update member set hold_point=? where member_id=?";
+
+			pstmt4 = con.prepareStatement(updatePoint);
+			pstmt4.setInt(1, chgPoint);
+			pstmt4.setString(2, id);
+
+			boolean chg = pstmt4.execute();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		} finally {
+			if (con != null) {
+				con.close();
+			}
+			if (pstmt != null) {
+				pstmt.close();
+			}
+			if (rs != null) {
+				rs.close();
+			}
+		} // finally
 
 		return flag;
-	}//
+	}// deleteSnack
+
 }// class
