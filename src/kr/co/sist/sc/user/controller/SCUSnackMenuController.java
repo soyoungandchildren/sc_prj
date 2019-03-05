@@ -59,17 +59,17 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 					ssmv.getJbtnMenu()[7-i].setEnabled(false);
 				}//end for
 			}//end if
-			
 		} catch (SQLException se) {
 			se.printStackTrace();
 		}//end catch
 	}//searchMenu
 	
+	//주문 목록 삭제
 	public void deleteSnackOnList() {
 		int selectRow = ssmv.getJtOrderList().getSelectedRow();
 		ssmv.getDtmOrderList().removeRow(selectRow);
 		
-		//합계
+		//주문 목록 삭제 -> 합계 값 변경
 		Object price = new Object();
 			
 		int temp = 0;
@@ -82,6 +82,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 		ssmv.getJtOrderTotalPrice().setValueAt(price, 0, 1);
 	}//deleteSnackOnList
 	
+	//결제
 	public void checkOutSnack() {
 		String member = ssmv.getSmv().getIdConnecting();
 		String totalOrderPrice = ssmv.getJtOrderTotalPrice().getValueAt(0,1).toString();
@@ -122,7 +123,6 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 				list.add(saosVO);
 			}//end for
 			try {
-				
 				boolean result = ssDAO.insertOrderSnack(list, totalOrderPrice, member);
 				if(result) {
 					JOptionPane.showMessageDialog(ssmv, "결제가 완료되었습니다.", "결제 완료", JOptionPane.PLAIN_MESSAGE);
@@ -134,16 +134,14 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 			} catch (SQLException se) {
 				se.printStackTrace();
 				JOptionPane.showMessageDialog(ssmv, "내부상의 문제로 결제가 취소되었습니다.", "결제 오류", JOptionPane.WARNING_MESSAGE);
-			}
+			}//end catch
 		case JOptionPane.CANCEL_OPTION :
 			return;
 		}//end switch
-			
 	}//checkOutSnack
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		
 		//스낵 정보로 이동 1~8
 		for(int i =0; i<ssmv.getJbtnMenu().length; i++) {
 			if(ae.getSource().equals(ssmv.getJbtnMenu()[i])) {
@@ -173,7 +171,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 			if(selectIdx != -1) {
 				switch(JOptionPane.showConfirmDialog(ssmv, "["+ssmv.getJtOrderList().getValueAt(selectIdx, 0)+"] [수량 : "+
 							ssmv.getJtOrderList().getValueAt(selectIdx, 2)+"] [총 가격 : "+ssmv.getJtOrderList().getValueAt(selectIdx, 3)+
-							"]을\n주문 목록에 삭제하시겠습니까?", "주문 삭제", JOptionPane.OK_CANCEL_OPTION)) {
+							"]을\n주문 목록에서 삭제하시겠습니까?", "주문 삭제", JOptionPane.OK_CANCEL_OPTION)) {
 				case JOptionPane.OK_OPTION :
 					JOptionPane.showMessageDialog(ssmv, "["+ssmv.getJtOrderList().getValueAt(selectIdx, 0)+"] [수량 : "+
 									ssmv.getJtOrderList().getValueAt(selectIdx, 2)+"] [총 가격 : "+ssmv.getJtOrderList().getValueAt(selectIdx, 3)+
@@ -197,5 +195,4 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 	public void windowClosing(WindowEvent we) {
 		ssmv.dispose();
 	}//windowClosing
-
 }//class

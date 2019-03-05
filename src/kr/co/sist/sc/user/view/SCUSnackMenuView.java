@@ -6,7 +6,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import kr.co.sist.sc.user.controller.SCUSnackMenuController;
 
@@ -72,6 +75,22 @@ public class SCUSnackMenuView extends JDialog{
 		
 		dtmOrderTotalPrice.addRow(rowData);
 		jtOrderTotalPrice.setTableHeader(null);
+		
+		//테이블 가운데 정렬
+		DefaultTableCellRenderer dtcrSort = new DefaultTableCellRenderer();
+		dtcrSort.setHorizontalAlignment(SwingConstants.CENTER);
+		TableColumnModel tcmTab1 = jtOrderList.getColumnModel();
+		TableColumnModel tcmTab2 = jtOrderTotalPrice.getColumnModel();
+		
+		//주문 목록 가운데 정렬
+		for(int i=0; i<tcmTab1.getColumnCount(); i++) {
+			tcmTab1.getColumn(i).setCellRenderer(dtcrSort);
+		}//end for
+		
+		//합계 가운데 정렬
+		for(int i=0; i<tcmTab2.getColumnCount(); i++) {
+			tcmTab2.getColumn(i).setCellRenderer(dtcrSort);
+		}//end for
 		
 		//버튼 테두리 없애기
 		jbtnCheckOut.setContentAreaFilled(false);
@@ -158,41 +177,31 @@ public class SCUSnackMenuView extends JDialog{
 	public SCUMainView getSmv() {
 		return smv;
 	}
-
 	public DefaultTableModel getDtmOrderList() {
 		return dtmOrderList;
 	}
-
 	public DefaultTableModel getDtmOrderTotalPrice() {
 		return dtmOrderTotalPrice;
 	}
-
 	public JTable getJtOrderList() {
 		return jtOrderList;
 	}
-
 	public JTable getJtOrderTotalPrice() {
 		return jtOrderTotalPrice;
 	}
-
 	public JButton getJbtnCheckOut() {
 		return jbtnCheckOut;
 	}
-
 	public JButton getJbtnDeleteOrder() {
 		return jbtnDeleteOrder;
 	}
-
 	public JButton getJbtnExit() {
 		return jbtnExit;
 	}
-
 	public JButton[] getJbtnMenu() {
 		return jbtnMenu;
 	}
-
 	public void setJbtnMenu(JButton[] jbtnMenu) {
 		this.jbtnMenu = jbtnMenu;
 	}
-
 }//class

@@ -133,7 +133,7 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 			case JOptionPane.OK_OPTION :
 				JOptionPane.showMessageDialog(sosv, "["+sosv.getJtfSnackName().getText()+"] [수량 : "+
 						sosv.getJcbQuan().getSelectedItem()+"] [총 가격 : "+sosv.getJtfTotalPrice().getText()+
-						"]이\n추가 되었습니다!", "주문 완료", JOptionPane.PLAIN_MESSAGE);
+						"]이\n주문 목록에 추가 되었습니다!", "주문 완료", JOptionPane.PLAIN_MESSAGE);
 				insertSnackOnList();
 			case JOptionPane.CANCEL_OPTION :
 				return;

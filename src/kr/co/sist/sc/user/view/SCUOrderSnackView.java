@@ -19,11 +19,10 @@ import kr.co.sist.sc.user.images.CustomFontList;
 public class SCUOrderSnackView extends JDialog {
 	private SCUSnackMenuView ssmv;
 	private JTextField jtfSnackName, jtfPrice, jtfTotalPrice;
-	private JLabel jlbSnackImg, jlbTitle;
+	private JLabel jlbSnackImg;
 	private JComboBox<String> jcbQuan;
 	private JTextArea jtaSnackInfo;
 	private JButton jbtnAddOrder, jbtnClose;
-//	private String snackName;
 	
 	public SCUOrderSnackView(SCUSnackMenuView ssmv, String snackName) {
 		super(ssmv, "스낵 정보", true);
@@ -32,7 +31,6 @@ public class SCUOrderSnackView extends JDialog {
 		//컴포넌트 생성
 		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
 		
-		jlbTitle = new JLabel("스낵 정보");
 		jlbSnackImg = new JLabel();
 		JLabel jlbSnackName = new JLabel("스낵명");
 		JLabel jlbPrice = new JLabel("가격");
@@ -66,9 +64,6 @@ public class SCUOrderSnackView extends JDialog {
 		jbtnClose.setBorderPainted(false);
 		
 		//라벨 폰트
-		jlbTitle.setForeground(Color.WHITE);
-		jlbTitle.setFont(CustomFontList.getInstance().getFontTitle());
-		
 		jlbSnackName.setForeground(Color.WHITE);
 		jlbSnackName.setFont(CustomFontList.getInstance().getFontLabel());
 		
@@ -84,7 +79,6 @@ public class SCUOrderSnackView extends JDialog {
 		jlbSnackInfo.setForeground(Color.WHITE);
 		jlbSnackInfo.setFont(CustomFontList.getInstance().getFontLabel());
 		
-		add(jlbTitle);
 		add(jlbSnackImg);
 		add(jlbSnackName);
 		add(jtfSnackName);
@@ -102,21 +96,21 @@ public class SCUOrderSnackView extends JDialog {
 		//배치
 		setLayout(null);
 		
-		jlbTitle.setBounds(20, 35, 140, 40);
-		jlbSnackImg.setBounds(50, 90, 325, 325);
-		jlbSnackName.setBounds(340, 100, 60, 30);
-		jtfSnackName.setBounds(390, 103, 130, 25);
-		jlbPrice.setBounds(340, 50, 60,30);
-		jtfPrice.setBounds(390, 53, 130, 25);
-		jlbQuan.setBounds(340, 80, 60,30);
-		jcbQuan.setBounds(390, 83, 130, 25);
-		jlbTotalPrice.setBounds(340, 110, 60,30);
-		jtfTotalPrice.setBounds(390, 113, 130, 25);
-		jlbSnackInfo.setBounds(340, 140, 60,30);
-		jspSnackInfo.setBounds(340, 165, 185, 85);
-		jbtnAddOrder.setBounds(175, 370, 125, 40);
-		jbtnClose.setBounds(315, 370, 125, 40);
+		jlbSnackImg.setBounds(50, 22, 325, 325);
+		jlbSnackName.setBounds(390, 18, 60, 30);
+		jtfSnackName.setBounds(440, 21, 130, 25);
+		jlbPrice.setBounds(390, 54, 60,30);
+		jtfPrice.setBounds(440, 57, 130, 25);
+		jlbQuan.setBounds(390, 90, 60,30);
+		jcbQuan.setBounds(440, 93, 130, 25);
+		jlbTotalPrice.setBounds(390, 126, 60,30);
+		jtfTotalPrice.setBounds(440, 129, 130, 25);
+		jlbSnackInfo.setBounds(390, 162, 60,30);
+		jspSnackInfo.setBounds(390, 193, 181, 152);
+		jbtnAddOrder.setBounds(175, 363, 125, 40);
+		jbtnClose.setBounds(315, 363, 125, 40);
 		
+		//수정 불가
 		jtfSnackName.setEditable(false);
 		jtfPrice.setEditable(false);
 		jtfTotalPrice.setEditable(false);
@@ -136,46 +130,37 @@ public class SCUOrderSnackView extends JDialog {
 		jbtnClose.addActionListener(sosc);
 		jcbQuan.addActionListener(sosc);
 		
+		//가시화
 		setBounds(ssmv.getX()+880, ssmv.getY()+100, 620, 450);
 		setResizable(false);
 		setVisible(true);
-		
 	}//SCUOrderSnackView
 
 	public SCUSnackMenuView getSsmv() {
 		return ssmv;
 	}
-
 	public JTextField getJtfSnackName() {
 		return jtfSnackName;
 	}
-
 	public JTextField getJtfPrice() {
 		return jtfPrice;
 	}
-
 	public JLabel getJlbSnackImg() {
 		return jlbSnackImg;
 	}
-
 	public JTextField getJtfTotalPrice() {
 		return jtfTotalPrice;
 	}
-
 	public JComboBox<String> getJcbQuan() {
 		return jcbQuan;
 	}
-
 	public JTextArea getJtaSnackInfo() {
 		return jtaSnackInfo;
 	}
-
 	public JButton getJbtnAddOrder() {
 		return jbtnAddOrder;
 	}
-
 	public JButton getJbtnClose() {
 		return jbtnClose;
 	}
-	
 }//class
