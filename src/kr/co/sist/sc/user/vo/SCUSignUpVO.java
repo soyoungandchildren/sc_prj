@@ -32,4 +32,12 @@ public class SCUSignUpVO {
 		return phone;
 	}
 
+	@Override
+	public String toString() {
+		return "SCUSignUpVO [member_id=" + member_id + ", password=" + password + ", name=" + name + ", birthdate="
+				+ birthdate + ", phone=" + phone + "]";
+	}
+	
+	
+
 }//class
