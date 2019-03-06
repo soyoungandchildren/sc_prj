@@ -6,20 +6,20 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import kr.co.sist.sc.user.controller.SCUMainController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUMainView extends JFrame {
-
-	private JLabel jlblImageBoard1, jlblImageBoard2, jlblImageBoard3, jlblBookingRank, 
-		jlblMovieName1, jlblAudience1, jlblAudienceCnt1, jlblReserve1, jlblReserveRate1,
-		jlblMovieName2, jlblAudience2, jlblAudienceCnt2, jlblReserve2, jlblReserveRate2,
-		jlblMovieName3, jlblAudience3, jlblAudienceCnt3, jlblReserve3, jlblReserveRate3;
+	private JLabel jlblImageBoard1, jlblImageBoard2, jlblImageBoard3, jlbRank1, jlbRank2, jlbRank3;
 	private JButton jbtnLogin, jbtnBooking, jbtnSnack, jbtnRefund, jbtnMyPage;
 	private boolean isLogin;
 	private String idConnecting;	
+	private JTextArea jtaBookingRank;
 
 	public SCUMainView() {
 		super("메인");
@@ -27,28 +27,14 @@ public class SCUMainView extends JFrame {
 		//컴포넌트 생성
 		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
 		
-		jlblBookingRank = new JLabel();
+		jtaBookingRank = new JTextArea();
 		jlblImageBoard1 = new JLabel();
 		jlblImageBoard2 = new JLabel();
 		jlblImageBoard3 = new JLabel();
 		
-		jlblMovieName1 = new JLabel();
-		jlblAudience1 = new JLabel("누적 관객 수 : ");
-		jlblAudienceCnt1 = new JLabel();
-		jlblReserve1 = new JLabel("예매율 ");
-		jlblReserveRate1 = new JLabel();
-		
-		jlblMovieName2 = new JLabel();
-		jlblAudience2 = new JLabel("누적 관객 수 : ");
-		jlblAudienceCnt2 = new JLabel();
-		jlblReserve2 = new JLabel("예매율 ");
-		jlblReserveRate2 = new JLabel();
-		
-		jlblMovieName3 = new JLabel();
-		jlblAudience3 = new JLabel("누적 관객 수 : ");
-		jlblAudienceCnt3 = new JLabel();
-		jlblReserve3 = new JLabel("예매율 ");
-		jlblReserveRate3 = new JLabel();
+		jlbRank1 = new JLabel();
+		jlbRank2 = new JLabel();
+		jlbRank3 = new JLabel();
 		
 		jbtnMyPage= new JButton(new ImageIcon(imgPath+"jbt_mypage(175x175).png"));
 		jbtnLogin= new JButton(new ImageIcon(imgPath+"jbt_login_join(215x40).png"));
@@ -68,41 +54,46 @@ public class SCUMainView extends JFrame {
 		jbtnRefund.setContentAreaFilled(false);
 		jbtnRefund.setBorderPainted(false);
 		
-		//컴포넌트 설정
-		jlblImageBoard1.setBorder(new LineBorder(Color.RED));
-		jlblImageBoard2.setBorder(new LineBorder(Color.RED));
-		jlblImageBoard3.setBorder(new LineBorder(Color.RED));
+		//랭킹 레일
+		jtaBookingRank.setOpaque(false);
+		jtaBookingRank.setEditable(false);
 		
-		jlblBookingRank.setBorder(new LineBorder(Color.WHITE));
+		//컴포넌트 설정
+		jlblImageBoard1.setBorder(new LineBorder(Color.WHITE));
+		jlblImageBoard2.setBorder(new LineBorder(Color.WHITE));
+		jlblImageBoard3.setBorder(new LineBorder(Color.WHITE));
+		
+		jtaBookingRank.setBorder(new LineBorder(Color.WHITE));
+		jtaBookingRank.setForeground(Color.WHITE);
+		jtaBookingRank.setFont(CustomFontList.getInstance().getFixedLengthFont());
+		
+		jlbRank1.setBorder(new LineBorder(Color.WHITE));
+		jlbRank1.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRank1.setForeground(Color.WHITE);
+		jlbRank1.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		jlbRank2.setBorder(new LineBorder(Color.WHITE));
+		jlbRank2.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRank2.setForeground(Color.WHITE);
+		jlbRank2.setHorizontalAlignment(SwingConstants.CENTER);
+		
+		jlbRank3.setBorder(new LineBorder(Color.WHITE));
+		jlbRank3.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRank3.setForeground(Color.WHITE);
+		jlbRank3.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		//컴포넌트 배치
 		setLayout(null);
 		
-		jlblBookingRank.setBounds(120, 36, 605, 35);
-		jlblImageBoard1.setBounds(100, 120, 200, 300);
-		jlblImageBoard2.setBounds(350, 120, 200, 300);
-		jlblImageBoard3.setBounds(600, 120, 200, 300);
+		jtaBookingRank.setBounds(120, 42, 605, 23);
+		jlblImageBoard1.setBounds(116, 100, 237, 315);
+		jlblImageBoard2.setBounds(376, 100, 237, 315);
+		jlblImageBoard3.setBounds(636, 100, 237, 315);
 		
-		//1위
-		jlblMovieName1.setBounds(150, 430, 100, 30);
-		jlblAudience1.setBounds(120, 450, 80, 30);
-		jlblAudienceCnt1.setBounds(230, 450, 100, 30);
-		jlblReserve1.setBounds(130, 470, 50, 30);
-		jlblReserveRate1.setBounds(180, 470, 50, 30);
-		
-		//2위
-		jlblMovieName2.setBounds(400, 430, 100, 30);
-		jlblAudience2.setBounds(370, 450, 80, 30);
-		jlblAudienceCnt2.setBounds(480, 450, 100, 30);
-		jlblReserve2.setBounds(380, 470, 50, 30);
-		jlblReserveRate2.setBounds(430, 470, 50, 30);
-		
-		//3위
-		jlblMovieName3.setBounds(650, 430, 100, 30);
-		jlblAudience3.setBounds(620, 450, 80, 30);
-		jlblAudienceCnt3.setBounds(730, 450, 100, 30);
-		jlblReserve3.setBounds(630, 470, 50, 30);
-		jlblReserveRate3.setBounds(680, 470, 50, 30);
+		//순위
+		jlbRank1.setBounds(116, 440, 237, 90);
+		jlbRank2.setBounds(376, 440, 237, 90);
+		jlbRank3.setBounds(636, 440, 237, 90);
 		
 		jbtnLogin.setBounds(752, 34, 215, 40);
 		jbtnBooking.setBounds(310, 550, 175, 175);
@@ -110,31 +101,14 @@ public class SCUMainView extends JFrame {
 		jbtnRefund.setBounds(710, 550, 175, 175);
 		jbtnMyPage.setBounds(110, 550, 175, 175);
 		
-		add(jlblBookingRank);
+		add(jtaBookingRank);
 		add(jlblImageBoard1);
 		add(jlblImageBoard2);
 		add(jlblImageBoard3);
 		
-		//1위
-		add(jlblMovieName1);
-		add(jlblAudience1);
-		add(jlblAudienceCnt1);
-		add(jlblReserve1);
-		add(jlblReserveRate1);
-		
-		//2위
-		add(jlblMovieName2);
-		add(jlblAudience2);
-		add(jlblAudienceCnt2);
-		add(jlblReserve2);
-		add(jlblReserveRate2);
-		
-		//3위
-		add(jlblMovieName3);
-		add(jlblAudience3);
-		add(jlblAudienceCnt3);
-		add(jlblReserve3);
-		add(jlblReserveRate3);
+		add(jlbRank1);
+		add(jlbRank2);
+		add(jlbRank3);
 		
 		add(jbtnMyPage);
 		add(jbtnRefund);
@@ -172,8 +146,8 @@ public class SCUMainView extends JFrame {
 	public JLabel getJlblImageBoard3() {
 		return jlblImageBoard3;
 	}
-	public JLabel getJlblBookingRank() {
-		return jlblBookingRank;
+	public JTextArea getJtaBookingRank() {
+		return jtaBookingRank;
 	}
 	public JButton getJbtnLogin() {
 		return jbtnLogin;
@@ -196,50 +170,14 @@ public class SCUMainView extends JFrame {
 	public String getIdConnecting() {
 		return idConnecting;
 	}
-	public JLabel getJlblMovieName1() {
-		return jlblMovieName1;
+	public JLabel getJlbRank1() {
+		return jlbRank1;
 	}
-	public JLabel getJlblAudience1() {
-		return jlblAudience1;
+	public JLabel getJlbRank2() {
+		return jlbRank2;
 	}
-	public JLabel getJlblAudienceCnt1() {
-		return jlblAudienceCnt1;
-	}
-	public JLabel getJlblReserve1() {
-		return jlblReserve1;
-	}
-	public JLabel getJlblReserveRate1() {
-		return jlblReserveRate1;
-	}
-	public JLabel getJlblMovieName2() {
-		return jlblMovieName2;
-	}
-	public JLabel getJlblAudience2() {
-		return jlblAudience2;
-	}
-	public JLabel getJlblAudienceCnt2() {
-		return jlblAudienceCnt2;
-	}
-	public JLabel getJlblReserve2() {
-		return jlblReserve2;
-	}
-	public JLabel getJlblReserveRate2() {
-		return jlblReserveRate2;
-	}
-	public JLabel getJlblMovieName3() {
-		return jlblMovieName3;
-	}
-	public JLabel getJlblAudience3() {
-		return jlblAudience3;
-	}
-	public JLabel getJlblAudienceCnt3() {
-		return jlblAudienceCnt3;
-	}
-	public JLabel getJlblReserve3() {
-		return jlblReserve3;
-	}
-	public JLabel getJlblReserveRate3() {
-		return jlblReserveRate3;
+	public JLabel getJlbRank3() {
+		return jlbRank3;
 	}
 	//end Getters
 	

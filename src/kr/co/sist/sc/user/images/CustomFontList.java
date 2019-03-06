@@ -75,7 +75,7 @@ public class CustomFontList {
 		Font font = null;
 		
 		try {
-			font = Font.createFont(Font.TRUETYPE_FONT, new File("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/nanumgodic.TTF")).deriveFont(13f);
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/nanumgodic_BOLD.TTF")).deriveFont(15f);
 			
 		}catch(FileNotFoundException fnfe){
 			fnfe.printStackTrace();

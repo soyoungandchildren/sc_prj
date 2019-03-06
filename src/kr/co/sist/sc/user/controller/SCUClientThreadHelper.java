@@ -1,15 +1,16 @@
 package kr.co.sist.sc.user.controller;
 
 import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 public class SCUClientThreadHelper implements Runnable{
 	
 	private String text;
-	private JLabel jlblBookingRank;
+	private JTextArea jtaBookingRank;
 
-	public SCUClientThreadHelper(String text, JLabel jlblBookingRank){
+	public SCUClientThreadHelper(String text, JTextArea jtaBookingRank){
 		this.text = text;
-		this.jlblBookingRank = jlblBookingRank;
+		this.jtaBookingRank = jtaBookingRank;
 		
 		Thread t = new Thread(this);
 		t.start();
@@ -23,7 +24,7 @@ public class SCUClientThreadHelper implements Runnable{
 		int y = 150;
 		while(true) {
 			
-			jlblBookingRank.setText((text).substring(x, y));
+			jtaBookingRank.setText((text).substring(x, y));
 			
 			try {
 				

@@ -1,6 +1,5 @@
 package kr.co.sist.sc.user.controller;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -13,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
-import kr.co.sist.sc.user.images.CustomFontList;
 import kr.co.sist.sc.user.model.SCUMainDAO;
 import kr.co.sist.sc.user.nio.SCUFileClient;
 import kr.co.sist.sc.user.view.SCULoginView;
@@ -56,7 +54,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    
    @Override
    public void run() {
-	   new SCUClientThreadHelper(ranking.toString(), smv.getJlblBookingRank());
+	   new SCUClientThreadHelper(ranking.toString(), smv.getJtaBookingRank());
       while(true) {
          try {
             setImgBoard();
@@ -93,21 +91,22 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
                .append("6위 - [ "+list.get(5).getMovie_title()+" ]         ")
                .append("                                                                                                                                           ");
          
-//         smv.getJlblBookingRank().setText(ranking.toString());
-         smv.getJlblBookingRank().setForeground(Color.WHITE);
-         smv.getJlblBookingRank().setFont(CustomFontList.getInstance().getFixedLengthFont());
+         //가운데 영화 랭킹 정보
+         StringBuilder info1 = new StringBuilder();
+         info1.append(list.get(0).getMovie_title()+"\n")
+         		.append("룰루");
          
          //1위 정보
-         smv.getJlblMovieName1().setText(list.get(0).getMovie_title());
-         smv.getJlblAudienceCnt1().setText(String.valueOf(list.get(0).getAudience())+"명");
+         smv.getJlbRank1().setText(info1.toString());
+         //smv.getJlblRankCnt1().setText(String.valueOf(list.get(0).getRank())+"명");
          
          //2위 정보
-         smv.getJlblMovieName2().setText(list.get(1).getMovie_title());
-         smv.getJlblAudienceCnt2().setText(String.valueOf(list.get(1).getAudience())+"명");
+         smv.getJlbRank2().setText(list.get(1).getMovie_title());
+        // smv.getJlblRankCnt2().setText(String.valueOf(list.get(1).getRank())+"명");
          
          //3위 정보
-         smv.getJlblMovieName3().setText(list.get(2).getMovie_title());
-         smv.getJlblAudienceCnt3().setText(String.valueOf(list.get(2).getAudience())+"명");
+         smv.getJlbRank3().setText(list.get(2).getMovie_title());
+        // smv.getJlblAudienceCnt3().setText(String.valueOf(list.get(2).getAudience())+"명");
          
 //         ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ] 누적 관람객 "+list.get(0).getAudience()+"명         ")
 //         .append("2위 - [ "+list.get(1).getMovie_title()+" ] 누적 관람객 "+list.get(1).getAudience()+"명         ")
@@ -135,9 +134,9 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
          String rank2 = String.format("%.2f",(double)cnt[1]/(double)bookingCnt*100.0);
          String rank3 = String.format("%.2f",(double)cnt[2]/(double)bookingCnt*100.0);
          
-         smv.getJlblReserveRate1().setText(rank1+"%");
-         smv.getJlblReserveRate2().setText(rank2+"%");
-         smv.getJlblReserveRate3().setText(rank3+"%");
+         //smv.getJlblReserveRate1().setText(rank1+"%");
+         //smv.getJlblReserveRate2().setText(rank2+"%");
+         //smv.getJlblReserveRate3().setText(rank3+"%");
          
       } catch (SQLException se) {
          se.printStackTrace();
