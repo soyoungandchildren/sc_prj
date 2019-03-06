@@ -30,11 +30,11 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 		try {
 			SCUSearchMyPageVO ssmpVO = SCUMyPageDAO.getInstance().selectMyPage(smpv.getSmv().getIdConnecting());
 			
-			smpv.getJtfAccPoint().setText(String.valueOf(ssmpVO.getAcc_point()));
-			smpv.getJtfBirthdate().setText(ssmpVO.getBirthdate());
-			smpv.getJtfHoldPoint().setText(String.valueOf(ssmpVO.getHold_point()));
-			smpv.getJtfInputDate().setText(ssmpVO.getInput_date());
-			smpv.getJtfMemberID().setText(ssmpVO.getMember_id());
+			smpv.getJtfAccPoint().setText(" "+String.valueOf(ssmpVO.getAcc_point()));
+			smpv.getJtfBirthdate().setText(" "+ssmpVO.getBirthdate());
+			smpv.getJtfHoldPoint().setText(" "+String.valueOf(ssmpVO.getHold_point()));
+			smpv.getJtfInputDate().setText(" "+ssmpVO.getInput_date());
+			smpv.getJtfMemberID().setText(" "+ssmpVO.getMember_id());
 			
 			String membership = "";
 			switch (ssmpVO.getMembership()) {
@@ -48,9 +48,9 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 				membership = "VIP È¸¿ø";
 				break;
 			}
-			smpv.getJtfMembership().setText(membership);
-			smpv.getJtfName().setText(ssmpVO.getName());
-			smpv.getJtfPhone().setText(ssmpVO.getPhone());
+			smpv.getJtfMembership().setText(" "+membership);
+			smpv.getJtfName().setText(" "+ssmpVO.getName());
+			smpv.getJtfPhone().setText(" "+ssmpVO.getPhone());
 			
 		}catch(SQLException sqle) {
 			sqle.printStackTrace();
