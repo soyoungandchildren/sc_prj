@@ -84,18 +84,18 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
          
          //상단 영화 순위
          ranking = new StringBuilder();
-         ranking.append("                                                                                                                                               ")
+         ranking.append("                                                                                 ")
          		.append(" 1위 - [ "+list.get(0).getMovie_title()+" ]         ")
                .append("2위 - [ "+list.get(1).getMovie_title()+" ]         ")
                .append("3위 - [ "+list.get(2).getMovie_title()+" ]         ")
                .append("4위 - [ "+list.get(3).getMovie_title()+" ]         ")
                .append("5위 - [ "+list.get(4).getMovie_title()+" ]         ")
                .append("6위 - [ "+list.get(5).getMovie_title()+" ]         ")
-               .append("                                                                                                                                 ");
+               .append("                                                                                                                                           ");
          
 //         smv.getJlblBookingRank().setText(ranking.toString());
          smv.getJlblBookingRank().setForeground(Color.WHITE);
-         smv.getJlblBookingRank().setFont(CustomFontList.getInstance().getFontLabel());
+         smv.getJlblBookingRank().setFont(CustomFontList.getInstance().getFixedLengthFont());
          
          //1위 정보
          smv.getJlblMovieName1().setText(list.get(0).getMovie_title());

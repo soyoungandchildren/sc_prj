@@ -27,7 +27,7 @@ public class SCUClientThreadHelper implements Runnable{
 			
 			try {
 				
-				Thread.sleep(60);
+				Thread.sleep(85);
 				
 	            x+=1;
 	            y+=1;

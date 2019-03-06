@@ -88,4 +88,21 @@ public class CustomFontList {
 		return font;
 	}
 	
+	public Font getFixedLengthFont() {
+		Font font = null;
+		
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/D2Coding-Ver1.3.2-20180524.ttc")).deriveFont(15f);
+			
+		}catch(FileNotFoundException fnfe){
+			fnfe.printStackTrace();
+		}catch(IOException ioe) {
+			ioe.printStackTrace();
+		}catch(FontFormatException ffe) {
+			ffe.printStackTrace();
+		}
+		
+		return font;
+	}
+	
 }
