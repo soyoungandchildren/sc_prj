@@ -66,6 +66,7 @@ public class SCUMainView extends JFrame {
 		jtaBookingRank.setBorder(new LineBorder(Color.WHITE));
 		jtaBookingRank.setForeground(Color.WHITE);
 		jtaBookingRank.setFont(CustomFontList.getInstance().getFixedLengthFont());
+		jtaBookingRank.setFocusable(false);
 		
 		jlbRank1.setBorder(new LineBorder(Color.WHITE));
 		jlbRank1.setFont(CustomFontList.getInstance().getFontLabel());
