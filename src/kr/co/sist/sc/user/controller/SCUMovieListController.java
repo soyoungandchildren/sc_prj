@@ -113,6 +113,8 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 		}//end if
 		
 		if(smlv.getSelectedMovieCode()==null) {
+			
+
 			JOptionPane.showMessageDialog(smlv, "영화를 선택해 주세요.");
 			return;
 		}//end if
