@@ -11,33 +11,9 @@ public class SCUClientThreadHelper implements Runnable{
 		this.text = text;
 		this.jlblBookingRank = jlblBookingRank;
 		
-		//smv.getJlblBookingRank().setText((ranking.toString()).substring(x, y));
 		Thread t = new Thread(this);
 		t.start();
 		
-		/*
-		 * 
-		 *  while(true) {
-         try {
-            setImgBoard();
-            x+=1;
-            y+=1;
-///////////////////////////////////            SCUFileClient.getInstance().connectToServer(0);
-            if(y==ranking.toString().length()) {
-            	x=0;
-            	y=150;
-            }
-            
-            smv.getJlblBookingRank().setText((ranking.toString()).substring(x, y));
-            
-            Thread.sleep(10);
-         } catch (InterruptedException e) {
-            e.printStackTrace();
-///////////////////////////////////         }catch(IOException ioe) {
-///////////////////////////////////        	 ioe.printStackTrace();
-         }//end catch
-		 * 
-		 */
 	}
 	
 	@Override
@@ -51,7 +27,7 @@ public class SCUClientThreadHelper implements Runnable{
 			
 			try {
 				
-				Thread.sleep(40);
+				Thread.sleep(60);
 				
 	            x+=1;
 	            y+=1;
