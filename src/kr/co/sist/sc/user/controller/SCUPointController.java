@@ -21,18 +21,17 @@ public class SCUPointController extends WindowAdapter implements ActionListener 
 		this.spv = spv;
 		spDAO = SCUPointDAO.getInstance();
 		user = memberId;
-		spv.getJtfNowPoint().setText(holdPoint);
-		
 		nowPoint = Integer.parseInt(holdPoint);
-		String temp = String.valueOf(spv.getJcbPoint().getSelectedItem());
-		int charge = Integer.parseInt(temp.replaceAll(",", ""));
-		sumPoint = nowPoint+charge;
+		spv.getJtfNowPoint().setText(holdPoint);
 	}//SCUPointController
 	
 	public void PointUpdate() {
 		try {
-			boolean result = spDAO.PointCharge(sumPoint, user);
+			String temp = String.valueOf(spv.getJcbPoint().getSelectedItem());
+			int charge = Integer.parseInt(temp.replaceAll(",", ""));
+			sumPoint = nowPoint+charge;
 			
+			boolean result = spDAO.PointCharge(sumPoint, user);
 			if(!result) {
 				JOptionPane.showMessageDialog(spv, "충전이 완료되었습니다!", "충전 완료", JOptionPane.PLAIN_MESSAGE);
 			} else {

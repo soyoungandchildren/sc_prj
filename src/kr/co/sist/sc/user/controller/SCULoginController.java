@@ -7,6 +7,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -60,7 +61,7 @@ public class SCULoginController extends WindowAdapter implements ActionListener,
 				} else { // 로그인이 되었을 때
 					smv.setIsLogin(true);
 					smv.setIdConnecting(idConnect);
-					smv.getJbtnLogin().setText("로그아웃");
+					smv.getJbtnLogin().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_logout(215x40).png"));
 					slv.dispose();
 				} // end if
 

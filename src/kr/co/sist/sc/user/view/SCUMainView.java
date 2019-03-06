@@ -50,11 +50,23 @@ public class SCUMainView extends JFrame {
 		jlblReserve3 = new JLabel("예매율 ");
 		jlblReserveRate3 = new JLabel();
 		
-		jbtnMyPage= new JButton(new ImageIcon(imgPath+"jbt_payment(125x40).png"));
-		jbtnLogin= new JButton(new ImageIcon(imgPath+"jbt_payment(125x40).png"));
+		jbtnMyPage= new JButton(new ImageIcon(imgPath+"jbt_mypage(175x175).png"));
+		jbtnLogin= new JButton(new ImageIcon(imgPath+"jbt_login_join(215x40).png"));
 		jbtnBooking= new JButton(new ImageIcon(imgPath+"jbt_ticketing(175x175).png"));
 		jbtnSnack= new JButton(new ImageIcon(imgPath+"jbt_buy_the_snack(175x175).png"));
 		jbtnRefund= new JButton(new ImageIcon(imgPath+"jbt_cancel_payment(175x175).png"));
+		
+		//버튼 테두리 없애기
+		jbtnLogin.setContentAreaFilled(false);
+		jbtnLogin.setBorderPainted(false);
+		jbtnMyPage.setContentAreaFilled(false);
+		jbtnMyPage.setBorderPainted(false);
+		jbtnBooking.setContentAreaFilled(false);
+		jbtnBooking.setBorderPainted(false);
+		jbtnSnack.setContentAreaFilled(false);
+		jbtnSnack.setBorderPainted(false);
+		jbtnRefund.setContentAreaFilled(false);
+		jbtnRefund.setBorderPainted(false);
 		
 		//컴포넌트 설정
 		jlblImageBoard1.setBorder(new LineBorder(Color.RED));

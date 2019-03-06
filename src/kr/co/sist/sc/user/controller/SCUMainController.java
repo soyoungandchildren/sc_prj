@@ -177,7 +177,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
          }else {
             smv.setIsLogin(false);
             smv.setIdConnecting("");
-            smv.getJbtnLogin().setText("로그인/회원가입");
+            smv.getJbtnLogin().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_login_join(215x40).png"));;
          }//end else
       }//end if
       
