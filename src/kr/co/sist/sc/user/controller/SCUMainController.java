@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
 import kr.co.sist.sc.user.model.SCUMainDAO;
+import kr.co.sist.sc.user.nio.SCUFileClient;
 import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUMovieListView;
@@ -31,6 +33,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    public SCUMainController(SCUMainView smv) {
       this.smv = smv;
       smDAO = SCUMainDAO.getInstance();
+      ////////////////////////////////initFile();
       runThread();
       setImgBoard();
    }//Constructor
@@ -40,14 +43,25 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
       t.start();
    }//runThread
    
+   public void initFile() {
+	   try {
+		   SCUFileClient.getInstance().connectToServer(1);
+	   }catch(IOException ioe) {
+		   ioe.printStackTrace();
+	   }
+   }
+   
    @Override
    public void run() {
       while(true) {
          try {
             setImgBoard();
+///////////////////////////////////            SCUFileClient.getInstance().connectToServer(0);
             Thread.sleep(1000*10);
          } catch (InterruptedException e) {
             e.printStackTrace();
+///////////////////////////////////         }catch(IOException ioe) {
+///////////////////////////////////        	 ioe.printStackTrace();
          }//end catch
       }//end while
    }//run

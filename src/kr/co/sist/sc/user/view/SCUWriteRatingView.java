@@ -39,8 +39,8 @@ public class SCUWriteRatingView extends JDialog{
 		jtaReview = new JTextArea();
 		JScrollPane jspReview = new JScrollPane(jtaReview);
 		jtaReview.setLineWrap(true);
-		jbtnCommit = new JButton(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\jbt_write_complete(125x40).png"));
-		jbtnExit = new JButton(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\jbt_close(125x40).png"));
+		jbtnCommit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_write_complete(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_close(125x40).png"));
 		
 		
 		jbtnCommit.setContentAreaFilled(false);
@@ -77,7 +77,7 @@ public class SCUWriteRatingView extends JDialog{
 		jbtnCommit.addActionListener(swrc);
 		jbtnExit.addActionListener(swrc);
 		
-		JLabel background = new JLabel(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\user_book_bg4(500x400).png"));
+		JLabel background = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_book_bg4(500x400).png"));
 		background.setBounds(0, 0, 500, 400);
 		add(background);
 		

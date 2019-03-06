@@ -60,13 +60,15 @@ public class SCUMovieListView extends JDialog {
 			}
 			
 		};
+		//105,153
 		JScrollPane jspMovieTable = new JScrollPane(jtMovieTable);
 		
 		
 		//컴포넌트 설정
 		jtMovieTable.getTableHeader().setReorderingAllowed(false);
 		jtMovieTable.getTableHeader().setResizingAllowed(false);
-		jtMovieTable.setRowHeight(120);
+		jtMovieTable.setRowHeight(153);
+		jtMovieTable.getColumn("포스터").setWidth(105);
 		jtMovieTable.getColumn("영화코드").setMaxWidth(0);
 		jtMovieTable.getColumn("영화코드").setMinWidth(0);
 		jtMovieTable.getColumn("영화코드").setPreferredWidth(0);
@@ -164,7 +166,7 @@ public class SCUMovieListView extends JDialog {
 	class TextTableRenderer extends JTextArea implements TableCellRenderer{
 		
 		public TextTableRenderer() {
-			setOpaque(true);
+			setOpaque(false);
 			setLineWrap(true);
 		}
 		
