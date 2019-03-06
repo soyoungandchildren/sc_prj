@@ -1,5 +1,7 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -8,6 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.controller.SCULoginController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCULoginView extends JDialog {
@@ -24,24 +27,39 @@ public class SCULoginView extends JDialog {
 
 		jtfID = new JTextField();
 		jpfPW = new JPasswordField();
-		jbtnLogin = new JButton("로그인");
-		jbtnSignUp = new JButton("회원가입");
-		jbtnFindAccount = new JButton("아이디/비밀번호 찾기");
+		
+		jbtnLogin = new JButton(new ImageIcon(imgPath+"jbt_login(100x40).png"));
+		jbtnSignUp = new JButton(new ImageIcon(imgPath+"jbt_join_member(100x40).png"));
+		jbtnFindAccount = new JButton(new ImageIcon(imgPath+"jbt_find_id_passwd(220x27).png"));
 
 		JLabel jlId = new JLabel("로그인");
 		JLabel jlPass = new JLabel("비밀번호");
 
 		setLayout(null);
 
-		jlId.setBounds(20, 50, 100, 30);
-		jtfID.setBounds(80, 50, 180, 30);
+		jlId.setBounds(31, 130, 100, 30);
+		jlId.setForeground(Color.white);
+		jlId.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfID.setBounds(80, 130, 180, 30);
 
-		jlPass.setBounds(20, 90, 100, 30);
-		jpfPW.setBounds(80, 90, 180, 30);
+		jlPass.setBounds(20, 170, 100, 30);
+		jlPass.setForeground(Color.white);
+		jlPass.setFont(CustomFontList.getInstance().getFontLabel());
+		jpfPW.setBounds(80, 170, 180, 30);
 
-		jbtnFindAccount.setBounds(40, 130, 200, 30);
-		jbtnLogin.setBounds(20, 260, 110, 40);
-		jbtnSignUp.setBounds(150, 260, 110, 40);
+		jbtnFindAccount.setBounds(40, 220, 220, 27);
+		jbtnFindAccount.setContentAreaFilled(false);
+		jbtnFindAccount.setBorderPainted(false);
+
+		jbtnLogin.setBounds(20, 310, 100, 40);
+		//테두리 없애기
+		jbtnLogin.setContentAreaFilled(false);
+		jbtnLogin.setBorderPainted(false);
+
+		jbtnSignUp.setBounds(150, 310, 100, 40);
+		jbtnSignUp.setContentAreaFilled(false);
+		jbtnSignUp.setBorderPainted(false);
+
 
 		add(jlId);
 		add(jtfID);
@@ -62,11 +80,11 @@ public class SCULoginView extends JDialog {
 		jpfPW.addKeyListener(slc);
 
 		// 창 설정
-		JLabel background = new JLabel(new ImageIcon(imgPath + "user_snackcorner_bg1(900x800).png"));
-		background.setBounds(0, 0, 900, 800);
+		JLabel background = new JLabel(new ImageIcon(imgPath + "user_login_bg1(300x500).png"));
+		background.setBounds(0, 0, 300, 500);
 		add(background);
 
-		setBounds(100, 100, 300, 400);
+		setBounds(smv.getX() + 301, smv.getY() + 50, 300, 500);
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

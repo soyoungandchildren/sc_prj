@@ -1,5 +1,7 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -7,6 +9,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.controller.SCUFindAccountController;
+import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUFindAccountView extends JDialog {
@@ -23,7 +26,7 @@ public class SCUFindAccountView extends JDialog {
 		// 전화번호로 아이디찾기
 		JLabel jlPhoneForID = new JLabel("전화번호");
 		jtfPhoneForID = new JTextField();
-		jbtnFindID = new JButton("아이디 찾기");
+		jbtnFindID = new JButton(new ImageIcon(imgPath+"jbt_find_id(220x27).png"));
 
 		// 아래 정보로 비번찾기
 		JLabel jlIDForPW = new JLabel("아이디");
@@ -32,24 +35,40 @@ public class SCUFindAccountView extends JDialog {
 		jtfIDForPW = new JTextField();
 		jtfNameForPW = new JTextField();
 		jtfPhoneForPW = new JTextField();
-		jbtnFindPW = new JButton("비밀번호 찾기");
+		jbtnFindPW = new JButton(new ImageIcon(imgPath+"jbt_find_passwd(220x27).png"));
 
 		setLayout(null);
 
-		jlPhoneForID.setBounds(20, 30, 100, 30);
-		jtfPhoneForID.setBounds(80, 30, 180, 30);
-		jbtnFindID.setBounds(70, 80, 140, 30);
+		jlPhoneForID.setBounds(25, 50, 100, 30);
+		jlPhoneForID.setForeground(Color.white);
+		jlPhoneForID.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfPhoneForID.setBounds(85, 50, 180, 30);
+		
+		jbtnFindID.setBounds(35, 100, 220, 27);
+		jbtnFindID.setContentAreaFilled(false);
+		jbtnFindID.setBorderPainted(false);
 
-		jlIDForPW.setBounds(20, 180, 100, 30);
-		jlNameForPW.setBounds(20, 220, 100, 30);
-		jlPhoneForPW.setBounds(20, 260, 100, 30);
 
-		jtfIDForPW.setBounds(80, 180, 180, 30);
-		jtfNameForPW.setBounds(80, 220, 180, 30);
-		jtfPhoneForPW.setBounds(80, 260, 180, 30);
-
-		jbtnFindPW.setBounds(70, 310, 140, 30);
-
+		jlIDForPW.setBounds(25, 200, 100, 30);
+		jlIDForPW.setForeground(Color.white);
+		jlIDForPW.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfIDForPW.setBounds(85, 200, 180, 30);
+	
+		jlNameForPW.setBounds(25, 240, 100, 30);
+		jlNameForPW.setForeground(Color.white);
+		jlNameForPW.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfNameForPW.setBounds(85, 240, 180, 30);
+		
+		jlPhoneForPW.setBounds(25, 280, 100, 30);
+		jlPhoneForPW.setForeground(Color.white);
+		jlPhoneForPW.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfPhoneForPW.setBounds(85, 280, 180, 30);
+		
+		jbtnFindPW.setBounds(35, 330, 220, 27);
+		//버튼 테두리 없애기
+		jbtnFindPW.setContentAreaFilled(false);
+		jbtnFindPW.setBorderPainted(false);
+				
 		add(jlPhoneForID);
 		add(jlIDForPW);
 		add(jlNameForPW);
@@ -70,12 +89,12 @@ public class SCUFindAccountView extends JDialog {
 		jbtnFindPW.addActionListener(sfac);
 
 		// 창 설정
-		JLabel background = new JLabel(new ImageIcon(imgPath + "user_snackcorner_bg1(900x800).png"));
-		background.setBounds(0, 0, 900, 800);
+		JLabel background = new JLabel(new ImageIcon(imgPath + "user_login_bg2(300x500).png"));
+		background.setBounds(0, 0, 300, 500);
 		add(background);
 		
 		setResizable(false);
-		setBounds(105, 140, 290, 450); // 완성 후에 창 뜨는 위치 약간 조정하기
+		setBounds(slv.getX(), slv.getY(), 300, 500); // 완성 후에 창 뜨는 위치 약간 조정하기
 		setVisible(true);
 	}
 
