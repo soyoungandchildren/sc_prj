@@ -62,6 +62,7 @@ public class SCUPointView extends JDialog{
 		jtfNowPoint.setEditable(false);
 		
 		String holdPoint = smpv.getJtfHoldPoint().getText();
+		String memberId = smpv.getJtfMemberID().getText();
 		
 		add(jlbTitle);
 		add(jlbNowPoint);
@@ -89,7 +90,7 @@ public class SCUPointView extends JDialog{
 		jbtnClose.setBounds(148,210,90,40);
 		
 		//¿Ã∫•∆Æ
-		SCUPointController spc = new SCUPointController(this, holdPoint);
+		SCUPointController spc = new SCUPointController(this, holdPoint, memberId);
 		addWindowListener(spc);
 		jbtnCharge.addActionListener(spc);
 		jbtnClose.addActionListener(spc);
