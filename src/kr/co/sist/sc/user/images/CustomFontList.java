@@ -71,4 +71,21 @@ public class CustomFontList {
 		return font;
 	}
 	
+	public Font getFontRank() {
+		Font font = null;
+		
+		try {
+			font = Font.createFont(Font.TRUETYPE_FONT, new File("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/nanumgodic.TTF")).deriveFont(13f);
+			
+		}catch(FileNotFoundException fnfe){
+			fnfe.printStackTrace();
+		}catch(IOException ioe) {
+			ioe.printStackTrace();
+		}catch(FontFormatException ffe) {
+			ffe.printStackTrace();
+		}
+		
+		return font;
+	}
+	
 }

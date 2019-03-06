@@ -73,12 +73,12 @@ public class SCUMainView extends JFrame {
 		jlblImageBoard2.setBorder(new LineBorder(Color.RED));
 		jlblImageBoard3.setBorder(new LineBorder(Color.RED));
 		
-		jlblBookingRank.setBorder(new LineBorder(Color.BLUE));
+		jlblBookingRank.setBorder(new LineBorder(Color.WHITE));
 		
 		//컴포넌트 배치
 		setLayout(null);
 		
-		jlblBookingRank.setBounds(20, 22, 660, 30);
+		jlblBookingRank.setBounds(120, 36, 605, 35);
 		jlblImageBoard1.setBounds(100, 120, 200, 300);
 		jlblImageBoard2.setBounds(350, 120, 200, 300);
 		jlblImageBoard3.setBounds(600, 120, 200, 300);
@@ -104,11 +104,11 @@ public class SCUMainView extends JFrame {
 		jlblReserve3.setBounds(630, 470, 50, 30);
 		jlblReserveRate3.setBounds(680, 470, 50, 30);
 		
-		jbtnLogin.setBounds(700, 20, 130, 40);
-		jbtnBooking.setBounds(280, 550, 175, 175);
-		jbtnSnack.setBounds(480, 550, 175, 175);
-		jbtnRefund.setBounds(680, 550, 175, 175);
-		jbtnMyPage.setBounds(80, 550, 140, 60);
+		jbtnLogin.setBounds(752, 34, 215, 40);
+		jbtnBooking.setBounds(310, 550, 175, 175);
+		jbtnSnack.setBounds(510, 550, 175, 175);
+		jbtnRefund.setBounds(710, 550, 175, 175);
+		jbtnMyPage.setBounds(110, 550, 175, 175);
 		
 		add(jlblBookingRank);
 		add(jlblImageBoard1);

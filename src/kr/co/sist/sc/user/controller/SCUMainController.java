@@ -1,5 +1,6 @@
 package kr.co.sist.sc.user.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -12,6 +13,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 
+import kr.co.sist.sc.user.images.CustomFontList;
 import kr.co.sist.sc.user.model.SCUMainDAO;
 import kr.co.sist.sc.user.nio.SCUFileClient;
 import kr.co.sist.sc.user.view.SCULoginView;
@@ -29,6 +31,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    private Integer[] cnt;
    private int cntCheckPassword;
    private Thread t;
+   private StringBuilder ranking;
    
    public SCUMainController(SCUMainView smv) {
       this.smv = smv;
@@ -53,11 +56,22 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    
    @Override
    public void run() {
+	   int x = 0;
+	   int y = 150;
       while(true) {
          try {
             setImgBoard();
+            x+=1;
+            y+=1;
 ///////////////////////////////////            SCUFileClient.getInstance().connectToServer(0);
-            Thread.sleep(1000*10);
+            if(y==ranking.toString().length()) {
+            	x=0;
+            	y=150;
+            }
+            
+            smv.getJlblBookingRank().setText((ranking.toString()).substring(x, y));
+            
+            Thread.sleep(10);
          } catch (InterruptedException e) {
             e.printStackTrace();
 ///////////////////////////////////         }catch(IOException ioe) {
@@ -78,15 +92,19 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
          }//end for
          
          //상단 영화 순위
-         StringBuilder ranking = new StringBuilder();
-         ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ]         ")
+         ranking = new StringBuilder();
+         ranking.append("                                                                                                                                               ")
+         		.append(" 1위 - [ "+list.get(0).getMovie_title()+" ]         ")
                .append("2위 - [ "+list.get(1).getMovie_title()+" ]         ")
                .append("3위 - [ "+list.get(2).getMovie_title()+" ]         ")
                .append("4위 - [ "+list.get(3).getMovie_title()+" ]         ")
                .append("5위 - [ "+list.get(4).getMovie_title()+" ]         ")
-               .append("6위 - [ "+list.get(5).getMovie_title()+" ]         ");
+               .append("6위 - [ "+list.get(5).getMovie_title()+" ]         ")
+               .append("                                                                                                                                 ");
          
-         smv.getJlblBookingRank().setText(ranking.toString());
+//         smv.getJlblBookingRank().setText(ranking.toString());
+         smv.getJlblBookingRank().setForeground(Color.WHITE);
+         smv.getJlblBookingRank().setFont(CustomFontList.getInstance().getFontLabel());
          
          //1위 정보
          smv.getJlblMovieName1().setText(list.get(0).getMovie_title());
