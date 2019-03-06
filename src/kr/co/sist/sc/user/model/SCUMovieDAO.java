@@ -227,13 +227,46 @@ public class SCUMovieDAO {
 	}//selectReservedSeat
 	
 	
-	public boolean insertBooking(SCUInsertBookingVO sibVO, List<SCUInsertSeatVO> listSisVO, String screenName){
+	public String selectMembership(String idConnect) throws SQLException{
+		String membership = "";
+		con = null;
+		pstmt1 = null;
+		rs = null;
+		
+		try {
+			con = SCUConnect.getInstance().getConnection();
+			StringBuilder sql = new StringBuilder();
+			sql
+			.append("select membership ")
+			.append("from member ")
+			.append("where member_id = ? ");
+			pstmt1 = con.prepareStatement(sql.toString());
+			
+			pstmt1.setString(1, idConnect);
+			rs = pstmt1.executeQuery();
+			
+			if(rs.next()) {
+				membership = rs.getString("membership");
+			}
+			
+		}finally {
+			disconnect();
+		}
+		
+		
+		return membership;
+	}//selectGrade
+	
+	
+	
+	public boolean insertBooking(SCUInsertBookingVO sibVO, List<SCUInsertSeatVO> listSisVO, String screenName, String membership){
 		boolean transactionResult = false;
 		
 		con = null;
 		cstmt1 = null;
 		cstmt2 = null; 
 		pstmt1 = null;
+		
 		
 		try {
 			
@@ -272,18 +305,31 @@ public class SCUMovieDAO {
 			}//end for
 			
 			
+			//회원 등급에 따른 할인율
+			double sale = 1.0;
+			switch (membership) {
+			case "s":
+				sale = 1.0;
+			case "g":
+				sale = 0.9;
+			case "v":
+				sale = 0.8;
+			}
+			
+			
 			
 			StringBuilder sqlUpdateHoldPoint = new StringBuilder();
 			sqlUpdateHoldPoint
 			.append("update member ")
-			.append("set hold_point = (select hold_point from member where member_id = ?)-(select screen_price from theater where screen_name = ?)*? ")
+			.append("set hold_point = (select hold_point from member where member_id = ?)-(select screen_price*? screen_price from theater where screen_name = ?)*? ")
 			.append("where member_id = ? ");
 			
 			pstmt1 = con.prepareStatement(sqlUpdateHoldPoint.toString());
 			pstmt1.setString(1, sibVO.getMember_id());
-			pstmt1.setString(2, screen_name);
-			pstmt1.setInt(3, sibVO.getPersonnel());
-			pstmt1.setString(4, sibVO.getMember_id());
+			pstmt1.setDouble(2, sale);
+			pstmt1.setString(3, screen_name);
+			pstmt1.setInt(4, sibVO.getPersonnel());
+			pstmt1.setString(5, sibVO.getMember_id());
 			
 			int cntUpdatePoint = pstmt1.executeUpdate();
 			

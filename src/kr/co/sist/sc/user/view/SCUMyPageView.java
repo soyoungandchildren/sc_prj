@@ -3,11 +3,13 @@ package kr.co.sist.sc.user.view;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import kr.co.sist.sc.user.controller.SCUMyPageController;
 
@@ -50,16 +52,7 @@ public class SCUMyPageView extends JDialog{
 			
 			jpnelArr[i].add(jlblTitleArr[i]);
 		}//end for
-		
-		jpnelArr[0].add(jtfMemberID);
-		jpnelArr[1].add(jtfName);
-		jpnelArr[2].add(jtfBirthdate);
-		jpnelArr[3].add(jtfPhone);
-		jpnelArr[4].add(jtfMembership);
-		jpnelArr[5].add(jtfHoldPoint);
-		jpnelArr[6].add(jtfAccPoint);
-		jpnelArr[7].add(jtfInputDate);
-		//////////////////////////////////////////
+		////////////////////////////////////////////////////
 		jtfAccPoint.setEditable(false);
 		jtfBirthdate.setEditable(false);
 		jtfHoldPoint.setEditable(false);
@@ -69,31 +62,18 @@ public class SCUMyPageView extends JDialog{
 		jtfName.setEditable(false);
 		jtfPhone.setEditable(false);
 		//////////////////////////////////////////
-		setLayout(new BorderLayout());
+		setLayout(null);
 		
-		JPanel jpnlNorth = new JPanel();
-		JPanel jpnlCenter = new JPanel();
-		JPanel jpnlSouth = new JPanel();
+		int y = 20;
+		for(int i = 0; i<jlblTitleArr.length; i++) {
+			
+			jlblTitleArr[i].setHorizontalAlignment(SwingConstants.RIGHT);
+			jlblTitleArr[i].setBounds(20, y, 100, 30);
+			
+			add(jlblTitleArr[i]);
+			y+=40;
+		}
 		
-		jpnlNorth.add(jlblTitle);
-		
-		JPanel centerField = new JPanel();
-		centerField.setLayout(new GridLayout(8, 1));
-		
-		for(int i = 0 ; i<jpnelArr.length; i++) {
-			centerField.add(jpnelArr[i]);
-		}//end for
-		jpnlCenter.add(centerField);
-		
-		jpnlSouth.add(jbtnUpdateInfo);
-		jpnlSouth.add(jbtnUpdatePW);
-		jpnlSouth.add(jbtnPointUpdate);
-		jpnlSouth.add(jbtnResign);
-		jpnlSouth.add(jbtnExit);
-		
-		add("North", jpnlNorth);
-		add("Center", jpnlCenter);
-		add("South", jpnlSouth);
 		//////////////////////////////////////
 		SCUMyPageController smpc = new SCUMyPageController(this);
 		jbtnUpdatePW.addActionListener(smpc);
@@ -102,8 +82,11 @@ public class SCUMyPageView extends JDialog{
 		jbtnResign.addActionListener(smpc);
 		jbtnUpdateInfo.addActionListener(smpc);
 		/////////////////////////////////////
+		JLabel background = new JLabel(new ImageIcon("C:\\dev\\workspace\\sc_prj\\src\\kr\\co\\sist\\sc\\user\\images\\user_member_info_bg1(400x550).png"));
+		background.setBounds(0, 0, 400, 550);
+		add(background);
 		
-		setBounds(smv.getX()+50, smv.getY()+200, 600, 600);
+		setBounds(smv.getX()+50, smv.getY()+200, 400, 550);
 		setResizable(false);
 		setVisible(true);
 		

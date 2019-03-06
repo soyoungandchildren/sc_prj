@@ -63,7 +63,7 @@ public class SCUSeatController implements ActionListener, ItemListener{
 		
 	}//searchSeat Method
 	
-	public void insertBooking() {
+	public void insertBooking() throws SQLException{
 		
 		String bookNumberChar = "";
 		if(sbv.getSelectedScreenName().equals("일반")) {
@@ -90,7 +90,10 @@ public class SCUSeatController implements ActionListener, ItemListener{
 			listSisVO.add(sisVO);
 		}//end for
 		
-		boolean result = SCUMovieDAO.getInstance().insertBooking(sibVO, listSisVO, sbv.getSelectedScreenName());
+		//고객 등급 조회
+		String membership = SCUMovieDAO.getInstance().selectMembership(sbv.getSmlv().getSmv().getIdConnecting());
+		
+		boolean result = SCUMovieDAO.getInstance().insertBooking(sibVO, listSisVO, sbv.getSelectedScreenName(), membership);
 		if(result) {
 			JOptionPane.showMessageDialog(ssv, "감사합니다 고갱뉨");
 		}else {
@@ -152,7 +155,11 @@ public class SCUSeatController implements ActionListener, ItemListener{
 			
 			switch (confirm) {
 			case JOptionPane.OK_OPTION:
-				insertBooking();
+				try {
+					insertBooking();
+				}catch(SQLException sqle) {
+					sqle.printStackTrace();
+				}
 				break;
 			case JOptionPane.CANCEL_OPTION:
 				break;

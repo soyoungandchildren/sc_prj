@@ -35,7 +35,20 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 			smpv.getJtfHoldPoint().setText(String.valueOf(ssmpVO.getHold_point()));
 			smpv.getJtfInputDate().setText(ssmpVO.getInput_date());
 			smpv.getJtfMemberID().setText(ssmpVO.getMember_id());
-			smpv.getJtfMembership().setText(ssmpVO.getMembership());
+			
+			String membership = "";
+			switch (ssmpVO.getMembership()) {
+			case "s":
+				membership = "일반 회원";
+				break;
+			case "g":
+				membership = "골드 회원";
+				break;
+			case "v":
+				membership = "VIP 회원";
+				break;
+			}
+			smpv.getJtfMembership().setText(membership);
 			smpv.getJtfName().setText(ssmpVO.getName());
 			smpv.getJtfPhone().setText(ssmpVO.getPhone());
 			
@@ -49,7 +62,6 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 	private void modifyMemberPW() {
 		
 		new SCUModifyPWView(smpv);
-		
 	}
 	
 	private void resignAccount() {

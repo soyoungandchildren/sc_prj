@@ -37,8 +37,8 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
       this.smv = smv;
       smDAO = SCUMainDAO.getInstance();
       ////////////////////////////////initFile();
-      runThread();
       setImgBoard();
+      runThread();
    }//Constructor
    
    public void runThread() {
@@ -56,22 +56,13 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    
    @Override
    public void run() {
-	   int x = 0;
-	   int y = 150;
+	   new SCUClientThreadHelper(ranking.toString(), smv.getJlblBookingRank());
       while(true) {
          try {
             setImgBoard();
-            x+=1;
-            y+=1;
 ///////////////////////////////////            SCUFileClient.getInstance().connectToServer(0);
-            if(y==ranking.toString().length()) {
-            	x=0;
-            	y=150;
-            }
             
-            smv.getJlblBookingRank().setText((ranking.toString()).substring(x, y));
-            
-            Thread.sleep(10);
+            Thread.sleep(1000*10);
          } catch (InterruptedException e) {
             e.printStackTrace();
 ///////////////////////////////////         }catch(IOException ioe) {
