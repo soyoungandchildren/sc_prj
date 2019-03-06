@@ -221,7 +221,6 @@ public class SCURefundDAO {
 	public boolean deleteSnack(String snackOrderNum, String id, String refundPrice, String removable) throws SQLException {
 		boolean flag = false;
 
-		System.out.println("1");
 		// 오토커밋 해제
 //		con.setAutoCommit(false);
 

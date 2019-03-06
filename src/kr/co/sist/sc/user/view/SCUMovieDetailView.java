@@ -105,36 +105,70 @@ public class SCUMovieDetailView extends JDialog{
 		jbtnClose.setBorderPainted(false);
 		jbtnClose.setContentAreaFilled(false);
 		
+		jtfMovieCode.setOpaque(false); 
+		jtfMovieTitle.setOpaque(false);
+		jtfGenre.setOpaque(false);
+		jtfCountry.setOpaque(false);
+		jtfDirector.setOpaque(false);
+		jtfMovieGrade.setOpaque(false);
+		jtfRunningTime.setOpaque(false);
+		jtfPlayDate.setOpaque(false);
+		jtfActor.setOpaque(false);
+		jspJtaSynopsis.setOpaque(false);
+		jspJtaSynopsis.getViewport().setOpaque(false);
+		jtaSynopsis.setOpaque(false);
+		
+		jtfMovieCode.setForeground(Color.WHITE);
+		jtfMovieTitle.setForeground(Color.WHITE);
+		jtfGenre.setForeground(Color.WHITE);
+		jtfCountry.setForeground(Color.WHITE);
+		jtfDirector.setForeground(Color.WHITE);
+		jtfMovieGrade.setForeground(Color.WHITE);
+		jtfRunningTime.setForeground(Color.WHITE);
+		jtfPlayDate.setForeground(Color.WHITE);
+		jtfActor.setForeground(Color.WHITE);
+		jtaSynopsis.setForeground(Color.WHITE);
+		jtfMovieCode.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfMovieTitle.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfGenre.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfCountry.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfDirector.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfMovieGrade.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfRunningTime.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfPlayDate.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfActor.setFont(CustomFontList.getInstance().getFontLabel());
+		jtaSynopsis.setFont(CustomFontList.getInstance().getFontLabel());
+		
 		
 		//컴포넌트 배치
 		setLayout(null);
 		
-		jtfMovieCode.setBounds(325, 57, 300, 25); 
-		jtfMovieTitle.setBounds(325, 97, 300, 25);
-		jtfGenre.setBounds(325, 137, 300, 25);
-		jtfCountry.setBounds(325, 177, 300, 25);
-		jtfDirector.setBounds(325, 217, 300, 25);
-		jtfMovieGrade.setBounds(325, 257, 300, 25);
-		jtfRunningTime.setBounds(325, 297, 300, 25);
-		jtfPlayDate.setBounds(325, 337, 300, 25);
-		jtfActor.setBounds(325, 377, 300, 25);
-		jspJtaSynopsis.setBounds(20, 435, 660, 160);
+		jtfMovieCode.setBounds(445, 57+7, 315, 25); 
+		jtfMovieTitle.setBounds(445, 104+7, 315, 25);
+		jtfGenre.setBounds(445, 151+7, 315, 25);
+		jtfCountry.setBounds(445, 198+7, 315, 25);
+		jtfDirector.setBounds(445, 245+7, 315, 25);
+		jtfMovieGrade.setBounds(445, 292+7, 315, 25);
+		jtfRunningTime.setBounds(445, 339+7, 315, 25);
+		jtfPlayDate.setBounds(445, 386+7, 315, 25);
+		jtfActor.setBounds(445, 433+7, 315, 25);
+		jspJtaSynopsis.setBounds(55, 510, 710, 210);
 		
-		jlblDetailTitle.setBounds(20,10,200, 40);
-		jlblMovieCode.setBounds(240, 50, 70, 40); 
-		jlblMovieTitle.setBounds(240, 90, 70, 40);
-		jlblGenre.setBounds(240, 130, 70, 40);
-		jlblCountry.setBounds(240, 170, 70, 40);
-		jlblDirector.setBounds(240, 210, 70, 40);
-		jlblMovieGrade.setBounds(240, 250, 70, 40);
-		jlblRunningTime.setBounds(240, 290, 70, 40);
-		jlblPlayDate.setBounds(240, 330, 70, 40);
-		jlblActor.setBounds(240, 370, 70, 40);
-		jlblSynopsis.setBounds(20, 400, 70, 40);
+		jlblDetailTitle.setBounds(30,10,200, 40);
+		jlblMovieCode.setBounds(370, 57, 70, 40); 
+		jlblMovieTitle.setBounds(370, 104, 70, 40);
+		jlblGenre.setBounds(370, 151, 70, 40);
+		jlblCountry.setBounds(370, 198, 70, 40);
+		jlblDirector.setBounds(370, 245, 70, 40);
+		jlblMovieGrade.setBounds(370, 292, 70, 40);
+		jlblRunningTime.setBounds(370, 339, 70, 40);
+		jlblPlayDate.setBounds(370, 386, 70, 40);
+		jlblActor.setBounds(370, 433, 70, 40);
+		jlblSynopsis.setBounds(55, 475, 70, 40);
 		
-		jlblMovieImg.setBounds(20, 60, 185, 260);
+		jlblMovieImg.setBounds(55, 60, 288, 413);
 		
-		jbtnClose.setBounds(300, 610, 125, 40);
+		jbtnClose.setBounds(830/2-125/2, 730, 125, 40);
 		
 		
 		add(jtfMovieCode);
@@ -167,16 +201,6 @@ public class SCUMovieDetailView extends JDialog{
 		SCUMovieDetailController smdc = new SCUMovieDetailController(this);
 		addWindowListener(smdc);
 		jbtnClose.addActionListener(smdc);
-		
-//		jtfMovieCode 
-//		jtfMovieTitle
-//		jtfGenre
-//		jtfCountry
-//		jtfDirector
-//		jtfMovieGrade
-//		jtfRunningTime
-//		jtfPlayDate
-//		jtfActor
 		
 		
 		JLabel background = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_book_bg2(830x820).png"));

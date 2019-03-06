@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -61,10 +62,8 @@ public class SCURefundView extends JDialog {
 		jtBookingList.getColumnModel().getColumn(4).setPreferredWidth(100);// 결제일시
 		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(40);// 총가격
 		jtBookingList.getColumnModel().getColumn(6).setPreferredWidth(50);// 환불가능여부
-		
+
 		jtBookingList.setRowHeight(50);
-		
-		
 
 		// 스낵 환불
 		String[] snackColumns = { "번호", "스낵주문번호", "수량", "결제일시", "총 가격", "환불가능여부" };
@@ -122,8 +121,6 @@ public class SCURefundView extends JDialog {
 		jpBooking.add("Center", jspBooking);
 		jtpRefund.add("영화 예매 목록", jpBooking);
 
-		
-		
 		// 스낵
 		JPanel jpSnack = new JPanel();
 		jpSnack.setLayout(new BorderLayout());
@@ -131,26 +128,37 @@ public class SCURefundView extends JDialog {
 
 		jtpRefund.add("스낵 구매 목록", jpSnack);
 
-		
 		// 버튼
-		jbtnRefund = new JButton("환불");
-		jbtnExit = new JButton("닫기");
+		jbtnRefund = new JButton(new ImageIcon(imgPath+"jbt_delete_order(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon(imgPath+"jbt_cancel(125x40).png"));
+
+		// 버튼 테두리 없애기
+		jbtnRefund.setContentAreaFilled(false);
+		jbtnRefund.setBorderPainted(false);
+		jbtnExit.setContentAreaFilled(false);
+		jbtnExit.setBorderPainted(false);
+
+		// 컬럼 길이 수정 불가
+		jtSnackList.getTableHeader().setReorderingAllowed(false);
+		jtSnackList.getTableHeader().setResizingAllowed(false);
+		jtBookingList.getTableHeader().setReorderingAllowed(false);
+		jtBookingList.getTableHeader().setResizingAllowed(false);
 
 		// 버튼이 들어간 패널
 		ImageIcon icon = new ImageIcon(imgPath + "user_snackcorner_bg1(900x800).png");
 
 		JPanel jpBookingSouth = new JPanel() {
-			public void paintComponent (Graphics g) {
-				g.drawImage(icon.getImage(),0,0,null);
+			public void paintComponent(Graphics g) {
+				g.drawImage(icon.getImage(), 0, 0, null);
 				setOpaque(false);
 				super.paintComponent(g);
 			}
 		};
 		jpBookingSouth.add(jbtnRefund);
 		jpBookingSouth.add(jbtnExit);
-		
+
 		jpBooking.add(jspBooking);
-		
+
 		// 탭을 프레임에 배치
 		add("Center", jtpRefund);
 		add("South", jpBookingSouth);
