@@ -39,7 +39,7 @@ public class SCURefundView extends JDialog {
 
 		// 영화 예매 환불
 
-		String[] refundColumns = { "번호", "예매번호", "영화명", "예매수", "결제일시", "총 가격", "환불 가능여부" };
+		String[] refundColumns = { "예매번호", "영화명", "예매수", "결제일시", "총 가격", "환불 가능여부" };
 
 		dtmBookingList = new DefaultTableModel(refundColumns, 0) {
 			@Override
@@ -55,18 +55,18 @@ public class SCURefundView extends JDialog {
 			}
 		};// jtBookingList
 
-		jtBookingList.getColumnModel().getColumn(0).setPreferredWidth(10);// 번호
-		jtBookingList.getColumnModel().getColumn(1).setPreferredWidth(100);// 예매번호
-		jtBookingList.getColumnModel().getColumn(2).setPreferredWidth(30);// 영화명
-		jtBookingList.getColumnModel().getColumn(3).setPreferredWidth(30);// 예매수
-		jtBookingList.getColumnModel().getColumn(4).setPreferredWidth(100);// 결제일시
-		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(40);// 총가격
-		jtBookingList.getColumnModel().getColumn(6).setPreferredWidth(50);// 환불가능여부
+//		jtBookingList.getColumnModel().getColumn(0).setPreferredWidth(10);// 번호
+		jtBookingList.getColumnModel().getColumn(0).setPreferredWidth(70);// 예매번호
+		jtBookingList.getColumnModel().getColumn(1).setPreferredWidth(60);// 영화명
+		jtBookingList.getColumnModel().getColumn(2).setPreferredWidth(30);// 예매수
+		jtBookingList.getColumnModel().getColumn(3).setPreferredWidth(100);// 결제일시
+		jtBookingList.getColumnModel().getColumn(4).setPreferredWidth(40);// 총가격
+		jtBookingList.getColumnModel().getColumn(5).setPreferredWidth(50);// 환불가능여부
 
 		jtBookingList.setRowHeight(50);
 
 		// 스낵 환불
-		String[] snackColumns = { "번호", "스낵주문번호", "수량", "결제일시", "총 가격", "환불가능여부" };
+		String[] snackColumns = { "스낵주문번호", "스낵명", "수량", "결제일시", "총 가격", "환불가능여부" };
 
 		dtmSnackList = new DefaultTableModel(snackColumns, 0) {
 			@Override
@@ -98,12 +98,12 @@ public class SCURefundView extends JDialog {
 			tcmTab2.getColumn(i).setCellRenderer(dtcrSort);
 		} // end for
 
-		jtSnackList.getColumnModel().getColumn(0).setPreferredWidth(60);
-		jtSnackList.getColumnModel().getColumn(1).setPreferredWidth(100);
-		jtSnackList.getColumnModel().getColumn(2).setPreferredWidth(40);
-		jtSnackList.getColumnModel().getColumn(3).setPreferredWidth(80);
-		jtSnackList.getColumnModel().getColumn(4).setPreferredWidth(100);
-		jtSnackList.getColumnModel().getColumn(5).setPreferredWidth(40);
+//		jtSnackList.getColumnModel().getColumn(0).setPreferredWidth(60);
+		jtSnackList.getColumnModel().getColumn(0).setPreferredWidth(100);
+		jtSnackList.getColumnModel().getColumn(1).setPreferredWidth(40);
+		jtSnackList.getColumnModel().getColumn(2).setPreferredWidth(80);
+		jtSnackList.getColumnModel().getColumn(3).setPreferredWidth(100);
+		jtSnackList.getColumnModel().getColumn(4).setPreferredWidth(40);
 
 		jtSnackList.setRowHeight(50);
 

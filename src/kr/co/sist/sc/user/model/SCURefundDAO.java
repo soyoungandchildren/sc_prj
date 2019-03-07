@@ -94,7 +94,7 @@ public class SCURefundDAO {
 			SCUGetSnackHistoryVO sgshvo = null;
 
 			StringBuilder sb = new StringBuilder();
-			sb.append("select ss.snack_order_num, ss.quan, ss.snack_sale_date, ss.check_exchange, s.snack_price ")
+			sb.append("select ss.snack_order_num, ss.quan, ss.snack_sale_date, ss.check_exchange, s.snack_price, ss.snack_name ")
 					.append("from snack_sale ss, snack s ")
 					.append("where ss.snack_name = s.snack_name and ss.member_id =? ");
 
@@ -104,8 +104,8 @@ public class SCURefundDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				sgshvo = new SCUGetSnackHistoryVO(rs.getString("snack_order_num"), rs.getInt("quan"),
-						rs.getString("snack_sale_date"), rs.getString("check_exchange"), rs.getInt("snack_price"));
+				sgshvo = new SCUGetSnackHistoryVO(rs.getString("snack_order_num"),rs.getString("snack_sale_date")
+						, rs.getString("check_exchange"),rs.getString("snack_name"), rs.getInt("quan"), rs.getInt("snack_price"));
 				list.add(sgshvo);
 			}
 		} finally {
@@ -279,34 +279,34 @@ public class SCURefundDAO {
 		return flag;
 	}// deleteSnack
 
-//	public boolean deleteSnackTransaction(boolean flag, boolean chg) throws SQLException{
-//		boolean result = false;
-//		
-//		try {
-//			if(flag == true && chg == false ) { 
-//				result = true;
-//			}else {
-//				con.rollback();
-//				result = false;
-//			}
-//		}finally {
-//			if(rs != null) {
-//				rs.close();
-//			}//end if
-//			if(pstmt4 != null) {
-//				pstmt4.close();
-//			}//end if
-//			if(pstmt3 != null) {
-//				pstmt3.close();
-//			}//end if
-//			if(pstmt != null) {
-//				pstmt.close();
-//			}//end if
-//			if(con != null) {
-//				con.close();
-//			}//end if
-//		}//end finally
-//		return result;
-//	}// deleteSnackTransaction
+	public boolean deleteSnackTransaction(boolean flag, boolean chg) throws SQLException{
+		boolean result = false;
+		
+		try {
+			if(flag == true && chg == false ) { 
+				result = true;
+			}else {
+				con.rollback();
+				result = false;
+			}
+		}finally {
+			if(rs != null) {
+				rs.close();
+			}//end if
+			if(pstmt4 != null) {
+				pstmt4.close();
+			}//end if
+			if(pstmt3 != null) {
+				pstmt3.close();
+			}//end if
+			if(pstmt != null) {
+				pstmt.close();
+			}//end if
+			if(con != null) {
+				con.close();
+			}//end if
+		}//end finally
+		return result;
+	}// deleteSnackTransaction
 
 }// class
