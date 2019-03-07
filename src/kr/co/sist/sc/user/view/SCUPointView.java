@@ -96,7 +96,7 @@ public class SCUPointView extends JDialog{
 		jbtnClose.setBounds(148,210,90,40);
 		
 		//¿Ã∫•∆Æ
-		SCUPointController spc = new SCUPointController(this, holdPoint, memberId);
+		SCUPointController spc = new SCUPointController(this, smpv, holdPoint, memberId);
 		addWindowListener(spc);
 		jbtnCharge.addActionListener(spc);
 		jbtnClose.addActionListener(spc);

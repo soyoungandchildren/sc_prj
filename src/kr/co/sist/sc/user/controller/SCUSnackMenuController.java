@@ -129,7 +129,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 					ssmv.getDtmOrderList().setRowCount(0);
 					ssmv.getJtOrderTotalPrice().setValueAt(reset, 0, 1);
 				} else {
-					JOptionPane.showMessageDialog(ssmv, "포인트가 부족합니다.\n포인트 충전 후 이용해주세요", "결제 오류", JOptionPane.WARNING_MESSAGE);
+					JOptionPane.showMessageDialog(ssmv, "포인트가 부족합니다!\n포인트 충전 후 이용해주세요.\n포인트는 [마이페이지-포인트 충전하기] 에서 가능합니다.", "결제 오류", JOptionPane.WARNING_MESSAGE);
 				}//end else
 			} catch (SQLException se) {
 				se.printStackTrace();
