@@ -13,7 +13,6 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import kr.co.sist.sc.user.images.CustomFontList;
@@ -154,20 +153,13 @@ public class SCUModifyPWView extends JDialog implements ActionListener,KeyListen
 	}// modifyPW
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+	public void keyTyped(KeyEvent e) {}
 	@Override
-	public void keyPressed(KeyEvent e) {
-		
-		
-	}
+	public void keyPressed(KeyEvent e) {}
 	@Override
 	public void keyReleased(KeyEvent e) {
 		String inputPw = new String(jpfPW.getPassword());
 		String inputCpw = new String(jpfConfirmPW.getPassword());
-		
-		System.out.println(inputPw.length());
-		System.out.println(inputCpw.length());
 		
 		if(inputPw.length()<30 && inputCpw.length()<30) {
 			

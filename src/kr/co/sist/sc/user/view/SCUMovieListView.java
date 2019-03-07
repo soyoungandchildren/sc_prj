@@ -1,9 +1,6 @@
 package kr.co.sist.sc.user.view;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,16 +8,12 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellRenderer;
 
 import kr.co.sist.sc.user.controller.SCUMovieListController;
 import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")
 public class SCUMovieListView extends JDialog {
@@ -60,19 +53,36 @@ public class SCUMovieListView extends JDialog {
 			}
 			
 		};
-		//105,153
-		JScrollPane jspMovieTable = new JScrollPane(jtMovieTable);
+		//910
 		
 		
 		//컴포넌트 설정
+		for(int i = 0; i<jtMovieTable.getColumnCount(); i++) {
+			if(i==1) {
+				continue;
+			}
+			
+			jtMovieTable.getColumnModel().getColumn(i).setCellRenderer(new CustomTableRenderer());
+		}
+		
+		JScrollPane jspMovieTable = new JScrollPane(jtMovieTable);
+		
+		jspMovieTable.getViewport().setOpaque(false);
+		jspMovieTable.setOpaque(false);
+		jtMovieTable.setOpaque(false);
+		
+		
 		jtMovieTable.getTableHeader().setReorderingAllowed(false);
 		jtMovieTable.getTableHeader().setResizingAllowed(false);
 		jtMovieTable.setRowHeight(153);
-		jtMovieTable.getColumn("포스터").setWidth(105);
+//		jtMovieTable.getColumn("포스터").setWidth(105);
+//		jtMovieTable.getColumn("포스터").setWidth(105);
+//		jtMovieTable.getColumn("포스터").setWidth(105);
+//		jtMovieTable.getColumn("포스터").setWidth(105);
+		jtMovieTable.getColumn("순위").setPreferredWidth(5);
 		jtMovieTable.getColumn("영화코드").setMaxWidth(0);
 		jtMovieTable.getColumn("영화코드").setMinWidth(0);
 		jtMovieTable.getColumn("영화코드").setPreferredWidth(0);
-		jtMovieTable.getColumnModel().getColumn(9).setCellRenderer(this.new TextTableRenderer());
 		jtMovieTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		jbtnDetail.setBorderPainted(false);
@@ -162,22 +172,5 @@ public class SCUMovieListView extends JDialog {
 	}
 	
 	
-	////////////////////////////////////////////////////////////////////////
-	class TextTableRenderer extends JTextArea implements TableCellRenderer{
-		
-		public TextTableRenderer() {
-			setOpaque(false);
-			setLineWrap(true);
-		}
-		
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-				int row, int column) {
-			
-			setText(value.toString());
-			return this;
-		}
-	}
-	////////////////////////////////////////////////////////////////////////
 	
 }//Class
