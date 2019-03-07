@@ -35,7 +35,7 @@ public class SCUMyPageView extends JDialog{
 		jtfAccPoint = new JTextField(10);
 		jtfInputDate = new JTextField(10);
 		jbtnUpdateInfo = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_chg_inform(100x30).png"));
-		jbtnUpdatePW = new JButton("비밀번호 수정");
+		jbtnUpdatePW = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_chg_passwd(100x30).png"));
 		jbtnPointUpdate = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_chargin_point(252x30).png"));
 		jbtnResign = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_leave_member(100x30).png"));
 		jbtnExit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_close(100x30).png"));
@@ -101,6 +101,8 @@ public class SCUMyPageView extends JDialog{
 		jbtnResign.setContentAreaFilled(false);
 		jbtnUpdateInfo.setBorderPainted(false);
 		jbtnUpdateInfo.setContentAreaFilled(false);
+		jbtnUpdatePW.setBorderPainted(false);
+		jbtnUpdatePW.setContentAreaFilled(false);
 		//////////////////////////////////////////
 		setLayout(null);
 		

@@ -54,6 +54,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    
    @Override
    public void run() {
+	   
 	   new SCUClientThreadHelper(ranking.toString(), smv.getJtaBookingRank());
       while(true) {
          try {

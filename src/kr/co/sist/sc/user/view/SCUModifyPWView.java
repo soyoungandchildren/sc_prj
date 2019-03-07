@@ -1,7 +1,10 @@
 package kr.co.sist.sc.user.view;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
 import javax.swing.ImageIcon;
@@ -10,16 +13,19 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
+import kr.co.sist.sc.user.images.CustomFontList;
 import kr.co.sist.sc.user.model.SCULoginDAO;
 import kr.co.sist.sc.user.vo.SCUModifyPWVO;
 
 @SuppressWarnings("serial")
-public class SCUModifyPWView extends JDialog implements ActionListener {
+public class SCUModifyPWView extends JDialog implements ActionListener,KeyListener {
 
 	private JPasswordField jpfPW, jpfConfirmPW;
 	private JButton jbtnConfirm, jbtnExit;
-	private SCUFindAccountView sfav;
+	private JLabel jlInstruction1;
 	private String stringIDForPW;
 
 	/**
@@ -30,7 +36,6 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 	public SCUModifyPWView(SCULoginView slv, SCUFindAccountView sfav) {
 
 		super(slv, "비밀번호 변경", true);
-		this.sfav = sfav;
 
 		stringIDForPW = sfav.getJtfIDForPW().getText();
 		makeView();
@@ -47,26 +52,53 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 	public void makeView() {
 
 		// 컴포넌트 생성
-		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
-
-		JLabel jlPW = new JLabel("변경할 비밀번호");
+		JLabel jlPW = new JLabel("변경할 비밀번호 :");
 		jpfPW = new JPasswordField();
-		JLabel jlConfirmPW = new JLabel("비밀번호 확인");
+		JLabel jlConfirmPW = new JLabel("비밀번호 확인 :");
 		jpfConfirmPW = new JPasswordField();
+		jlInstruction1 = new JLabel("변경할 비밀번호를 입력해주세요");
+		JLabel jlInstruction2 = new JLabel("※비밀번호는 30자까지 가능합니다.");
 
-		jbtnConfirm = new JButton("변경");
-		jbtnExit = new JButton("취소");
+		jbtnConfirm = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_charging(90x40).png"));
+		jbtnExit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_cancel(90x40).png"));
 
+		
+		
+		jbtnConfirm.setBorderPainted(false);
+		jbtnConfirm.setContentAreaFilled(false);
+		jbtnExit.setBorderPainted(false);
+		jbtnExit.setContentAreaFilled(false);
+		
+		jpfPW.setOpaque(false);
+		jpfConfirmPW.setOpaque(false);
+		
+		jlInstruction1.setForeground(Color.WHITE);
+		jlInstruction2.setForeground(Color.WHITE);
+		jlInstruction1.setFont(CustomFontList.getInstance().getFontNotice());
+		jlInstruction2.setFont(CustomFontList.getInstance().getFontNotice());
+		
+		jlPW.setForeground(Color.WHITE);
+		jlConfirmPW.setForeground(Color.WHITE);
+		jlPW.setFont(CustomFontList.getInstance().getFontLabel());
+		jlConfirmPW.setFont(CustomFontList.getInstance().getFontLabel());
+		jlPW.setHorizontalAlignment(SwingConstants.RIGHT);
+		jlConfirmPW.setHorizontalAlignment(SwingConstants.RIGHT);
+		
 		setLayout(null);
+		
+		jlInstruction1.setBounds(90, 80, 200, 30);
+		jlInstruction2.setBounds(30, 102, 200, 30);
+		
+		jlPW.setBounds(10, 10, 120, 30);
+		jpfPW.setBounds(133, 12, 130, 25);
+		jlConfirmPW.setBounds(10, 50, 120, 30);
+		jpfConfirmPW.setBounds(133, 52, 130, 25);
 
-		jlPW.setBounds(20, 10, 110, 30);
-		jpfPW.setBounds(120, 10, 180, 30);
-		jlConfirmPW.setBounds(20, 50, 110, 30);
-		jpfConfirmPW.setBounds(120, 50, 180, 30);
+		jbtnConfirm.setBounds(300/2-95, 150, 90, 40);
+		jbtnExit.setBounds(300/2+5, 150, 90, 40);
 
-		jbtnConfirm.setBounds(30, 110, 110, 30);
-		jbtnExit.setBounds(170, 110, 110, 30);
-
+		add(jlInstruction1);
+		add(jlInstruction2);
 		add(jlPW);
 		add(jpfPW);
 		add(jlConfirmPW);
@@ -77,15 +109,18 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 		// 이벤트처리
 		jbtnConfirm.addActionListener(this);
 		jbtnExit.addActionListener(this);
+		jpfPW.addKeyListener(this);
+		jpfConfirmPW.addKeyListener(this);
 
 		// 창 설정
-		JLabel background = new JLabel(new ImageIcon(imgPath + "user_snackcorner_bg1(900x800).png"));
-		background.setBounds(0, 0, 900, 800);
+		JLabel background = new JLabel(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/user_login_bg3(420x500).png"));
+		background.setBounds(0, 0, 300, 230);
 		add(background);
 
-		setBounds(90, 200, 340, 200);
+		setResizable(false);
+		setBounds(90, 200, 300, 230);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setVisible(true);
-		// setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
 	/**
@@ -118,6 +153,45 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 
 	}// modifyPW
 
+	@Override
+	public void keyTyped(KeyEvent e) {
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		
+		
+	}
+	@Override
+	public void keyReleased(KeyEvent e) {
+		String inputPw = new String(jpfPW.getPassword());
+		String inputCpw = new String(jpfConfirmPW.getPassword());
+		
+		System.out.println(inputPw.length());
+		System.out.println(inputCpw.length());
+		
+		if(inputPw.length()<30 && inputCpw.length()<30) {
+			
+			if("".equals(inputCpw)&&"".equals(inputPw)) {
+				jlInstruction1.setForeground(Color.WHITE);
+				jlInstruction1.setText("비밀번호를 입력해주세요.");
+				return;
+			}
+			
+			if(!inputPw.equals(inputCpw)) {
+				jlInstruction1.setForeground(Color.RED);
+				jlInstruction1.setText("입력한 비밀번호를 확인해주세요.");
+				return;
+			}else {
+				jlInstruction1.setForeground(Color.WHITE);
+				jlInstruction1.setText("사용할 수 있는 비밀번호입니다.");
+				
+			}
+		}else {
+			jlInstruction1.setForeground(Color.RED);
+			jlInstruction1.setText("사용할 수 없는 비밀번호입니다.");
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 
@@ -154,5 +228,6 @@ public class SCUModifyPWView extends JDialog implements ActionListener {
 	public JButton getJbtnExit() {
 		return jbtnExit;
 	}
+
 
 }// class

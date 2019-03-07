@@ -21,9 +21,9 @@ public class SCUModifyMemberInfoController extends WindowAdapter implements Acti
 		smmiv.getJtfPhone().setText(smmiv.getSmpv().getJtfPhone().getText());
 	}
 	
-	public void modifyInfo() {
+	public void modifyInfo(String iName, String iPhone) {
 		SCUUpdateMemberInfoVO sumiVO = 
-				new SCUUpdateMemberInfoVO(smmiv.getJtfName().getText(), smmiv.getJtfPhone().getText(), 
+				new SCUUpdateMemberInfoVO(iName, iPhone, 
 						smmiv.getSmpv().getSmv().getIdConnecting());
 		
 		try {
@@ -51,8 +51,8 @@ public class SCUModifyMemberInfoController extends WindowAdapter implements Acti
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource().equals(smmiv.getJbtnConfirm())) {
-			String iName = smmiv.getJtfName().getText();
-			String iPhone= smmiv.getJtfPhone().getText();
+			String iName = smmiv.getJtfName().getText().trim();
+			String iPhone= smmiv.getJtfPhone().getText().trim();
 			
 			if(iName.trim().equals("")) {
 				msgCenter("이름은 공백일 수 없습니다.");
@@ -62,8 +62,7 @@ public class SCUModifyMemberInfoController extends WindowAdapter implements Acti
 				return;
 			}
 			
-			
-			modifyInfo();
+			modifyInfo(iName, iPhone);
 		}//end if
 		
 		if(ae.getSource().equals(smmiv.getJbtnExit())) {
