@@ -8,7 +8,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
+import javax.swing.plaf.ColorUIResource;
 
 import kr.co.sist.sc.user.controller.SCUMainController;
 import kr.co.sist.sc.user.images.CustomFontList;
@@ -27,10 +29,10 @@ public class SCUMainView extends JFrame {
 	public SCUMainView() {
 		super("메인");
 		
-//		UIManager UI=new UIManager();
-//		UI.put("OptionPane.background",new ColorUIResource(20, 49, 94));
-//		UI.put("Panel.background",new ColorUIResource(20, 49, 94));
-//		UI.put("OptionPane.messageForeground", Color.WHITE);
+		UIManager UI=new UIManager();
+		UI.put("OptionPane.background",new ColorUIResource(20, 49, 94));
+		UI.put("Panel.background",new ColorUIResource(20, 49, 94));
+		UI.put("OptionPane.messageForeground", Color.WHITE);
 		
 		//컴포넌트 생성
 		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";

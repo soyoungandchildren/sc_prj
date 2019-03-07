@@ -1,6 +1,7 @@
 package kr.co.sist.sc.user.view;
 
 import java.awt.Color;
+import java.awt.Component;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -9,9 +10,11 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 import kr.co.sist.sc.user.controller.SCURatingController;
 import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")
 public class SCURatingView extends JDialog {
@@ -20,6 +23,10 @@ public class SCURatingView extends JDialog {
 	private JButton jbtnWriteRating, jbtnClose;
 	private DefaultTableModel dtmRatingTable;
 	private JTable jtRatingTable;
+	
+	////
+	private JLabel jlblStar;
+	////
 	
 	public SCURatingView(SCUMovieListView smlv) {
 		super(smlv, smlv.getSelectedMovieTitle()+" 리뷰", true);
@@ -30,20 +37,38 @@ public class SCURatingView extends JDialog {
 		
 		String[] columnNames = {"평 점", "한줄평", "작성자"};
 		dtmRatingTable = new DefaultTableModel(columnNames, 0);
-		jtRatingTable = new JTable(dtmRatingTable) {
+		jtRatingTable = new JTable(dtmRatingTable){
+			
+			
 			@Override
 			public Class<?> getColumnClass(int column) {
-				return getValueAt(0, column).getClass();
+				setOpaque(false);
+				return getValueAt(0, 0).getClass();
 			}
 		};
 		JScrollPane jspRatingTable = new JScrollPane(jtRatingTable);
+		
 		
 		StringBuilder sbTitle = new StringBuilder();
 		sbTitle.append("[").append(smlv.getSelectedMovieTitle()).append("]").append(" 한줄 평");
 		JLabel jlblTitle = new JLabel(sbTitle.toString());
 		
-		jtRatingTable.setRowHeight(100);
+		jtRatingTable.setOpaque(false);
+		jspRatingTable.setOpaque(false);
+		jspRatingTable.getViewport().setOpaque(false);
 		
+		jtRatingTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() {
+			
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				return null;
+			}
+		});
+		jtRatingTable.getColumnModel().getColumn(1).setCellRenderer(CustomTableRenderer.applyRenderer());
+		jtRatingTable.getColumnModel().getColumn(2).setCellRenderer(CustomTableRenderer.applyRenderer());
+		
+		jtRatingTable.setRowHeight(100);
 		
 		jbtnClose.setContentAreaFilled(false);
 		jbtnClose.setBorderPainted(false);
@@ -96,6 +121,16 @@ public class SCURatingView extends JDialog {
 	public JTable getJtRatingTable() {
 		return jtRatingTable;
 	}
+
+	public JLabel getJlblStar() {
+		return jlblStar;
+	}
+	public void setJlblStar(JLabel jlblStar) {
+		this.jlblStar = jlblStar;
+	}
+	
+	
+	
 	
 	
 }//Class

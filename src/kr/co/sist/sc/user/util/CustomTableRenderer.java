@@ -8,13 +8,25 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
+import kr.co.sist.sc.user.images.CustomFontList;
+
 @SuppressWarnings("serial")
 public class CustomTableRenderer extends JLabel implements TableCellRenderer {
 
-	public CustomTableRenderer() {
+	private static CustomTableRenderer ctr;
+	
+	private CustomTableRenderer() {
 		setForeground(Color.WHITE);
 		setOpaque(false);
 		setHorizontalAlignment(SwingConstants.CENTER);
+		setFont(CustomFontList.getInstance().getFontLabel());
+	}
+	
+	public static CustomTableRenderer applyRenderer() {
+		if(ctr==null) {
+			ctr = new CustomTableRenderer();
+		}
+		return ctr;
 	}
 	
 	@Override
@@ -22,8 +34,8 @@ public class CustomTableRenderer extends JLabel implements TableCellRenderer {
 			int row, int column) {
 		setText(value.toString());
 		
+		
         if (isSelected) {
-            // this cell is the anchor and the table has the focus
             setBackground(new Color(18, 52, 120));
             setOpaque(true);
         }else {

@@ -17,6 +17,7 @@ import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.sc.user.controller.SCUBookingController;
 import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")
 public class SCUBookingView extends JDialog{
@@ -87,6 +88,13 @@ public class SCUBookingView extends JDialog{
 		jtOnScreen.setRowHeight(30);
 		jtOnScreen.getTableHeader().setReorderingAllowed(false);
 		
+		for(int i = 0; i<jtOnScreen.getColumnCount(); i++) {
+			jtOnScreen.getColumnModel().getColumn(i).setCellRenderer(CustomTableRenderer.applyRenderer());
+		}
+		
+		jtOnScreen.setOpaque(false);
+		jspOnScreen.setOpaque(false);
+		jspOnScreen.getViewport().setOpaque(false);
 		
 		jtOnScreen.getColumn("상영코드").setMaxWidth(0);
 		jtOnScreen.getColumn("상영코드").setMinWidth(0);

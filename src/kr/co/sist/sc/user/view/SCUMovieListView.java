@@ -1,6 +1,7 @@
 package kr.co.sist.sc.user.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -53,8 +54,6 @@ public class SCUMovieListView extends JDialog {
 			}
 			
 		};
-		//910
-		
 		
 		//컴포넌트 설정
 		for(int i = 0; i<jtMovieTable.getColumnCount(); i++) {
@@ -62,7 +61,7 @@ public class SCUMovieListView extends JDialog {
 				continue;
 			}
 			
-			jtMovieTable.getColumnModel().getColumn(i).setCellRenderer(new CustomTableRenderer());
+			jtMovieTable.getColumnModel().getColumn(i).setCellRenderer(CustomTableRenderer.applyRenderer());
 		}
 		
 		JScrollPane jspMovieTable = new JScrollPane(jtMovieTable);
@@ -71,15 +70,14 @@ public class SCUMovieListView extends JDialog {
 		jspMovieTable.setOpaque(false);
 		jtMovieTable.setOpaque(false);
 		
-		
 		jtMovieTable.getTableHeader().setReorderingAllowed(false);
-		jtMovieTable.getTableHeader().setResizingAllowed(false);
+		jtMovieTable.getTableHeader().setResizingAllowed(false);	;
+		jtMovieTable.getTableHeader().setPreferredSize(new Dimension(10, 35));
+		jtMovieTable.getTableHeader().setFont(CustomFontList.getInstance().getFontRank());
+		
 		jtMovieTable.setRowHeight(153);
-//		jtMovieTable.getColumn("포스터").setWidth(105);
-//		jtMovieTable.getColumn("포스터").setWidth(105);
-//		jtMovieTable.getColumn("포스터").setWidth(105);
-//		jtMovieTable.getColumn("포스터").setWidth(105);
-		jtMovieTable.getColumn("순위").setPreferredWidth(5);
+		jtMovieTable.getColumn("순위").setPreferredWidth(10);
+		jtMovieTable.getColumn("영화 제목").setPreferredWidth(100);
 		jtMovieTable.getColumn("영화코드").setMaxWidth(0);
 		jtMovieTable.getColumn("영화코드").setMinWidth(0);
 		jtMovieTable.getColumn("영화코드").setPreferredWidth(0);
