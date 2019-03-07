@@ -8,16 +8,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
-import javax.swing.plaf.ColorUIResource;
 
 import kr.co.sist.sc.user.controller.SCUMainController;
 import kr.co.sist.sc.user.images.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUMainView extends JFrame {
-	private JLabel jlblImageBoard1, jlblImageBoard2, jlblImageBoard3, jlbRank1, jlbRank2, jlbRank3;
+	private JLabel jlblImageBoard1, jlblImageBoard2, jlblImageBoard3, jlbRank1, jlbRank2, jlbRank3,
+					jlbRankAudience1, jlbRankAudience2, jlbRankAudience3,
+					jlbRankRate1, jlbRankRate2, jlbRankRate3;
 	private JButton jbtnLogin, jbtnBooking, jbtnSnack, jbtnRefund, jbtnMyPage;
 	private boolean isLogin;
 	private String idConnecting;	
@@ -43,6 +43,14 @@ public class SCUMainView extends JFrame {
 		jlbRank1 = new JLabel();
 		jlbRank2 = new JLabel();
 		jlbRank3 = new JLabel();
+		
+		jlbRankAudience1 = new JLabel();
+		jlbRankAudience2 = new JLabel();
+		jlbRankAudience3 = new JLabel();
+		
+		jlbRankRate1 = new JLabel();
+		jlbRankRate2 = new JLabel();
+		jlbRankRate3 = new JLabel();
 		
 		jbtnMyPage= new JButton(new ImageIcon(imgPath+"jbt_mypage(175x175).png"));
 		jbtnLogin= new JButton(new ImageIcon(imgPath+"jbt_login_join(215x40).png"));
@@ -76,39 +84,78 @@ public class SCUMainView extends JFrame {
 		jtaBookingRank.setFont(CustomFontList.getInstance().getFixedLengthFont());
 		jtaBookingRank.setFocusable(false);
 		
-		jlbRank1.setBorder(new LineBorder(Color.WHITE));
-		jlbRank1.setFont(CustomFontList.getInstance().getFontLabel());
+//		jlbRank1.setBorder(new LineBorder(Color.WHITE));
+		jlbRank1.setFont(CustomFontList.getInstance().getFontRank());
 		jlbRank1.setForeground(Color.WHITE);
 		jlbRank1.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		jlbRank2.setBorder(new LineBorder(Color.WHITE));
-		jlbRank2.setFont(CustomFontList.getInstance().getFontLabel());
+		
+//		jlbRank2.setBorder(new LineBorder(Color.WHITE));
+		jlbRank2.setFont(CustomFontList.getInstance().getFontRank());
 		jlbRank2.setForeground(Color.WHITE);
 		jlbRank2.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		jlbRank3.setBorder(new LineBorder(Color.WHITE));
-		jlbRank3.setFont(CustomFontList.getInstance().getFontLabel());
+//		jlbRank3.setBorder(new LineBorder(Color.WHITE));
+		jlbRank3.setFont(CustomFontList.getInstance().getFontRank());
 		jlbRank3.setForeground(Color.WHITE);
 		jlbRank3.setHorizontalAlignment(SwingConstants.CENTER);
+		
+//		jlbRankAudience1.setBorder(new LineBorder(Color.WHITE));
+		jlbRankAudience1.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRankAudience1.setForeground(Color.WHITE);
+		jlbRankAudience1.setHorizontalAlignment(SwingConstants.CENTER);
+		
+//		jlbRankAudience2.setBorder(new LineBorder(Color.WHITE));
+		jlbRankAudience2.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRankAudience2.setForeground(Color.WHITE);
+		jlbRankAudience2.setHorizontalAlignment(SwingConstants.CENTER);
+		
+//		jlbRankAudience3.setBorder(new LineBorder(Color.WHITE));
+		jlbRankAudience3.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRankAudience3.setForeground(Color.WHITE);
+		jlbRankAudience3.setHorizontalAlignment(SwingConstants.CENTER);
+		
+//		jlbRankRate1.setBorder(new LineBorder(Color.WHITE));
+		jlbRankRate1.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRankRate1.setForeground(Color.WHITE);
+		jlbRankRate1.setHorizontalAlignment(SwingConstants.CENTER);
+		
+//		jlbRankRate2.setBorder(new LineBorder(Color.WHITE));
+		jlbRankRate2.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRankRate2.setForeground(Color.WHITE);
+		jlbRankRate2.setHorizontalAlignment(SwingConstants.CENTER);
+		
+//		jlbRankRate3.setBorder(new LineBorder(Color.WHITE));
+		jlbRankRate3.setFont(CustomFontList.getInstance().getFontLabel());
+		jlbRankRate3.setForeground(Color.WHITE);
+		jlbRankRate3.setHorizontalAlignment(SwingConstants.CENTER);
 		
 		//컴포넌트 배치
 		setLayout(null);
 		
 		jtaBookingRank.setBounds(120, 42, 605, 23);
-		jlblImageBoard1.setBounds(116, 100, 237, 315);
-		jlblImageBoard2.setBounds(376, 100, 237, 315);
-		jlblImageBoard3.setBounds(636, 100, 237, 315);
+		jlblImageBoard1.setBounds(116, 110, 237, 315);
+		jlblImageBoard2.setBounds(376, 110, 237, 315);
+		jlblImageBoard3.setBounds(636, 110, 237, 315);
 		
 		//순위
-		jlbRank1.setBounds(116, 440, 237, 90);
-		jlbRank2.setBounds(376, 440, 237, 90);
-		jlbRank3.setBounds(636, 440, 237, 90);
+		jlbRank1.setBounds(116, 433, 237, 24);
+		jlbRank2.setBounds(376, 433, 237, 24);
+		jlbRank3.setBounds(636, 433, 237, 24);
+		
+		jlbRankAudience1.setBounds(116, 457, 237, 24);
+		jlbRankAudience2.setBounds(376, 457, 237, 24);
+		jlbRankAudience3.setBounds(636, 457, 237, 24);
+		
+		jlbRankRate1.setBounds(116, 481, 237, 24);
+		jlbRankRate2.setBounds(376, 481, 237, 24);
+		jlbRankRate3.setBounds(636, 481, 237, 24);
 		
 		jbtnLogin.setBounds(752, 34, 215, 40);
-		jbtnBooking.setBounds(310, 550, 175, 175);
-		jbtnSnack.setBounds(510, 550, 175, 175);
-		jbtnRefund.setBounds(710, 550, 175, 175);
-		jbtnMyPage.setBounds(110, 550, 175, 175);
+		jbtnBooking.setBounds(310, 545, 175, 175);
+		jbtnSnack.setBounds(510, 545, 175, 175);
+		jbtnRefund.setBounds(710, 545, 175, 175);
+		jbtnMyPage.setBounds(110, 545, 175, 175);
 		
 		add(jtaBookingRank);
 		add(jlblImageBoard1);
@@ -118,6 +165,14 @@ public class SCUMainView extends JFrame {
 		add(jlbRank1);
 		add(jlbRank2);
 		add(jlbRank3);
+		
+		add(jlbRankAudience1);
+		add(jlbRankAudience2);
+		add(jlbRankAudience3);
+		
+		add(jlbRankRate1);
+		add(jlbRankRate2);
+		add(jlbRankRate3);
 		
 		add(jbtnMyPage);
 		add(jbtnRefund);
@@ -188,8 +243,32 @@ public class SCUMainView extends JFrame {
 	public JLabel getJlbRank3() {
 		return jlbRank3;
 	}
+	public JLabel getJlbRankAudience1() {
+		return jlbRankAudience1;
+	}
+	
+	public JLabel getJlbRankAudience2() {
+		return jlbRankAudience2;
+	}
+	
+	public JLabel getJlbRankAudience3() {
+		return jlbRankAudience3;
+	}
+	
+	public JLabel getJlbRankRate1() {
+		return jlbRankRate1;
+	}
+	
+	public JLabel getJlbRankRate2() {
+		return jlbRankRate2;
+	}
+	
+	public JLabel getJlbRankRate3() {
+		return jlbRankRate3;
+	}
 	//end Getters
 	
+
 	//Setters
 	public void setIsLogin(boolean isLogin) {
 		this.isLogin = isLogin;

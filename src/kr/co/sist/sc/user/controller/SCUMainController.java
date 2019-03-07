@@ -91,26 +91,18 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
                .append("6위 - [ "+list.get(5).getMovie_title()+" ]         ")
                .append("                                                                                                                                           ");
          
-         //가운데 영화 랭킹 정보
-         StringBuilder info1 = new StringBuilder();
-         info1.append(list.get(0).getMovie_title()+"\n")
-         		.append("룰루");
-         
+         //가운데 영화 랭킹
          //1위 정보
-         smv.getJlbRank1().setText(info1.toString());
-         //smv.getJlblRankCnt1().setText(String.valueOf(list.get(0).getRank())+"명");
+         smv.getJlbRank1().setText(list.get(0).getMovie_title());
+         smv.getJlbRankAudience1().setText("누적 관객 수 : "+String.valueOf(list.get(0).getAudience())+"명");
          
          //2위 정보
          smv.getJlbRank2().setText(list.get(1).getMovie_title());
-        // smv.getJlblRankCnt2().setText(String.valueOf(list.get(1).getRank())+"명");
+         smv.getJlbRankAudience2().setText("누적 관객 수 : "+String.valueOf(list.get(1).getAudience())+"명");
          
          //3위 정보
          smv.getJlbRank3().setText(list.get(2).getMovie_title());
-        // smv.getJlblAudienceCnt3().setText(String.valueOf(list.get(2).getAudience())+"명");
-         
-//         ranking.append("1위 - [ "+list.get(0).getMovie_title()+" ] 누적 관람객 "+list.get(0).getAudience()+"명         ")
-//         .append("2위 - [ "+list.get(1).getMovie_title()+" ] 누적 관람객 "+list.get(1).getAudience()+"명         ")
-//         .append("3위 - [ "+list.get(2).getMovie_title()+" ] 누적 관람객 "+list.get(2).getAudience()+"명");
+         smv.getJlbRankAudience3().setText("누적 관객 수 : "+String.valueOf(list.get(2).getAudience())+"명");
          
          //센터 영화 1~3위 포스터 배치
          smv.getJlblImageBoard1().setIcon(new ImageIcon(imgPath+list.get(0).getMovie_img()));
@@ -134,9 +126,9 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
          String rank2 = String.format("%.2f",(double)cnt[1]/(double)bookingCnt*100.0);
          String rank3 = String.format("%.2f",(double)cnt[2]/(double)bookingCnt*100.0);
          
-         //smv.getJlblReserveRate1().setText(rank1+"%");
-         //smv.getJlblReserveRate2().setText(rank2+"%");
-         //smv.getJlblReserveRate3().setText(rank3+"%");
+         smv.getJlbRankRate1().setText("예매율 : "+rank1+"%");
+         smv.getJlbRankRate2().setText("예매율 : "+rank2+"%");
+         smv.getJlbRankRate3().setText("예매율 : "+rank3+"%");
          
       } catch (SQLException se) {
          se.printStackTrace();

@@ -19,10 +19,10 @@ public class SCUPointController extends WindowAdapter implements ActionListener 
 	
 	public SCUPointController(SCUPointView spv, String holdPoint, String memberId) {
 		this.spv = spv;
-		spDAO = SCUPointDAO.getInstance();
-		user = memberId;
-		nowPoint = Integer.parseInt(holdPoint);
-		spv.getJtfNowPoint().setText(holdPoint);
+//		spDAO = SCUPointDAO.getInstance();
+//		user = memberId;
+//		nowPoint = Integer.parseInt(holdPoint);
+//		spv.getJtfNowPoint().setText(holdPoint);
 	}//SCUPointController
 	
 	public void PointUpdate() {

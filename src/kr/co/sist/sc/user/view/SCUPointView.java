@@ -45,8 +45,8 @@ public class SCUPointView extends JDialog{
 		
 		jcbPoint = new JComboBox<String>(point);
 		
-		jbtnCharge = new JButton("충전");
-		jbtnClose = new JButton("취소");
+		jbtnCharge = new JButton(new ImageIcon(imgPath+"jbt_charging(90x40).png"));
+		jbtnClose = new JButton(new ImageIcon(imgPath+"jbt_cancel(90x40).png"));
 		
 		//컴포넌트 설정
 		jlbTitle.setForeground(Color.WHITE);
@@ -60,6 +60,12 @@ public class SCUPointView extends JDialog{
 		jlbNotice2.setForeground(Color.WHITE);
 		jlbNotice2.setFont(CustomFontList.getInstance().getFontNotice());
 		jtfNowPoint.setEditable(false);
+		
+		//버튼 테두리 없애기
+		jbtnCharge.setContentAreaFilled(false);
+		jbtnCharge.setBorderPainted(false);
+		jbtnClose.setContentAreaFilled(false);
+		jbtnClose.setBorderPainted(false);
 		
 		String holdPoint = smpv.getJtfHoldPoint().getText();
 		String memberId = smpv.getJtfMemberID().getText();
