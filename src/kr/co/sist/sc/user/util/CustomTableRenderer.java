@@ -15,7 +15,7 @@ public class CustomTableRenderer extends JLabel implements TableCellRenderer {
 
 	private static CustomTableRenderer ctr;
 	
-	private CustomTableRenderer() {
+	public CustomTableRenderer() {
 		setForeground(Color.WHITE);
 		setOpaque(false);
 		setHorizontalAlignment(SwingConstants.CENTER);

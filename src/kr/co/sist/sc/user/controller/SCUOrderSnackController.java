@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kr.co.sist.sc.user.model.SCUSnackDAO;
+import kr.co.sist.sc.user.util.CustomTableRenderer;
 import kr.co.sist.sc.user.view.SCUOrderSnackView;
 import kr.co.sist.sc.user.view.SCUSnackMenuView;
 import kr.co.sist.sc.user.vo.SCUSnackOrderDataVO;
@@ -89,6 +90,12 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 				
 			ssmv.getDtmOrderList().addRow(rowData);
 		}//end else
+		
+		//테이블랜더러 추가
+		ssmv.getJtOrderList().getColumnModel().getColumn(0).setCellRenderer(CustomTableRenderer.applyRenderer());
+		ssmv.getJtOrderList().getColumnModel().getColumn(1).setCellRenderer(CustomTableRenderer.applyRenderer());
+		ssmv.getJtOrderList().getColumnModel().getColumn(2).setCellRenderer(CustomTableRenderer.applyRenderer());
+		ssmv.getJtOrderList().getColumnModel().getColumn(3).setCellRenderer(CustomTableRenderer.applyRenderer());
 		
 		//합계
 		Object price = new Object();

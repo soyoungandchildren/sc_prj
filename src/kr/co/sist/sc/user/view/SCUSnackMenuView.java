@@ -12,7 +12,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import kr.co.sist.sc.user.controller.SCUSnackMenuController;
-import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")
 public class SCUSnackMenuView extends JDialog{
@@ -45,10 +44,10 @@ public class SCUSnackMenuView extends JDialog{
 		};
 		
 		jtOrderList = new JTable(dtmOrderList) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
+//			@Override
+//			public boolean isCellEditable(int row, int column) {
+//				return false;
+//			}
 			
 			//JTable에 사진 가져오기
 			@Override
@@ -63,13 +62,6 @@ public class SCUSnackMenuView extends JDialog{
 		jspOrderList.setOpaque(false);
 		jspOrderList.getViewport().setOpaque(false);
 		
-		for(int i = 0; i<jtOrderList.getColumnCount(); i++) {
-			if(i==1) {
-				continue;
-			}
-			jtOrderList.getColumnModel().getColumn(i).setCellRenderer(CustomTableRenderer.applyRenderer());
-		}
-		
 		//합계 테이블
 		String[] temp = {"합계", "총 가격"};
 		dtmOrderTotalPrice = new DefaultTableModel(temp, 0); {
@@ -83,12 +75,6 @@ public class SCUSnackMenuView extends JDialog{
 		};
 		
 		//합계 테이블 색상
-		for(int i = 0; i<jtOrderTotalPrice.getColumnCount(); i++) {
-			if(i==1) {
-				continue;
-			}
-			jtOrderTotalPrice.getColumnModel().getColumn(i).setCellRenderer(CustomTableRenderer.applyRenderer());
-		}
 		
 		Object[] rowData = new Object[2];
 		rowData[0] = "합 계";
