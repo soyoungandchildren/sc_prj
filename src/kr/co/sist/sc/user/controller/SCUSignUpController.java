@@ -42,8 +42,8 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		try {
 			if (inputId.equals("")) {
 				JOptionPane.showMessageDialog(ssuv, ".");
-			} else if (inputId.length() < 3 || inputId.length() > 30) {
-				JOptionPane.showMessageDialog(ssuv, "아이디는 3~30자 이아이디를 입력하세요내만 가능합니다.");
+			} else if (inputId.length() < 4 || inputId.length() > 30) {
+				JOptionPane.showMessageDialog(ssuv, "아이디는 3~30자 이내만 가능합니다.");
 			} else if (slDao.selectCheckDup(id) && !inputId.equals("")) { // 같은 아이디가 존재할 때
 				JOptionPane.showMessageDialog(ssuv, "같은 아이디가 존재합니다.");
 				jtf.setText("");
@@ -70,27 +70,6 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		ssuv.getJtfBirth().setText("");
 		ssuv.getJtfPhone().setText("");
 	}// reset
-
-//	private void setDay() {
-//		int selYear = ((Integer) ssuv.getJcbYear().getSelectedItem()).intValue();
-//		int selMonth = ((Integer) ssuv.getJcbMonth().getSelectedItem()).intValue();
-//
-//		// 마지막 날 얻기
-//		Calendar cal = Calendar.getInstance();
-//		cal.set(Calendar.YEAR, selYear);
-//		cal.set(Calendar.MONTH, selMonth - 1);
-//
-//		int lastDay = cal.getActualMaximum(Calendar.DATE); // 달의 마지막 날을 구하는 메소드
-//		int nowDay = cal.get(Calendar.DAY_OF_MONTH);
-//		ssuv.getCbmDay().removeAllElements(); // 모델을 초기화하고
-//
-//		for (int day = 1; day < lastDay + 1; day++) {
-//			ssuv.getCbmDay().addElement(day);// 마지막 날을 설정한다.
-//		} // end for
-//
-////		lmv.getCbmDay().setSelectedItem(new Integer(nowDay)); // 오늘을 선택한다.
-//
-//	}// setDay
 
 	/**
 	 * 회원가입
@@ -126,15 +105,17 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		StringBuilder searchDate = new StringBuilder();
 		searchDate.append(selYear).append(month).append(day);
 
-		// 이름, 전화번호
-		JTextField jtfName = ssuv.getJtfName();
+		// 전화번호
 		JTextField jtfPhone = ssuv.getJtfPhone();
+		String num = ((String) ssuv.getJcbNum().getSelectedItem()); // 앞자리
+		String num1 = jtfPhone.getText();
+		String number = "";
+		number = num + num1;
 
-		SCUSignUpVO ssuvo = new SCUSignUpVO(jtfId.getText().trim(), stringPW.trim(), jtfName.getText().trim(),
-				searchDate.toString().trim(), jtfPhone.getText().trim());
-		
-		
-		///////////////////유효성 검증//////////////////
+		// 이름
+		JTextField jtfName = ssuv.getJtfName();
+
+		/////////////////// 유효성 검증//////////////////
 		// 아이디 확인
 		if (jtfId.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(ssuv, "아이디는 필수입력사항입니다.");
@@ -179,19 +160,38 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			return;
 		}
 
-		// 생년월일 (숫자만 입력되게)
-//		if (jtfBirthdate.getText().isEmpty()) {
-//			JOptionPane.showMessageDialog(ssuv, "생년월일을 입력하세요");
-//			jtfBirthdate.requestFocus();
-//			return;
-//		}
-
-		// 전화번호
-		if (jtfPhone.getText().isEmpty()) {
+		// 전화번호 유효성
+		if (jtfPhone.getText().isEmpty()) { // 빈칸 이라면
 			JOptionPane.showMessageDialog(ssuv, "전화번호를 입력하세요");
 			jtfPhone.requestFocus();
 			return;
-		} // end else
+		} else if (!jtfPhone.getText().isEmpty()) {// 빈칸이 아닐 경우
+			if (number.length() < 10 || number.length() > 11) {
+				JOptionPane.showMessageDialog(ssuv, "전화번호의 길이는 11~12자 이내입니다.");
+				jtfPhone.setText("");
+				return;
+			}
+
+			for (int i = 0; i < number.length(); i++) {
+				if (number.charAt(i) < '0' || number.charAt(i) > '9') {
+					JOptionPane.showMessageDialog(ssuv, "전화번호는 숫자만 가능합니다.");
+					jtfPhone.setText("");
+					return;
+				}
+			} // end for
+			
+			
+			if (number.length() == 10) {
+				number = num + "-" + num1.substring(0, 3) + "-" + num1.substring(3, 7);
+				System.out.println(number);
+			} else if (number.length() == 11) {
+				number = num + "-" + num1.substring(0, 4) + "-" + num1.substring(4, 8);
+				System.out.println(number);
+			}//else if 
+		}//end else
+
+		SCUSignUpVO ssuvo = new SCUSignUpVO(jtfId.getText().trim(), stringPW.trim(), jtfName.getText().trim(),
+				searchDate.toString().trim(), number.trim());
 
 		try {
 			// 에러가 나면 catch로 빠져서 DB에 추가가 안됨
