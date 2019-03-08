@@ -12,8 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import kr.co.sist.sc.user.controller.SCUSnackMenuController;
-import kr.co.sist.sc.user.images.CustomFontList;
-import kr.co.sist.sc.user.util.CustomTableRenderer;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUSnackMenuView extends JDialog{
