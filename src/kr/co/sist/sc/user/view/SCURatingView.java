@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
@@ -37,13 +38,10 @@ public class SCURatingView extends JDialog {
 		
 		String[] columnNames = {"평 점", "한줄평", "작성자"};
 		dtmRatingTable = new DefaultTableModel(columnNames, 0);
-		jtRatingTable = new JTable(dtmRatingTable){
-			
-			
+		jtRatingTable = new JTable(dtmRatingTable) {
 			@Override
-			public Class<?> getColumnClass(int column) {
-				setOpaque(false);
-				return getValueAt(0, 0).getClass();
+			public boolean isCellEditable(int row, int column) {
+				return false;
 			}
 		};
 		JScrollPane jspRatingTable = new JScrollPane(jtRatingTable);
@@ -56,19 +54,40 @@ public class SCURatingView extends JDialog {
 		jtRatingTable.setOpaque(false);
 		jspRatingTable.setOpaque(false);
 		jspRatingTable.getViewport().setOpaque(false);
+		jtRatingTable.setEnabled(false);
+		jtRatingTable.getTableHeader().setReorderingAllowed(false);
+		jtRatingTable.getTableHeader().setResizingAllowed(false);
+		
+		jtRatingTable.getColumnModel().getColumn(0).setPreferredWidth(150);
+		jtRatingTable.getColumnModel().getColumn(0).setMaxWidth(150);
+		jtRatingTable.getColumnModel().getColumn(2).setPreferredWidth(110);
+		jtRatingTable.getColumnModel().getColumn(2).setMaxWidth(110);
 		
 		jtRatingTable.getColumnModel().getColumn(0).setCellRenderer(new TableCellRenderer() {
-			
 			@Override
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 					int row, int column) {
-				return null;
+				JLabel jlbl = new JLabel(new ImageIcon(value.toString()));
+				table.setOpaque(false);
+				return jlbl;
 			}
 		});
-		jtRatingTable.getColumnModel().getColumn(1).setCellRenderer(CustomTableRenderer.applyRenderer());
+		jtRatingTable.getColumnModel().getColumn(1).setCellRenderer(new TableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+					int row, int column) {
+				JTextArea jta = new JTextArea();
+				jta.setOpaque(false);
+				jta.setLineWrap(true);
+				jta.setFont(CustomFontList.getInstance().getFontLabel());
+				jta.setForeground(Color.WHITE);
+				jta.setText(value.toString());
+				return jta;
+			}
+		});
 		jtRatingTable.getColumnModel().getColumn(2).setCellRenderer(CustomTableRenderer.applyRenderer());
 		
-		jtRatingTable.setRowHeight(100);
+		jtRatingTable.setRowHeight(37);
 		
 		jbtnClose.setContentAreaFilled(false);
 		jbtnClose.setBorderPainted(false);
