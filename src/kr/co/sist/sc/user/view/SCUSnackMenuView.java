@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import kr.co.sist.sc.user.controller.SCUSnackMenuController;
+import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")
 public class SCUSnackMenuView extends JDialog{
@@ -82,6 +84,7 @@ public class SCUSnackMenuView extends JDialog{
 		
 		dtmOrderTotalPrice.addRow(rowData);
 		jtOrderTotalPrice.setTableHeader(null);
+		jtOrderTotalPrice.setFont(CustomFontList.getInstance().getFontLabel());
 		
 		//테이블 가운데 정렬
 		DefaultTableCellRenderer dtcrSort = new DefaultTableCellRenderer();

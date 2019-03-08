@@ -42,7 +42,7 @@ public class SCUOrderSnackView extends JDialog {
 		jtfPrice = new JTextField();
 		
 		DefaultComboBoxModel<String> snackQuan = new DefaultComboBoxModel<String>();
-		snackQuan.addElement(" -----수량 선택----- ");
+		snackQuan.addElement(" ---수량 선택--- ");
 		
 		for(int i=1; i<11; i++) {
 			snackQuan.addElement(String.valueOf(i));
@@ -53,9 +53,6 @@ public class SCUOrderSnackView extends JDialog {
 		
 		jtaSnackInfo = new JTextArea();
 		JScrollPane jspSnackInfo = new JScrollPane(jtaSnackInfo);
-//		jtaSnackInfo.setOpaque(false);
-//		jspSnackInfo.setOpaque(false);
-//		jspSnackInfo.getViewport().setOpaque(false);
 		
 		jbtnAddOrder = new JButton(new ImageIcon(imgPath+"jbt_add_order(125x40).png"));
 		jbtnClose = new JButton(new ImageIcon(imgPath+"jbt_cancel(125x40).png"));
@@ -81,6 +78,28 @@ public class SCUOrderSnackView extends JDialog {
 		
 		jlbSnackInfo.setForeground(Color.WHITE);
 		jlbSnackInfo.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		//박스 꾸미기
+		jtfSnackName.setOpaque(false);
+		jtfSnackName.setForeground(Color.WHITE);
+		jtfSnackName.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		jtfPrice.setOpaque(false);
+		jtfPrice.setForeground(Color.WHITE);
+		jtfPrice.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		jtfTotalPrice.setOpaque(false);
+		jtfTotalPrice.setForeground(Color.WHITE);
+		jtfTotalPrice.setFont(CustomFontList.getInstance().getFontLabel());
+		
+		jcbQuan.setForeground(Color.WHITE);
+		jcbQuan.setFont(CustomFontList.getInstance().getFontLabel());
+		jcbQuan.setBackground(new Color(20,45,85));
+		
+		jtaSnackInfo.setBackground(new Color(20,45,85));
+		jtaSnackInfo.setForeground(Color.WHITE);
+		jtaSnackInfo.setFont(CustomFontList.getInstance().getFontLabel());
+		
 		
 		add(jlbSnackImg);
 		add(jlbSnackName);

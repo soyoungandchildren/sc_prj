@@ -37,7 +37,7 @@ public class SCUPointView extends JDialog{
 		jtfNowPoint = new JTextField();
 		
 		DefaultComboBoxModel<String> point = new DefaultComboBoxModel<String>();
-		point.addElement(" -----금액 선택----- ");
+		point.addElement(" ---금액 선택--- ");
 		
 		for(int i=1; i<11; i++) {
 			point.addElement(String.valueOf(i+"0,000"));
@@ -60,6 +60,17 @@ public class SCUPointView extends JDialog{
 		jlbNotice2.setForeground(Color.WHITE);
 		jlbNotice2.setFont(CustomFontList.getInstance().getFontNotice());
 		jtfNowPoint.setEditable(false);
+		
+		jtfNowPoint.setOpaque(false);
+		jtfNowPoint.setFont(CustomFontList.getInstance().getFontLabel());
+		jtfNowPoint.setForeground(Color.WHITE);
+		
+		
+		jcbPoint.setFont(CustomFontList.getInstance().getFontLabel());
+		jcbPoint.setBackground(new Color(20,34,65));
+		jcbPoint.setForeground(Color.WHITE);
+		
+		
 		
 		//버튼 테두리 없애기
 		jbtnCharge.setContentAreaFilled(false);
