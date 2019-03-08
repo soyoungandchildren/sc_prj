@@ -1,23 +1,29 @@
 package kr.co.sist.sc.user.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.StyledEditorKit.ItalicAction;
 
 import kr.co.sist.sc.user.controller.SCURefundController;
+import kr.co.sist.sc.user.util.CustomFontList;
+import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")
 public class SCURefundView extends JDialog {
@@ -108,29 +114,68 @@ public class SCURefundView extends JDialog {
 		jtSnackList.setRowHeight(50);
 
 		/////////////////////////////////////////
-		JScrollPane jspBooking = new JScrollPane(jtBookingList);
-		jspBooking.setBorder(new TitledBorder("영화예매목록"));
-		JScrollPane jspSnack = new JScrollPane(jtSnackList);
-		jspSnack.setBorder(new TitledBorder("스낵예약목록"));
 
 		// 영화예약 취소
+		// 컴포넌트 설정
+		for (int i = 0; i < jtBookingList.getColumnCount(); i++) {
+
+			jtBookingList.getColumnModel().getColumn(i).setCellRenderer(new CustomTableRenderer());
+		} // end for
+
+		JScrollPane jspBooking = new JScrollPane(jtBookingList);
+		jspBooking.setBorder(new TitledBorder("영화예매목록"));
+		jspBooking.setBorder(BorderFactory.createLineBorder(Color.white));
+		jspBooking.setBackground(new Color(20, 39, 75));
+		jspBooking.setBorder(BorderFactory.createLineBorder(Color.white));
+
 		// 레이아웃이 들어간 패널
 		JPanel jpBooking = new JPanel();
 		jpBooking.setLayout(new BorderLayout());
-
 		jpBooking.add("Center", jspBooking);
-		jtpRefund.add("영화 예매 목록", jpBooking);
 
-		// 스낵
+		jtBookingList.setBorder(new LineBorder(Color.white));
+		jtBookingList.setBackground(new Color(20, 39, 75));
+		jtBookingList.setBackground(new Color(20, 39, 75));
+		jtBookingList.setOpaque(false);
+		jtBookingList.setFont(CustomFontList.getInstance().getFontLabel());
+
+		jtpRefund.add("영화 예매 목록", jpBooking);
+		jspBooking.getViewport().setBackground(new Color(20, 39, 75));
+
+
+		/////////// 스낵///////////////
+		// 컴포넌트 설정
+		for (int i = 0; i < jtSnackList.getColumnCount(); i++) {
+			jtSnackList.getColumnModel().getColumn(i).setCellRenderer(new CustomTableRenderer());
+		} // end for
+
+		JScrollPane jspSnack = new JScrollPane(jtSnackList);
+		jspSnack.setBorder(new TitledBorder("스낵예약목록"));
+		jspSnack.setBorder(BorderFactory.createLineBorder(Color.white));
+		jspSnack.setBackground(new Color(20, 39, 75));
+
 		JPanel jpSnack = new JPanel();
 		jpSnack.setLayout(new BorderLayout());
 		jpSnack.add(jspSnack);
 
 		jtpRefund.add("스낵 구매 목록", jpSnack);
+		jtSnackList.setBackground(new Color(20, 39, 75));
+//		jtSnackList.setOpaque(false);
+		jspSnack.getViewport().setBackground(new Color(20, 39, 75));
+
+		
+		////////////////////////// 공통 디자인////////////////////////
+		
+		// 테이블랜더러 추가 (테이블 폰트)
+		jtBookingList.getColumnModel().getColumn(0).setCellRenderer(CustomTableRenderer.applyRenderer());
+
+		// 탭 배경색 바꾸기
+		jtpRefund.setBackground(new Color(83, 83, 83));
+		jtpRefund.setForeground(new Color(255, 255, 255));
 
 		// 버튼
-		jbtnRefund = new JButton(new ImageIcon(imgPath+"jbt_delete_order(125x40).png"));
-		jbtnExit = new JButton(new ImageIcon(imgPath+"jbt_cancel(125x40).png"));
+		jbtnRefund = new JButton(new ImageIcon(imgPath + "jbt_delete_order(125x40).png"));
+		jbtnExit = new JButton(new ImageIcon(imgPath + "jbt_cancel(125x40).png"));
 
 		// 버튼 테두리 없애기
 		jbtnRefund.setContentAreaFilled(false);

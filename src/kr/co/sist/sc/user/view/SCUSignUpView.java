@@ -1,6 +1,9 @@
 package kr.co.sist.sc.user.view;
 
 import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.nio.channels.NetworkChannel;
 import java.util.Calendar;
 
 import javax.swing.DefaultComboBoxModel;
@@ -13,19 +16,22 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.controller.SCUSignUpController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
-public class SCUSignUpView extends JDialog {
+public class SCUSignUpView extends JDialog implements KeyListener {
 
 	private JButton jbtnCheckDuplication, jbtnReset, jbtnSignUp, jbtnExit;
 	private JTextField jtfID, jtfName, jtfBirth, jtfPhone;
 	private JPasswordField jpfPW, jpfConfirmPW;
-	private JComboBox<Integer> jcbYear, jcbMonth, jcbDay;
+	private JComboBox<Integer> jcbYear, jcbMonth, jcbDay; 
+	private JComboBox<String>jcbNum;
 	private DefaultComboBoxModel<Integer> cbmYear, cbmMonth, cbmDay;
-
+	
 	private Calendar cal;
 
+	private JLabel jlNoteID;
+	
 	public SCUSignUpView(SCULoginView slv) {
 
 		super(slv, "회원가입", true);
@@ -34,12 +40,14 @@ public class SCUSignUpView extends JDialog {
 		// 컴포넌트 생성
 		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
 
-		jbtnCheckDuplication = new JButton(new ImageIcon(imgPath+"jbt_check_double(100x30).png"));
-		jbtnReset = new JButton(new ImageIcon(imgPath+"jbt_rewrite(100x40).png"));
-		jbtnSignUp = new JButton(new ImageIcon(imgPath+"jbt_join(100x40).png"));
-		jbtnExit = new JButton(new ImageIcon(imgPath+"jbt_close(100x40).png"));
+		jbtnCheckDuplication = new JButton(new ImageIcon(imgPath + "jbt_check_double(100x30).png"));
+		jbtnReset = new JButton(new ImageIcon(imgPath + "jbt_rewrite(100x40).png"));
+		jbtnSignUp = new JButton(new ImageIcon(imgPath + "jbt_join(100x40).png"));
+		jbtnExit = new JButton(new ImageIcon(imgPath + "jbt_close(100x40).png"));
 
 		jtfID = new JTextField();
+		jlNoteID = new JLabel("아이디는 3~30자 이내입니다.");
+		
 		jtfName = new JTextField();
 		jtfBirth = new JTextField();
 		jtfPhone = new JTextField();
@@ -66,11 +74,26 @@ public class SCUSignUpView extends JDialog {
 		cbmDay = new DefaultComboBoxModel<Integer>();
 		jcbDay = new JComboBox<Integer>(cbmDay);
 
+		//번호
+		DefaultComboBoxModel<String> num = new DefaultComboBoxModel<>();
+		num.addElement("번호");
+		
+		String arr[] = { "010", "011", "017", "016", "019"};
+		for (int i = 0; i < arr.length; i++) {
+			num.addElement(String.valueOf(arr[i]));
+		}
+		
+		jcbNum = new JComboBox<String>(num);
+		
+		
 		setLayout(null);
 
 		jlID.setBounds(20, 80, 100, 30);
 		jlID.setForeground(Color.white);
 		jlID.setFont(CustomFontList.getInstance().getFontLabel());
+		jlNoteID.setBounds(110,100,190,30);
+		jlNoteID.setForeground(Color.white);
+		
 		jtfID.setBounds(110, 80, 180, 30);
 
 		jlPW.setBounds(20, 120, 100, 30);
@@ -95,7 +118,8 @@ public class SCUSignUpView extends JDialog {
 		jlPhone.setBounds(20, 280, 100, 30);
 		jlPhone.setForeground(Color.white);
 		jlPhone.setFont(CustomFontList.getInstance().getFontLabel());
-		jtfPhone.setBounds(110, 280, 180, 30);
+		jcbNum.setBounds(110, 280, 60, 30);
+		jtfPhone.setBounds(175, 280, 113, 30);
 
 		jlYear.setBounds(105, 240, 80, 30);
 		jlYear.setForeground(Color.white);
@@ -115,15 +139,15 @@ public class SCUSignUpView extends JDialog {
 		jbtnCheckDuplication.setBounds(300, 80, 100, 30);
 		jbtnCheckDuplication.setContentAreaFilled(false);
 		jbtnCheckDuplication.setBorderPainted(false);
-		
+
 		jbtnReset.setBounds(40, 350, 100, 40);
 		jbtnReset.setContentAreaFilled(false);
 		jbtnReset.setBorderPainted(false);
-		
+
 		jbtnSignUp.setBounds(160, 350, 100, 40);
 		jbtnSignUp.setContentAreaFilled(false);
 		jbtnSignUp.setBorderPainted(false);
-		
+
 		jbtnExit.setBounds(280, 350, 100, 40);
 		jbtnExit.setContentAreaFilled(false);
 		jbtnExit.setBorderPainted(false);
@@ -138,6 +162,7 @@ public class SCUSignUpView extends JDialog {
 		add(jlDay);
 		add(jlPhone);
 
+		add(jlNoteID);
 		add(jtfID);
 		add(jtfName);
 		add(jtfPhone);
@@ -145,6 +170,7 @@ public class SCUSignUpView extends JDialog {
 		add(jcbYear);
 		add(jcbMonth);
 		add(jcbDay);
+		add(jcbNum);
 
 		add(jpfPW);
 		add(jpfConfirmPW);
@@ -204,6 +230,50 @@ public class SCUSignUpView extends JDialog {
 		} // end for
 //		jcbDay.setSelectedItem(new Integer(nowDay));
 	}// setDay
+
+	@Override
+	public void keyTyped(KeyEvent e) {}
+
+	@Override
+	public void keyPressed(KeyEvent e) {}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		String inputID = new String(jtfID.getText().trim());
+		String inputPw = new String(jpfPW.getPassword());
+		String inputCpw = new String(jpfConfirmPW.getPassword());
+		
+		System.out.println(inputPw.length());
+		System.out.println(inputCpw.length());
+		
+//		if(inputID.length()<4 && inputID.length()>31) {
+//			
+//			if(inputID.length() < 4 || inputID.length() > 31) {
+//				jlNoteID.setForeground(Color.red);
+//				jlNoteID.setText("아이디를 입력해주세요.");
+//				return;
+//			}
+			
+//			if(!inputPw.equals(inputCpw)) {
+//				jlInstruction1.setForeground(Color.RED);
+//				jlInstruction1.setText("입력한 비밀번호를 확인해주세요.");
+//				return;
+//			}else {
+//				jlInstruction1.setForeground(Color.WHITE);
+//				jlInstruction1.setText("사용할 수 있는 비밀번호입니다.");
+				
+//	}
+//		}else {
+//			jlInstruction1.setForeground(Color.RED);
+//			jlInstruction1.setText("사용할 수 없는 비밀번호입니다.");
+//		}
+		
+	}//keyReleased
+
+	
+	public JComboBox<String> getJcbNum() {
+		return jcbNum;
+	}
 
 	public JButton getJbtnCheckDuplication() {
 		return jbtnCheckDuplication;
@@ -273,4 +343,5 @@ public class SCUSignUpView extends JDialog {
 		return cal;
 	}
 
+	
 }// class

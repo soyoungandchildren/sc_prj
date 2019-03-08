@@ -15,8 +15,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 
-import kr.co.sist.sc.user.images.CustomFontList;
 import kr.co.sist.sc.user.model.SCULoginDAO;
+import kr.co.sist.sc.user.util.CustomFontList;
 import kr.co.sist.sc.user.vo.SCUModifyPWVO;
 
 @SuppressWarnings("serial")

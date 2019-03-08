@@ -22,10 +22,9 @@ public class SCUWriteRatingController extends WindowAdapter implements ActionLis
 	}//Constructor
 
 	
-	public void insertRating() {
+	public void insertRating(String review) {
 		String book_number = swrv.getBookNumber();
 		int movie_rate = Integer.parseInt(swrv.getJcbRating().getSelectedItem().toString());
-		String review = swrv.getJtaReview().getText();
 		String member_id = swrv.getSrv().getSmlv().getSmv().getIdConnecting();
 		
 		SCUInsertRatingVO sirVO = new SCUInsertRatingVO(book_number, movie_rate, review, member_id);
@@ -55,8 +54,14 @@ public class SCUWriteRatingController extends WindowAdapter implements ActionLis
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
+		
 		if(ae.getSource().equals(swrv.getJbtnCommit())) {
-			insertRating();
+			String review = swrv.getJtaReview().getText().replaceAll("\n", " ");
+			if(review.length()>100) {
+				JOptionPane.showMessageDialog(swrv,"한줄 평이 너무 길어요!");
+			}else {
+				insertRating(review);
+			}
 		}//end if
 		
 		if(ae.getSource().equals(swrv.getJbtnExit())) {

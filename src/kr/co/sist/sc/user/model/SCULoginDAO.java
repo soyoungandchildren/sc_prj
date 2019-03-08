@@ -130,7 +130,7 @@ public class SCULoginDAO {
 			// 3.
 			StringBuilder insertMember = new StringBuilder();
 			insertMember.append("INSERT INTO MEMBER")
-					.append("(MEMBER_ID, PASSWORD, NAME, BIRTHDATE, PHONE, MEMBERSHIP)").append("VALUES(?,?,?,?,?,?)");
+					.append("(MEMBER_ID, PASSWORD, NAME, BIRTHDATE, PHONE, MEMBERSHIP, hold_point, acc_point)").append("VALUES(?,?,?,?,?,?,?,?)");
 			pstmt = con.prepareStatement(insertMember.toString());
 
 			// 4. 바인드 변수에 값넣기
@@ -140,6 +140,8 @@ public class SCULoginDAO {
 			pstmt.setString(4, ssuvo.getBirthdate());
 			pstmt.setString(5, ssuvo.getPhone());
 			pstmt.setString(6, "s");
+			pstmt.setInt(7, 0);
+			pstmt.setInt(8, 0);
 
 			// 5.
 			pstmt.executeUpdate(); // insert되거나 예외이거나 둘 중 하나

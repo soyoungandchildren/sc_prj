@@ -13,7 +13,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.controller.SCUOrderSnackController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUOrderSnackView extends JDialog {
