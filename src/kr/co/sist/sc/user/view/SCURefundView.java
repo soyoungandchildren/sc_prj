@@ -159,6 +159,7 @@ public class SCURefundView extends JDialog {
 		jpSnack.add(jspSnack);
 
 		jtpRefund.add("스낵 구매 목록", jpSnack);
+		jtSnackList.setBorder(new LineBorder(Color.white));
 		jtSnackList.setBackground(new Color(20, 39, 75));
 //		jtSnackList.setOpaque(false);
 		jspSnack.getViewport().setBackground(new Color(20, 39, 75));

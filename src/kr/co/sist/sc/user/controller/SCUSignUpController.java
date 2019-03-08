@@ -1,5 +1,6 @@
 package kr.co.sist.sc.user.controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -50,6 +51,7 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			} else {// 같은 아이디가 존재하지 않을 때
 				booleanCheckDub = true;
 				JOptionPane.showMessageDialog(ssuv, "사용 가능한 아이디입니다.");// end else
+				ssuv.getJlNoteID().setText("");
 			} // end else
 
 		} catch (SQLException e) {
@@ -179,16 +181,15 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 					return;
 				}
 			} // end for
-			
-			
+
 			if (number.length() == 10) {
 				number = num + "-" + num1.substring(0, 3) + "-" + num1.substring(3, 7);
 				System.out.println(number);
 			} else if (number.length() == 11) {
 				number = num + "-" + num1.substring(0, 4) + "-" + num1.substring(4, 8);
 				System.out.println(number);
-			}//else if 
-		}//end else
+			} // else if
+		} // end else
 
 		SCUSignUpVO ssuvo = new SCUSignUpVO(jtfId.getText().trim(), stringPW.trim(), jtfName.getText().trim(),
 				searchDate.toString().trim(), number.trim());
@@ -215,6 +216,9 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		if (ae.getSource().equals(ssuv.getJbtnCheckDuplication())) {
 			count++;
 			checkDuplication(ssuv.getJtfID().getText());
+			if (count > 0) {
+
+			}
 		} // 중복확인
 
 		if (ae.getSource().equals(ssuv.getJbtnReset())) {
@@ -242,11 +246,90 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 	}
 
 	@Override
-	public void keyPressed(KeyEvent e) {
-	}
+	public void keyReleased(KeyEvent e) {
+		String inputId = new String(ssuv.getJtfID().getText().trim());
+		String inputPw = new String(ssuv.getJpfPW().getPassword());
+		String inputCpw = new String(ssuv.getJpfConfirmPW().getPassword());
+		String inputName = new String(ssuv.getJtfName().getText().trim());
+		String inputNum = new String(ssuv.getJtfPhone().getText().trim());
+		String num = ((String) ssuv.getJcbNum().getSelectedItem());
+		String num1 = ssuv.getJtfPhone().getText();
+		String number = "";
+		number = num + num1;
+		//// 아이디
+		if (e.getSource().equals(ssuv.getJtfID())) {
+
+			if ("".equals(inputId)) {
+				ssuv.getJlNoteID().setForeground(Color.red);
+				ssuv.getJlNoteID().setText("아이디는 필수 입력사항입니다.");
+				return;
+			}
+
+			if (inputId.length() < 4 || inputId.length() >= 30) { // 아이디 글자수 틀리면
+				ssuv.getJlNoteID().setText("아이디는 3글자부터 30자까지 가능합니다.");
+				return;
+			} else {
+				ssuv.getJlNoteID().setText("중복확인을 해주세요.");
+				return;
+			}
+		} // end Id
+
+		//// 비밀번호
+		if ("".equals(inputPw) && "".equals(inputCpw)) {
+
+			ssuv.getJlNotePass().setForeground(Color.red);
+			ssuv.getJlNotePass().setText("비밀번호는 필수 입력사항입니다!");
+
+		} else if (inputPw.length() < 3 && inputPw.length() > 30) {
+			ssuv.getJlNotePass().setForeground(Color.RED);
+			ssuv.getJlNotePass().setText("비밀번호는 3~30자 이내만 가능합니다.");
+			return;
+
+		} else {
+			if (!inputPw.equals(inputCpw)) {
+				ssuv.getJlNotePass().setForeground(Color.RED);
+				ssuv.getJlNotePass().setText("비밀번호가 일치하지 않습니다.");
+				return;
+			} else {
+				ssuv.getJlNotePass().setText("");
+			}
+		}
+		// 이름
+		// 전번이 먼저 입력되었을 때 전번의 유효성 검사가 실행되지 않음.
+		// 근데 전번 바로
+		if ("".equals(inputName)) {
+			ssuv.getJlNoteName().setForeground(Color.red);
+			ssuv.getJlNoteName().setText("이름은 필수 입력사항입니다!");
+//			return;
+		} else if (inputName.length() < 2 || inputName.length() > 10) {
+			ssuv.getJlNoteName().setForeground(Color.RED);
+			ssuv.getJlNoteName().setText("이름은 2~10자 이내만 가능합니다.");
+			return;
+		} else {
+			ssuv.getJlNoteName().setText("");
+		} // end else
+
+		//// 전화번호
+		if (num.length() > 2 && (number.length() > 9 || number.length() < 12)) {
+			ssuv.getJlNoteNum().setText("");
+			
+		} else if ("".equals(inputNum)) {
+			ssuv.getJlNoteNum().setForeground(Color.red);
+			ssuv.getJlNoteNum().setText("전화번호는 필수입력사항입니다.");
+			return;
+		} else if (inputNum.length() < 7 || inputNum.length() > 8){
+			ssuv.getJlNoteNum().setForeground(Color.red);
+			ssuv.getJlNoteNum().setText("전화번호 양식에 맞지 않습니다.");
+			return;
+		}else if(!"번호".equals(num)){
+			ssuv.getJlNoteNum().setForeground(Color.red);
+			ssuv.getJlNoteNum().setText("전화번호 앞");
+		} // end else
+
+
+	}// keyReleased
 
 	@Override
-	public void keyReleased(KeyEvent e) {
+	public void keyPressed(KeyEvent e) {
 	}
-
 }// class
