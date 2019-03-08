@@ -43,7 +43,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 				ssmVO = list.get(i);
 				
 				rowData = new Object[2];
-				rowData[0] = new ImageIcon(imgPath+ssmVO.getSnack_img());
+				rowData[0] = new ImageIcon(imgPath+"s_"+ssmVO.getSnack_img());
 				rowData[1] = ssmVO.getSnack_name();
 				ssmv.getJbtnMenu()[i].setIcon(new ImageIcon(rowData[0].toString()));	
 				
@@ -55,7 +55,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 			int ex = 8-list.size();
 			if(list.size() != 8) {
 				for(int i=0; i<ex; i++) {
-					ssmv.getJbtnMenu()[7-i].setIcon(new ImageIcon(imgPath+"NoImage.png"));
+					ssmv.getJbtnMenu()[7-i].setIcon(new ImageIcon(imgPath+"jl_no_snack_image(187x162).png"));
 					ssmv.getJbtnMenu()[7-i].setEnabled(false);
 				}//end for
 			}//end if

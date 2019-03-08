@@ -35,7 +35,7 @@ public class SCUOrderSnackController extends WindowAdapter implements ActionList
 			SCUSnackOrderDataVO ssodVO = ssDAO.selectSnackOrderData(selectName);
 			
 			sosv.getJtfPrice().setText(String.valueOf(ssodVO.getSnack_price()));
-			sosv.getJlbSnackImg().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/snack/"+ssodVO.getSnack_img()));
+			sosv.getJlbSnackImg().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/snack/l_"+ssodVO.getSnack_img()));
 			sosv.getJtaSnackInfo().setText(ssodVO.getSnack_info());
 			
 		} catch (SQLException se) {

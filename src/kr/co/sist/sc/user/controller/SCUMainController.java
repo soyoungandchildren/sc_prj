@@ -73,7 +73,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    public void setImgBoard() {
       try {
          List<SCUMainVO> list = smDAO.searchSetImgBoard();
-         String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/";
+         String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/movie/m_movie_";
          
          //영화별 누적 관람객 수
          cnt = new Integer[list.size()];

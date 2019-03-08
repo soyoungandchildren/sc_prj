@@ -77,10 +77,6 @@ public class SCUMainView extends JFrame {
 		jtaBookingRank.setEditable(false);
 		
 		//컴포넌트 설정
-		jlblImageBoard1.setBorder(new LineBorder(Color.WHITE));
-		jlblImageBoard2.setBorder(new LineBorder(Color.WHITE));
-		jlblImageBoard3.setBorder(new LineBorder(Color.WHITE));
-		
 		jtaBookingRank.setBorder(new LineBorder(Color.WHITE));
 		jtaBookingRank.setForeground(Color.WHITE);
 		jtaBookingRank.setFont(CustomFontList.getInstance().getFixedLengthFont());
