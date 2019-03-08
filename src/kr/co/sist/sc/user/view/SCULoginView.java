@@ -10,7 +10,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.controller.SCULoginController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCULoginView extends JDialog {

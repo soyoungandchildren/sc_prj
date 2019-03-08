@@ -22,7 +22,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.StyledEditorKit.ItalicAction;
 
 import kr.co.sist.sc.user.controller.SCURefundController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")

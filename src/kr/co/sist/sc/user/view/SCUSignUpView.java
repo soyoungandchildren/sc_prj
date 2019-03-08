@@ -16,7 +16,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import kr.co.sist.sc.user.controller.SCUSignUpController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUSignUpView extends JDialog implements KeyListener {

@@ -13,7 +13,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.plaf.ColorUIResource;
 
 import kr.co.sist.sc.user.controller.SCUMainController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUMainView extends JFrame {

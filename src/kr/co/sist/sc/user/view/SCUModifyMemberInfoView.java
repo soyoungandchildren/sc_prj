@@ -11,7 +11,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import kr.co.sist.sc.user.controller.SCUModifyMemberInfoController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUModifyMemberInfoView extends JDialog{

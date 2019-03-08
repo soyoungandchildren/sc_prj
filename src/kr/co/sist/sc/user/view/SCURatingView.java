@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import kr.co.sist.sc.user.controller.SCURatingController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")
@@ -87,7 +87,7 @@ public class SCURatingView extends JDialog {
 		});
 		jtRatingTable.getColumnModel().getColumn(2).setCellRenderer(CustomTableRenderer.applyRenderer());
 		
-		jtRatingTable.setRowHeight(37);
+		jtRatingTable.setRowHeight(91);
 		
 		jbtnClose.setContentAreaFilled(false);
 		jbtnClose.setBorderPainted(false);

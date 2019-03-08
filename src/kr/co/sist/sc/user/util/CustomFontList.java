@@ -1,4 +1,4 @@
-package kr.co.sist.sc.user.images;
+package kr.co.sist.sc.user.util;
 
 import java.awt.Font;
 import java.awt.FontFormatException;

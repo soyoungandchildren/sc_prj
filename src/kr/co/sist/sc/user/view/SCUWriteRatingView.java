@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 import kr.co.sist.sc.user.controller.SCUWriteRatingController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUWriteRatingView extends JDialog{
@@ -32,7 +32,7 @@ public class SCUWriteRatingView extends JDialog{
 		sbTitle.append("[").append(srv.getSmlv().getSelectedMovieTitle()).append("]").append(" 한줄평 쓰기");
 		JLabel jlblTitle = new JLabel(sbTitle.toString());
 		JLabel jlblRating = new JLabel("평점 : ");
-		
+		JLabel jlblInstruction = new JLabel("※한줄평은 100자까지 작성이 가능합니다.");
 		
 		
 		jcbRating = new JComboBox<>();
@@ -52,6 +52,9 @@ public class SCUWriteRatingView extends JDialog{
 		jlblTitle.setForeground(Color.WHITE);
 		jlblRating.setFont(CustomFontList.getInstance().getFontLabel());
 		jlblRating.setForeground(Color.WHITE);
+		jlblInstruction.setFont(CustomFontList.getInstance().getFontNotice());
+		jlblInstruction.setForeground(Color.WHITE);
+		
 		
 		for(int i =10; i>=0; i--) {
 			jcbRating.addItem(i);
@@ -62,10 +65,12 @@ public class SCUWriteRatingView extends JDialog{
 		jlblRating.setBounds(20, 40, 100, 30);
 		jlblTitle.setBounds(20, 0, 400, 40);
 		jcbRating.setBounds(70, 43, 80, 25);
-		jspReview.setBounds(20, 80, 450, 220);
+		jspReview.setBounds(20, 80, 450, 190);
 		jbtnCommit.setBounds(500/2-140, 310, 125, 40);
 		jbtnExit.setBounds(500/2+15, 310, 125, 40);
+		jlblInstruction.setBounds(20, 275, 300, 25);
 		
+		add(jlblInstruction);
 		add(jlblRating);
 		add(jlblTitle);
 		add(jcbRating);

@@ -16,7 +16,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 import kr.co.sist.sc.user.controller.SCUBookingController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 import kr.co.sist.sc.user.util.CustomTableRenderer;
 
 @SuppressWarnings("serial")

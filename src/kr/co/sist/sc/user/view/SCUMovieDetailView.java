@@ -12,7 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
 import kr.co.sist.sc.user.controller.SCUMovieDetailController;
-import kr.co.sist.sc.user.images.CustomFontList;
+import kr.co.sist.sc.user.util.CustomFontList;
 
 @SuppressWarnings("serial")
 public class SCUMovieDetailView extends JDialog{

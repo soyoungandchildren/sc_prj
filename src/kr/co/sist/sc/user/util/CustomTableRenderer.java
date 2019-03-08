@@ -8,8 +8,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
-import kr.co.sist.sc.user.images.CustomFontList;
-
 @SuppressWarnings("serial")
 public class CustomTableRenderer extends JLabel implements TableCellRenderer {
 
