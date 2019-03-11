@@ -9,7 +9,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.border.TitledBorder;
 
 import kr.co.sist.sc.user.controller.SCUMovieDetailController;
 import kr.co.sist.sc.user.util.CustomFontList;
