@@ -1,6 +1,5 @@
 package kr.co.sist.sc.user.controller;
 
-import javax.swing.JLabel;
 import javax.swing.JTextArea;
 
 public class SCUClientThreadHelper implements Runnable{
@@ -44,5 +43,11 @@ public class SCUClientThreadHelper implements Runnable{
 		}//end while
 		
 	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	
 
 }

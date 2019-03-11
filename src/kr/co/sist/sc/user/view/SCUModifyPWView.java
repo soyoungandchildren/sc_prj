@@ -61,7 +61,8 @@ public class SCUModifyPWView extends JDialog implements ActionListener,KeyListen
 		jbtnConfirm = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_charging(90x40).png"));
 		jbtnExit = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_cancel(90x40).png"));
 
-		
+		jpfConfirmPW.setForeground(Color.WHITE);
+		jpfPW.setForeground(Color.WHITE);
 		
 		jbtnConfirm.setBorderPainted(false);
 		jbtnConfirm.setContentAreaFilled(false);
