@@ -81,7 +81,9 @@ public class SCURatingView extends JDialog {
 				jta.setLineWrap(true);
 				jta.setFont(CustomFontList.getInstance().getFontLabel());
 				jta.setForeground(Color.WHITE);
-				jta.setText(value.toString());
+				if(value != null) {
+					jta.setText(value.toString());
+				}
 				return jta;
 			}
 		});

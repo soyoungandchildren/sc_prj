@@ -266,6 +266,10 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 	public void mouseEntered(MouseEvent e) {}
 	public void mouseExited(MouseEvent e) {}
 	//mouseListener Override
+
+	public List<SCUSearchScreenVO> getList() {
+		return list;
+	}
 	
 	
 }//Class

@@ -9,6 +9,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -159,6 +160,11 @@ public class SCUBookingView extends JDialog{
 		
 		//이벤트 등록
 		SCUBookingController sbc = new SCUBookingController(this);
+		if(sbc.getList().size()==0) {
+			JOptionPane.showMessageDialog(smlv, "상영중인 영화가 없습니다.");
+			return;
+		}
+		
 		jcbDate.addActionListener(sbc);
 		jrbStandard.addActionListener(sbc);
 		jrbPremium.addActionListener(sbc);
