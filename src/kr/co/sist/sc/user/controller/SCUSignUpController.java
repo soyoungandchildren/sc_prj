@@ -48,10 +48,12 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			} else if (slDao.selectCheckDup(id) && !inputId.equals("")) { // 같은 아이디가 존재할 때
 				JOptionPane.showMessageDialog(ssuv, "같은 아이디가 존재합니다.");
 				jtf.setText("");
+				ssuv.getJpfPW().requestFocus();
 			} else {// 같은 아이디가 존재하지 않을 때
 				booleanCheckDub = true;
 				JOptionPane.showMessageDialog(ssuv, "사용 가능한 아이디입니다.");// end else
 				ssuv.getJlNoteID().setText("");
+				ssuv.getJpfPW().requestFocus();
 			} // end else
 
 		} catch (SQLException e) {
@@ -152,6 +154,7 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		} // end else
 
 		// 이름
+		
 		if (jtfName.getText().isEmpty()) {
 			JOptionPane.showMessageDialog(ssuv, "이름을 입력하세요");
 			jtfName.requestFocus();
@@ -161,6 +164,14 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			jtfName.requestFocus();
 			return;
 		}
+		
+		for (int i = 0; i < jtfName.getText().length(); i++) {
+			if(jtfName.getText().charAt(i) >= '0' && jtfName.getText().charAt(i) <= '9') {
+				ssuv.getJlNoteName().setForeground(Color.RED);
+				ssuv.getJlNoteName().setText("이름은 문자만 입력 가능합니다.");
+				return;
+			}//end if
+		}//end for
 
 		// 전화번호 유효성
 		if (jtfPhone.getText().isEmpty()) { // 빈칸 이라면
@@ -184,10 +195,8 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 			if (number.length() == 10) {
 				number = num + "-" + num1.substring(0, 3) + "-" + num1.substring(3, 7);
-				System.out.println(number);
 			} else if (number.length() == 11) {
 				number = num + "-" + num1.substring(0, 4) + "-" + num1.substring(4, 8);
-				System.out.println(number);
 			} // else if
 		} // end else
 
@@ -212,6 +221,10 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		
+		String num = ((String) ssuv.getJcbNum().getSelectedItem());
+		String num1 = ssuv.getJtfPhone().getText();
+		String number = num + num1;
 
 		if (ae.getSource().equals(ssuv.getJbtnCheckDuplication())) {
 			count++;
@@ -230,12 +243,25 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 				addSignUp();
 			} else {
 				JOptionPane.showMessageDialog(ssuv, "아이디 중복확인을 해주세요.");
+				ssuv.getJtfID().requestFocus();
 			}
 		} // 가입
 
 		if (ae.getSource().equals(ssuv.getJbtnExit())) {
 			ssuv.dispose();
 		} // getJbtnExit
+
+		if (ae.getSource().equals(ssuv.getJtfPhone())) {
+			ssuv.getJbtnSignUp().requestFocus();
+		} // getJtfID
+		
+		//전화번호 앞 번호 선택했는지 확인
+		if(ae.getSource().equals(ssuv.getJcbNum())) {
+			if(number.length() == 10  || number.length() == 11) {
+			ssuv.getJlNoteNum().setText("");
+			return;
+			}
+		}
 	}// actionPerformed
 
 	@Override
@@ -254,8 +280,9 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		String inputNum = new String(ssuv.getJtfPhone().getText().trim());
 		String num = ((String) ssuv.getJcbNum().getSelectedItem());
 		String num1 = ssuv.getJtfPhone().getText();
-		String number = "";
-		number = num + num1;
+		String number = num + num1;
+		int key = e.getKeyCode();
+
 		//// 아이디
 		if (e.getSource().equals(ssuv.getJtfID())) {
 
@@ -265,66 +292,95 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 				return;
 			}
 
-			if (inputId.length() < 4 || inputId.length() >= 30) { // 아이디 글자수 틀리면
+			if (inputId.length() < 4 || inputId.length() > 30) { // 아이디 글자수 틀리면
+				ssuv.getJlNoteID().setForeground(Color.red);
 				ssuv.getJlNoteID().setText("아이디는 3글자부터 30자까지 가능합니다.");
 				return;
 			} else {
+				ssuv.getJlNoteID().setForeground(Color.red);
 				ssuv.getJlNoteID().setText("중복확인을 해주세요.");
 				return;
 			}
 		} // end Id
 
 		//// 비밀번호
-		if ("".equals(inputPw) && "".equals(inputCpw)) {
+		if (e.getSource().equals(ssuv.getJpfConfirmPW()) || e.getSource().equals(ssuv.getJpfPW())) {
+			if ("".equals(inputPw) && "".equals(inputCpw)) {
 
-			ssuv.getJlNotePass().setForeground(Color.red);
-			ssuv.getJlNotePass().setText("비밀번호는 필수 입력사항입니다!");
-
-		} else if (inputPw.length() < 3 && inputPw.length() > 30) {
-			ssuv.getJlNotePass().setForeground(Color.RED);
-			ssuv.getJlNotePass().setText("비밀번호는 3~30자 이내만 가능합니다.");
-			return;
-
-		} else {
-			if (!inputPw.equals(inputCpw)) {
-				ssuv.getJlNotePass().setForeground(Color.RED);
-				ssuv.getJlNotePass().setText("비밀번호가 일치하지 않습니다.");
+				ssuv.getJlNotePass().setForeground(Color.red);
+				ssuv.getJlNotePass().setText("비밀번호는 필수 입력사항입니다!");
 				return;
+
+			} else if (inputPw.length() < 3 && inputPw.length() > 30) {
+				ssuv.getJlNotePass().setForeground(Color.RED);
+				ssuv.getJlNotePass().setText("비밀번호는 3~30자 이내만 가능합니다.");
+				return;
+
 			} else {
-				ssuv.getJlNotePass().setText("");
+				if (!inputPw.equals(inputCpw)) {
+					ssuv.getJlNotePass().setForeground(Color.RED);
+					ssuv.getJlNotePass().setText("비밀번호가 일치하지 않습니다.");
+					return;
+				} else {
+					ssuv.getJlNotePass().setText("");
+					return;
+				}
 			}
 		}
+
 		// 이름
-		// 전번이 먼저 입력되었을 때 전번의 유효성 검사가 실행되지 않음.
-		// 근데 전번 바로
-		if ("".equals(inputName)) {
-			ssuv.getJlNoteName().setForeground(Color.red);
-			ssuv.getJlNoteName().setText("이름은 필수 입력사항입니다!");
-//			return;
-		} else if (inputName.length() < 2 || inputName.length() > 10) {
-			ssuv.getJlNoteName().setForeground(Color.RED);
-			ssuv.getJlNoteName().setText("이름은 2~10자 이내만 가능합니다.");
-			return;
-		} else {
+		if (e.getSource().equals(ssuv.getJtfName())) {
+			if ("".equals(inputName)) {
+				ssuv.getJlNoteName().setForeground(Color.red);
+				ssuv.getJlNoteName().setText("이름은 필수 입력사항입니다");
+				return;
+			}
+			if (inputName.length() < 2 || inputName.length() > 10) {
+				ssuv.getJlNoteName().setForeground(Color.RED);
+				ssuv.getJlNoteName().setText("이름은 2~10자 이내만 가능합니다.");
+				return;
+			}
+			
+			for (int i = 0; i < inputName.length(); i++) {
+				if(inputName.charAt(i) >= '0' && inputName.charAt(i) <= '9') {
+					ssuv.getJlNoteName().setForeground(Color.RED);
+					ssuv.getJlNoteName().setText("이름은 문자만 입력 가능합니다.");
+					return;
+				}//end if
+			}//end for
+			
 			ssuv.getJlNoteName().setText("");
-		} // end else
+			return;
+		}
 
 		//// 전화번호
-		if (num.length() > 2 && (number.length() > 9 || number.length() < 12)) {
-			ssuv.getJlNoteNum().setText("");
-			
-		} else if ("".equals(inputNum)) {
-			ssuv.getJlNoteNum().setForeground(Color.red);
-			ssuv.getJlNoteNum().setText("전화번호는 필수입력사항입니다.");
-			return;
-		} else if (inputNum.length() < 7 || inputNum.length() > 8){
-			ssuv.getJlNoteNum().setForeground(Color.red);
-			ssuv.getJlNoteNum().setText("전화번호 양식에 맞지 않습니다.");
-			return;
-		}else if(!"번호".equals(num)){
-			ssuv.getJlNoteNum().setForeground(Color.red);
-			ssuv.getJlNoteNum().setText("전화번호 앞");
-		} // end else
+		if (e.getSource().equals(ssuv.getJtfPhone()) || e.getSource().equals(ssuv.getJcbNum())) {
+			if (num.length() > 2 && (number.length() > 9 && number.length() < 12)) {
+				ssuv.getJlNoteNum().setText("");
+				
+				//전화번호까지 입력하고 enter 눌리면 가입버튼 눌림
+				if (key == KeyEvent.VK_ENTER) {// 그 눌린 값의 키가 enter라면
+					ssuv.getJbtnSignUp().doClick();
+				} // end if
+
+			} else if ("".equals(inputNum)) {
+				ssuv.getJlNoteNum().setForeground(Color.red);
+				ssuv.getJlNoteNum().setText("전화번호는 필수입력사항입니다.");
+				return;
+			} else if (inputNum.length() < 7 || inputNum.length() > 8) {
+				ssuv.getJlNoteNum().setForeground(Color.red);
+				ssuv.getJlNoteNum().setText("전화번호 양식에 맞지 않습니다.");
+				return;
+			}
+				if (ssuv.getJcbNum().getSelectedIndex() == 0) {
+					ssuv.getJlNoteNum().setForeground(Color.red);
+					ssuv.getJlNoteNum().setText("전화번호 앞 번호를 선택하세요.");
+					return;
+				} else {
+					ssuv.getJlNoteNum().setText("");
+				}
+			} // end
+
 
 
 	}// keyReleased

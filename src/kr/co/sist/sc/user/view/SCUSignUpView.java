@@ -89,63 +89,62 @@ public class SCUSignUpView extends JDialog {
 
 		setLayout(null);
 
-		jlID.setBounds(20, 80, 100, 30);
+		jlID.setBounds(20, 40, 100, 30);
 		jlID.setForeground(Color.white);
 		jlID.setFont(CustomFontList.getInstance().getFontLabel());
-		jlNoteID.setBounds(110, 100, 190, 30);
+		jtfID.setBounds(110, 40, 180, 30);
+		jlNoteID.setBounds(110, 65, 300, 30);
 		jlNoteID.setForeground(Color.white);
-
-		jtfID.setBounds(110, 80, 180, 30);
 		
 
-		jlPW.setBounds(20, 120, 100, 30);
+		jlPW.setBounds(20, 90, 100, 30);
 		jlPW.setForeground(Color.white);
 		jlPW.setFont(CustomFontList.getInstance().getFontLabel());
-		jpfPW.setBounds(110, 120, 180, 30);
+		jpfPW.setBounds(110, 90, 180, 30);
 		
-		jlConfirmPW.setBounds(20, 160, 100, 30);
+		jlConfirmPW.setBounds(20, 140, 100, 30);
 		jlConfirmPW.setForeground(Color.white);
 		jlConfirmPW.setFont(CustomFontList.getInstance().getFontLabel());
-		jpfConfirmPW.setBounds(110, 160, 180, 30);
-		jlNotePass.setBounds(110, 180, 180, 30);
+		jpfConfirmPW.setBounds(110, 140, 180, 30);
+		jlNotePass.setBounds(110, 165, 300, 30);
 		jlNotePass.setForeground(Color.white);
 
-		jlName.setBounds(20, 200, 100, 30);
+		jlName.setBounds(20, 190, 100, 30);
 		jlName.setForeground(Color.white);
 		jlName.setFont(CustomFontList.getInstance().getFontLabel());
-		jtfName.setBounds(110, 200, 180, 30);
-		jlNoteName.setBounds(110, 220, 180, 30);
+		jtfName.setBounds(110, 190, 180, 30);
+		jlNoteName.setBounds(110, 215, 300, 30);
 		jlNoteName.setForeground(Color.white);
 
 		jlBirth.setBounds(20, 240, 100, 30);
 		jlBirth.setForeground(Color.white);
 		jlBirth.setFont(CustomFontList.getInstance().getFontLabel());
 
-		jlYear.setBounds(105, 240, 80, 30);
+		jcbYear.setBounds(110, 240, 60, 30);
+		jlYear.setBounds(170, 240, 80, 30);
 		jlYear.setForeground(Color.white);
 		jlYear.setFont(CustomFontList.getInstance().getFontLabel());
-		jcbYear.setBounds(125, 240, 60, 30);
 		
-		jlMonth.setBounds(187, 240, 80, 30);
+		jcbMonth.setBounds(190, 240, 40, 30);
+		jlMonth.setBounds(230, 240, 80, 30);
 		jlMonth.setForeground(Color.white);
 		jlMonth.setFont(CustomFontList.getInstance().getFontLabel());
-		jcbMonth.setBounds(205, 240, 40, 30);
 		
-		jlDay.setBounds(245, 240, 40, 30);
+		jcbDay.setBounds(250, 240, 40, 30);
+		jlDay.setBounds(290, 240, 40, 30);
 		jlDay.setForeground(Color.white);
 		jlDay.setFont(CustomFontList.getInstance().getFontLabel());
-		jcbDay.setBounds(260, 240, 40, 30);
 
-		jlPhone.setBounds(20, 280, 100, 30);
+		jlPhone.setBounds(20, 290, 100, 30);
 		jlPhone.setForeground(Color.white);
 		jlPhone.setFont(CustomFontList.getInstance().getFontLabel());
-		jcbNum.setBounds(110, 280, 60, 30);
-		jtfPhone.setBounds(175, 280, 113, 30);
-		jlNoteNum.setBounds(110, 300, 180, 30);
+		jcbNum.setBounds(110, 290, 60, 30);
+		jtfPhone.setBounds(175, 290, 113, 30);
+		jlNoteNum.setBounds(110, 315, 300, 30);
 		jlNoteNum.setForeground(Color.white);
 
 
-		jbtnCheckDuplication.setBounds(300, 80, 100, 30);
+		jbtnCheckDuplication.setBounds(300, 40, 100, 30);
 		jbtnCheckDuplication.setContentAreaFilled(false);
 		jbtnCheckDuplication.setBorderPainted(false);
 
@@ -210,6 +209,7 @@ public class SCUSignUpView extends JDialog {
 		jpfConfirmPW.addKeyListener(ssuc);
 		jtfName.addKeyListener(ssuc);
 		jtfPhone.addKeyListener(ssuc);
+		jcbNum.addActionListener(ssuc);
 
 		// Ã¢ ¼³Á¤
 		JLabel background = new JLabel(new ImageIcon(imgPath + "user_login_bg3(420x500).png"));
