@@ -42,7 +42,9 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 		try {
 			if (inputId.equals("")) {
-				JOptionPane.showMessageDialog(ssuv, ".");
+				JOptionPane.showMessageDialog(ssuv, "아이디는 필수 입력사항입니다.");
+				jtf.setText("");
+				ssuv.getJpfPW().requestFocus();
 			} else if (inputId.length() < 4 || inputId.length() > 30) {
 				JOptionPane.showMessageDialog(ssuv, "아이디는 3~30자 이내만 가능합니다.");
 			} else if (slDao.selectCheckDup(id) && !inputId.equals("")) { // 같은 아이디가 존재할 때
@@ -294,7 +296,7 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 			if (inputId.length() < 4 || inputId.length() > 30) { // 아이디 글자수 틀리면
 				ssuv.getJlNoteID().setForeground(Color.red);
-				ssuv.getJlNoteID().setText("아이디는 3글자부터 30자까지 가능합니다.");
+				ssuv.getJlNoteID().setText("아이디는 3~30자까지 가능합니다.");
 				return;
 			} else {
 				ssuv.getJlNoteID().setForeground(Color.red);
