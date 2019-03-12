@@ -93,6 +93,13 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 		
 	}
 	
+	public void dialogPointView() {
+		new SCUPointView(smpv);
+	}
+	
+	public void dialogModifyMemberInfo() {
+		new SCUModifyMemberInfoView(smpv);
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -106,10 +113,10 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 			resignAccount();
 		}
 		if(ae.getSource().equals(smpv.getJbtnUpdateInfo())) {
-			new SCUModifyMemberInfoView(smpv);
+			dialogModifyMemberInfo();
 		}
 		if(ae.getSource().equals(smpv.getJbtnPointUpdate())) {
-			new SCUPointView(smpv);
+			dialogPointView();
 		}
 	}
 	

@@ -162,7 +162,7 @@ public class SCUBookingView extends JDialog{
 		SCUBookingController sbc = new SCUBookingController(this);
 		if(sbc.getList().size()==0) {
 			JOptionPane.showMessageDialog(smlv, "상영중인 영화가 없습니다.");
-			return;
+			this.dispose();
 		}
 		
 		jcbDate.addActionListener(sbc);

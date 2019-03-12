@@ -165,6 +165,54 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 		return checkHoldPoint;
 	}
 	
+	
+	public void checkSeat() {
+		if(sbv.getSmlv().getSmv().getIsLogin()) {
+			
+			if(sbv.getJtOnScreen().getSelectedRow()==-1) {
+				JOptionPane.showMessageDialog(sbv, "원하는 시간대의 상영을 선택해주세요.");
+				return;
+			}//end if
+			
+			if(sbv.getSelectedPersonnel()!=0) {
+				
+				JTable jtOnScreen = sbv.getJtOnScreen();
+				String screenName = "";
+				switch (String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 3))) {
+				case "일반":
+					screenName = "N";
+					break;
+				case "프리미엄":
+					screenName = "P";
+					break;
+				}
+				
+				
+				if(checkHoldPoint(screenName)) {
+					
+					sbv.setSelectedScreenNum(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 5)));
+					sbv.setSelectedScreenName(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 3)));
+					sbv.setSelectedScreenStartTime(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 1)));
+					sbv.setSelectedScreenStartDate(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 0)));
+					
+					new SCUSeatView(sbv);
+					
+				}else {
+					JOptionPane.showMessageDialog(sbv, "잔여 포인트를 확인해주세요.");
+				}
+				
+			}else {
+				JOptionPane.showMessageDialog(sbv, "관람할 인원을 알려주세요.");
+			}//end if
+			
+		}else {
+			JOptionPane.showMessageDialog(sbv, "로그인을 먼저 해주세요.");
+			return;
+		}
+	}
+
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		if(ae.getSource().equals(sbv.getJbtnExit())) {
@@ -196,55 +244,11 @@ public class SCUBookingController extends WindowAdapter implements ActionListene
 		}//end try~catch
 		
 		if(ae.getSource().equals(sbv.getJbtnCheckSeat())) {
-			
-			if(sbv.getSmlv().getSmv().getIsLogin()) {
-				
-				if(sbv.getJtOnScreen().getSelectedRow()==-1) {
-					JOptionPane.showMessageDialog(sbv, "원하는 시간대의 상영을 선택해주세요.");
-					return;
-				}//end if
-				
-				if(sbv.getSelectedPersonnel()!=0) {
-					
-					JTable jtOnScreen = sbv.getJtOnScreen();
-					String screenName = "";
-					switch (String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 3))) {
-					case "일반":
-						screenName = "N";
-						break;
-					case "프리미엄":
-						screenName = "P";
-						break;
-					}
-					
-					
-					if(checkHoldPoint(screenName)) {
-						
-						sbv.setSelectedScreenNum(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 5)));
-						sbv.setSelectedScreenName(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 3)));
-						sbv.setSelectedScreenStartTime(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 1)));
-						sbv.setSelectedScreenStartDate(String.valueOf(jtOnScreen.getValueAt(jtOnScreen.getSelectedRow(), 0)));
-						
-						new SCUSeatView(sbv);
-						
-					}else {
-						JOptionPane.showMessageDialog(sbv, "잔여 포인트를 확인해주세요.");
-					}
-					
-				}else {
-					JOptionPane.showMessageDialog(sbv, "관람할 인원을 알려주세요.");
-				}//end if
-			
-			}else {
-				JOptionPane.showMessageDialog(sbv, "로그인을 먼저 해주세요.");
-				return;
-			}
-				
-			
+			checkSeat();
 		}//end if
 		
-		
 	}//actionPerformed Override
+	
 
 	@Override
 	public void mousePressed(MouseEvent me) {}
