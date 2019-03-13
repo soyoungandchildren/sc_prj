@@ -74,6 +74,14 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 		ssuv.getJtfName().setText("");
 		ssuv.getJtfBirth().setText("");
 		ssuv.getJtfPhone().setText("");
+		ssuv.getJcbYear().setSelectedIndex(0);
+		ssuv.getJcbMonth().setSelectedIndex(0);
+		ssuv.getJcbDay().setSelectedIndex(0);
+		ssuv.getJcbNum().setSelectedIndex(0);
+		ssuv.getJlNoteID().setText("");
+		ssuv.getJlNotePass().setText("");
+		ssuv.getJlNoteName().setText("");
+		ssuv.getJlNoteNum().setText("");
 	}// reset
 
 	/**
@@ -164,12 +172,13 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 			JOptionPane.showMessageDialog(ssuv, "이름은 2~10자 사이만 가능합니다.");
 			jtfName.requestFocus();
 			return;
-		}
+		} 
 		
 		for (int i = 0; i < jtfName.getText().length(); i++) {
 			if(jtfName.getText().charAt(i) >= '0' && jtfName.getText().charAt(i) <= '9') {
-				ssuv.getJlNoteName().setForeground(Color.RED);
-				ssuv.getJlNoteName().setText("이름은 문자만 입력 가능합니다.");
+				JOptionPane.showMessageDialog(ssuv, "이름은 문자만 입력가능합니다.");
+				jtfName.setText("");
+				jtfName.requestFocus();
 				return;
 			}//end if
 		}//end for
@@ -203,12 +212,17 @@ public class SCUSignUpController extends WindowAdapter implements ActionListener
 
 		SCUSignUpVO ssuvo = new SCUSignUpVO(jtfId.getText().trim(), stringPW.trim(), jtfName.getText().trim(),
 				searchDate.toString().trim(), number.trim());
-
+		int cnt=0;
 		try {
 			// 에러가 나면 catch로 빠져서 DB에 추가가 안됨
-			SCULoginDAO.getInstance().insertSignUp(ssuvo);// 에러가 나지 않는 경우 DB에 추가
+		
+			cnt = SCULoginDAO.getInstance().insertSignUp(ssuvo);// 에러가 나지 않는 경우 DB에 추가
+			if(cnt == 1) {
 			JOptionPane.showMessageDialog(ssuv, "[ " + jtfId.getText() + " ] 님의 회원가입을 환영합니다.");
 			ssuv.dispose();
+			}else {
+				JOptionPane.showMessageDialog(ssuv, "이미 회원정보가 존재합니다.");
+			}
 		} catch (SQLException se) {
 			JOptionPane.showMessageDialog(ssuv, "DB에서 문제가 발생하였습니다.");
 			se.printStackTrace();

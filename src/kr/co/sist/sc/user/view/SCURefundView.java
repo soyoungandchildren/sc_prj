@@ -45,7 +45,7 @@ public class SCURefundView extends JDialog {
 
 		// 영화 예매 환불
 
-		String[] refundColumns = { "예매번호", "영화명", "예매수", "결제일시", "총 가격", "환불 가능여부" };
+		String[] refundColumns = { "예매번호", "영화명", "예매수", "상영일시", "총 가격", "환불 가능여부" };
 
 		dtmBookingList = new DefaultTableModel(refundColumns, 0) {
 			@Override
