@@ -15,10 +15,17 @@ public class SCUModifyMemberInfoController extends WindowAdapter implements Acti
 	
 	private SCUModifyMemberInfoView smmiv;
 	
+	
+	
 	public SCUModifyMemberInfoController(SCUModifyMemberInfoView smmiv) {
 		this.smmiv = smmiv;
 		smmiv.getJtfName().setText(smmiv.getSmpv().getJtfName().getText());
-		smmiv.getJtfPhone().setText(smmiv.getSmpv().getJtfPhone().getText());
+		
+		String userPhone = smmiv.getSmpv().getJtfPhone().getText();
+		
+		smmiv.getJtfPhone1().setText(userPhone.trim().substring(0, userPhone.indexOf("-")-1));
+		smmiv.getJtfPhone2().setText(userPhone.trim().substring(userPhone.indexOf("-"), userPhone.lastIndexOf("-")-1));
+		smmiv.getJtfPhone3().setText(userPhone.trim().substring(userPhone.lastIndexOf("-")));
 	}
 	
 	public void modifyInfo(String iName, String iPhone) {
@@ -50,24 +57,80 @@ public class SCUModifyMemberInfoController extends WindowAdapter implements Acti
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		
+		
 		if(ae.getSource().equals(smmiv.getJbtnConfirm())) {
 			String iName = smmiv.getJtfName().getText().trim();
-			String iPhone= smmiv.getJtfPhone().getText().trim();
 			
-			if(iName.trim().equals("")) {
-				msgCenter("이름은 공백일 수 없습니다.");
+			String frontPhone = smmiv.getJtfPhone1().getText().trim(); 
+			String middlePhone = smmiv.getJtfPhone2().getText().trim(); 
+			String lastPhone = smmiv.getJtfPhone3().getText().trim();
+			
+			StringBuilder iPhoneCombine = new StringBuilder();
+			iPhoneCombine
+			.append(frontPhone)
+			.append("-")
+			.append(middlePhone)
+			.append("-")
+			.append(lastPhone);
+			
+			
+			if("".equals(iName.replaceAll(" ", ""))) {
+				initializeNameField();
 				return;
-			}else if(iPhone.trim().equals("")){
-				msgCenter("전화번호는 공백일 수 없습니다.");
+			}else if("".equals((iPhoneCombine.toString().replaceAll("-", "")).replaceAll(" ", ""))){
+				initializeNumberField();
+				return;
+			}else if(2>iName.length()||10<iName.length()) {
+				initializeNameField();
+				return;
+			}else if(frontPhone.length()!=3||middlePhone.length()>4||middlePhone.length()<3||
+					lastPhone.length()<3||lastPhone.length()>4) {
+				initializeNumberField();
 				return;
 			}
 			
-			modifyInfo(iName, iPhone);
+//			for(int i = 0; i<iName.length(); i++) {
+//				if((44032<iName.codePointAt(i)&&iName.codePointAt(i)<55203)||
+//						(97<iName.codePointAt(i)&&iName.codePointAt(i)<122)/*||
+//						65<iName.codePointAt(i)&&iName.codePointAt(i)<90*/) {//영대소문자, 소리마디가 아니라면
+//				}else {
+//					initializeNameField();
+//					return;
+//				}
+//			}//end for
+			
+			try {
+				new Integer(frontPhone);
+				new Integer(middlePhone);
+				new Integer(lastPhone);
+			}catch(NumberFormatException nfe) {
+				initializeNumberField();
+				return;
+			}
+			
+			
+			modifyInfo(iName, iPhoneCombine.toString());
 		}//end if
 		
 		if(ae.getSource().equals(smmiv.getJbtnExit())) {
 			smmiv.dispose();
 		}
+		
 	}
+	
+	private void initializeNumberField() {
+		msgCenter("휴대전화 양식을 확인해주세요.");
+		smmiv.getJtfPhone1().setText("");
+		smmiv.getJtfPhone2().setText("");
+		smmiv.getJtfPhone3().setText("");
+		smmiv.getJtfPhone1().requestFocus();
+	}
+	private void initializeNameField() {
+		msgCenter("작성하신 이름을 확인해주세요.");
+		smmiv.getJtfName().setText("");
+		smmiv.getJtfName().requestFocus();
+	}
+
 	
 }

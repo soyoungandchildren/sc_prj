@@ -106,6 +106,61 @@ public class SCUSeatController implements ActionListener, ItemListener{
 		
 	}//insertBooking Method
 	
+	
+	public void cofirmBook() {
+		listCheckedSeat = new ArrayList<>();
+		JCheckBox[] jckb = ssv.getJckbSeat();
+		
+		for(int i = 0; i<jckb.length; i++) {
+			if(jckb[i].isSelected()) {
+				listCheckedSeat.add(i+1);
+			}//end if
+		}//end for
+		
+		if(sbv.getSelectedPersonnel()!=listCheckedSeat.size()) {
+			JOptionPane.showMessageDialog(ssv, "좌석을 모두 선택해주세요!");
+			return;
+		}//end if
+		
+		StringBuilder sbSeat = new StringBuilder();
+		for(int i = 0; i<listCheckedSeat.size();i++) {
+			sbSeat.append(listCheckedSeat.get(i)).append("번 ");
+		}//end for
+		
+		StringBuilder sbTime = new StringBuilder(sbv.getSelectedScreenStartTime());
+		StringBuilder sbReceipt = new StringBuilder();
+		JTextArea jtaReceipt = new JTextArea();
+		jtaReceipt.setEditable(false);
+		sbTime.insert(2, "시 ").append("분");
+		sbReceipt
+		.append(sbv.getSmlv().getSmv().getIdConnecting()).append("님의 예매 정보\n")
+		.append("======================================\n")
+		.append("영화 제목 : ").append(sbv.getSmlv().getSelectedMovieTitle()).append("\n")
+		.append("날짜 : ").append(sbv.getSelectedScreenStartDate()).append("\n")
+		.append("시작 시간 : ").append(sbTime.toString()).append("\n")
+		.append("인원 : ").append(sbv.getSelectedPersonnel()).append("\n")
+		.append("좌석 번호 : ").append(sbSeat.toString()).append("\n")
+		.append("-------------------------------------------------------------------\n")
+		.append("위의 정보로 예약을 진행하시겠습니까?")
+		;
+		jtaReceipt.append(sbReceipt.toString());
+		
+		int confirm = JOptionPane.showConfirmDialog(ssv, jtaReceipt, "예매확인", JOptionPane.OK_CANCEL_OPTION);
+		
+		switch (confirm) {
+		case JOptionPane.OK_OPTION:
+			try {
+				insertBooking();
+			}catch(SQLException sqle) {
+				sqle.printStackTrace();
+			}
+			break;
+		case JOptionPane.CANCEL_OPTION:
+			break;
+		}
+	}
+	
+	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
@@ -114,57 +169,7 @@ public class SCUSeatController implements ActionListener, ItemListener{
 		}//end if
 		
 		if(ae.getSource().equals(ssv.getJbtnConfirm())) {
-			listCheckedSeat = new ArrayList<>();
-			JCheckBox[] jckb = ssv.getJckbSeat();
-			
-			for(int i = 0; i<jckb.length; i++) {
-				if(jckb[i].isSelected()) {
-					listCheckedSeat.add(i+1);
-				}//end if
-			}//end for
-			
-			if(sbv.getSelectedPersonnel()!=listCheckedSeat.size()) {
-				JOptionPane.showMessageDialog(ssv, "좌석을 모두 선택해주세요!");
-				return;
-			}//end if
-			
-			StringBuilder sbSeat = new StringBuilder();
-			for(int i = 0; i<listCheckedSeat.size();i++) {
-				sbSeat.append(listCheckedSeat.get(i)).append("번 ");
-			}//end for
-			
-			StringBuilder sbTime = new StringBuilder(sbv.getSelectedScreenStartTime());
-			StringBuilder sbReceipt = new StringBuilder();
-			JTextArea jtaReceipt = new JTextArea();
-			jtaReceipt.setEditable(false);
-			sbTime.insert(2, "시 ").append("분");
-			sbReceipt
-			.append(sbv.getSmlv().getSmv().getIdConnecting()).append("님의 예매 정보\n")
-			.append("======================================\n")
-			.append("영화 제목 : ").append(sbv.getSmlv().getSelectedMovieTitle()).append("\n")
-			.append("날짜 : ").append(sbv.getSelectedScreenStartDate()).append("\n")
-			.append("시작 시간 : ").append(sbTime.toString()).append("\n")
-			.append("인원 : ").append(sbv.getSelectedPersonnel()).append("\n")
-			.append("좌석 번호 : ").append(sbSeat.toString()).append("\n")
-			.append("-------------------------------------------------------------------\n")
-			.append("위의 정보로 예약을 진행하시겠습니까?")
-			;
-			jtaReceipt.append(sbReceipt.toString());
-			
-			int confirm = JOptionPane.showConfirmDialog(ssv, jtaReceipt, "예매확인", JOptionPane.OK_CANCEL_OPTION);
-			
-			switch (confirm) {
-			case JOptionPane.OK_OPTION:
-				try {
-					insertBooking();
-				}catch(SQLException sqle) {
-					sqle.printStackTrace();
-				}
-				break;
-			case JOptionPane.CANCEL_OPTION:
-				break;
-			}
-			
+			cofirmBook();
 		}//end if
 		
 	}//actionPerformed Override
