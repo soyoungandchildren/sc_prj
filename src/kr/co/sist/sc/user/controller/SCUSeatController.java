@@ -135,7 +135,7 @@ public class SCUSeatController implements ActionListener, ItemListener{
 		sbReceipt
 		.append(sbv.getSmlv().getSmv().getIdConnecting()).append("님의 예매 정보\n")
 		.append("======================================\n")
-		.append("영화 제목 : ").append(sbv.getSmlv().getSelectedMovieTitle()).append("\n")
+		.append("영화 제목 : ").append(sbv.getSmlv().getSelectedMovieTitle().replaceAll("\n", "")).append("\n")
 		.append("날짜 : ").append(sbv.getSelectedScreenStartDate()).append("\n")
 		.append("시작 시간 : ").append(sbTime.toString()).append("\n")
 		.append("인원 : ").append(sbv.getSelectedPersonnel()).append("\n")

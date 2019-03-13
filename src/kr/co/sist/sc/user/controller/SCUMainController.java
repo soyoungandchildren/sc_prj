@@ -149,7 +149,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
       if(commit==0) {
          String password = new String(jpf.getPassword());
          
-         boolean checkPassword;
+         boolean checkPassword = false;
          try {
             SCULoginVO slVO = new SCULoginVO(smv.getIdConnecting(), password);
             checkPassword = SCUMainDAO.getInstance().checkPassword(slVO);

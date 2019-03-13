@@ -123,12 +123,4 @@ public class SCURatingController extends WindowAdapter implements ActionListener
 		srv.dispose();
 	}//windowClosing Override
 	
-	
-	///////////////////////////////////////////////////////////////
-	class CustomOpaqueImageCellRenderer {
-		
-		
-		
-	}
-	
 }//Class
