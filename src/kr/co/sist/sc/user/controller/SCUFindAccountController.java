@@ -53,7 +53,7 @@ public class SCUFindAccountController extends WindowAdapter implements ActionLis
 	/**
 	 * 비밀번호
 	 */
-	public void findPW() { // 아이디, 전번, 이름 모두 입력값이 있을 때 비번 변경이 가능하게 해줘야 함!
+	public void findPW() {
 		JTextField jtfIDForPW = sfav.getJtfIDForPW();
 		JTextField jtfPhoneForPW = sfav.getJtfPhoneForPW();
 		JTextField jtfNameForPW = sfav.getJtfNameForPW();

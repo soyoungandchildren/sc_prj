@@ -228,15 +228,15 @@ public class SCUSignUpView extends JDialog {
 			cbmYear.addElement(year - temp); // 2019가 제일 위에 오게 하려고 - 했음
 		}
 
-//		jcbYear.setSelectedItem(new Integer(year)); // 이거 안 써주면 항상 2019/01/01 로 들어가니까, 시작을 오늘 날짜로 들어가게 하려고
+		jcbYear.setSelectedItem(new Integer(year)); // 이거 안 써주면 항상 2019/01/01 로 들어가니까, 시작을 오늘 날짜로 들어가게 하려고
 	}// setYear
 
 	private void setMonth() {// 월 1~12월
-		int now_month = cal.get(Calendar.DAY_OF_MONTH) + 1;
+		int now_month = cal.get(Calendar.DAY_OF_MONTH)+1;
 		for (int month = 1; month < 13; month++) {
 			cbmMonth.addElement(month);
 		}
-//		jcbMonth.setSelectedItem(new Integer(now_month));
+		jcbMonth.setSelectedItem(new Integer(now_month));
 	}// setMonth
 
 	private void setDay() {// 그 월의 마지막 날
@@ -245,7 +245,7 @@ public class SCUSignUpView extends JDialog {
 		for (int day = 1; day < lastDay + 1; day++) {
 			getCbmDay().addElement(day);
 		} // end for
-//		jcbDay.setSelectedItem(new Integer(nowDay));
+		jcbDay.setSelectedItem(new Integer(nowDay));
 	}// setDay
 
 	public JButton getJbtnCheckDuplication() {

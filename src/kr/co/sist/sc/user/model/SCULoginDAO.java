@@ -117,8 +117,9 @@ public class SCULoginDAO {
 	 * 
 	 * @param ssuvo
 	 */
-	public void insertSignUp(SCUSignUpVO ssuvo) throws SQLException {
-
+	public int insertSignUp(SCUSignUpVO ssuvo) throws SQLException {
+		
+		int cnt = 0;
 		Connection con = null;
 		PreparedStatement pstmt = null;
 
@@ -129,8 +130,13 @@ public class SCULoginDAO {
 
 			// 3.
 			StringBuilder insertMember = new StringBuilder();
-			insertMember.append("INSERT INTO MEMBER")
-					.append("(MEMBER_ID, PASSWORD, NAME, BIRTHDATE, PHONE, MEMBERSHIP, hold_point, acc_point)").append("VALUES(?,?,?,?,?,?,?,?)");
+			insertMember.append(" insert into member (member_id, password, name, birthdate, phone, membership, hold_point, acc_point) ")
+						.append(" select ?,?,?,?,?,?,?,?" )
+						.append(" from dual ")
+						.append(" where not exists (select * from member where phone = ?) " );
+//			insertMember.append("INSERT INTO MEMBER")
+//					.append("(MEMBER_ID, PASSWORD, NAME, BIRTHDATE, PHONE, MEMBERSHIP, hold_point, acc_point)").append("VALUES(?,?,?,?,?,?,?,?)");
+			
 			pstmt = con.prepareStatement(insertMember.toString());
 
 			// 4. 바인드 변수에 값넣기
@@ -142,9 +148,10 @@ public class SCULoginDAO {
 			pstmt.setString(6, "s");
 			pstmt.setInt(7, 0);
 			pstmt.setInt(8, 0);
+			pstmt.setString(9, ssuvo.getPhone());
 
 			// 5.
-			pstmt.executeUpdate(); // insert되거나 예외이거나 둘 중 하나
+			cnt = pstmt.executeUpdate(); // insert되거나 예외이거나 둘 중 하나
 
 		} finally {
 			// 6.
@@ -155,7 +162,7 @@ public class SCULoginDAO {
 				con.close();
 			}
 		} // end finally
-
+		return cnt;
 	}
 
 	/**
