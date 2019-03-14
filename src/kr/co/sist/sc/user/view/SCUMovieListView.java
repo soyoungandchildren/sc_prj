@@ -26,7 +26,7 @@ public class SCUMovieListView extends JDialog {
 	private String selectedMovieTitle, selectedMovieCode;
 	
 	public SCUMovieListView(SCUMainView smv) {
-		super(smv, "예매", true);
+		super(smv, "영화 목록", true);
 		this.smv = smv;
 		
 		JLabel jlblTitle = new JLabel("영화 예매");

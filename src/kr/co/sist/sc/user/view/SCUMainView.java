@@ -27,7 +27,7 @@ public class SCUMainView extends JFrame {
 
 	@SuppressWarnings("static-access")
 	public SCUMainView() {
-		super("¸ÞÀÎ");
+		super("½Ö¿ë°ü");
 		
 		UIManager UI=new UIManager();
 		UI.put("OptionPane.background",new ColorUIResource(20, 49, 94));
