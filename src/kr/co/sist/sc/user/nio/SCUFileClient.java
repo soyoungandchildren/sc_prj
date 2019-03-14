@@ -35,8 +35,7 @@ public class SCUFileClient {
 	public String[] sendImageList(String revMsg) {
 		String[] fileList = null;
 		
-		String imgPath = "C:/Users/owner/git/sist_prj2/src/kr/co/sist/sc/user/images/" + revMsg + "/";
-		
+		String imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/" + revMsg + "/";
 		File file = new File(imgPath);
 		
 		List<String> list = new ArrayList<String>();
@@ -125,10 +124,13 @@ public class SCUFileClient {
 					// 파일 크기
 					fileSize = dis.readInt();
 					
+					
 					// 파일 이름
 					fileName = dis.readUTF();
 					
-					imgPath = "C:/Users/owner/git/sist_prj2/src/kr/co/sist/sc/user/images/" + fileName.split("_")[1] + "/";
+					//서버에서 파일을 전송하는 것과 클라이언트가 파일을 받는 속도를 맞추기 위한 브레이킹 코드.
+					
+					imgPath = "C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/" + fileName.split("_")[1] + "/";
 					
 					fos = new FileOutputStream(imgPath + fileName);
 					
@@ -141,6 +143,7 @@ public class SCUFileClient {
 						fos.flush();
 						
 						fileSize--;
+						dos.writeUTF("");
 					} // end while
 				} // end for
 			} // end if
@@ -151,14 +154,5 @@ public class SCUFileClient {
 			if (scClient != null) { scClient.close(); } // end if
 		} // end finally
 	} // connectToServer
-	
-//	public static void main(String[] args) {
-//		try {
-//			SCUFileClient.getInstance().connectToServer(1);
-//		} catch (IOException ioe) {
-//			ioe.printStackTrace();
-//		} // end catch
-//		
-//	} // main
 	
 } // class

@@ -55,7 +55,7 @@ public class SCUSnackMenuController extends WindowAdapter implements ActionListe
 			int ex = 8-list.size();
 			if(list.size() != 8) {
 				for(int i=0; i<ex; i++) {
-					ssmv.getJbtnMenu()[7-i].setIcon(new ImageIcon(imgPath+"jl_no_snack_image(187x162).png"));
+					ssmv.getJbtnMenu()[7-i].setIcon(new ImageIcon(imgPath+"s_snack_no_image(187x162).png"));
 					ssmv.getJbtnMenu()[7-i].setEnabled(false);
 				}//end for
 			}//end if

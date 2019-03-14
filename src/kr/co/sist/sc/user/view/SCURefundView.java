@@ -2,7 +2,6 @@ package kr.co.sist.sc.user.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 
 import javax.swing.BorderFactory;
@@ -19,7 +18,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import javax.swing.text.StyledEditorKit.ItalicAction;
 
 import kr.co.sist.sc.user.controller.SCURefundController;
 import kr.co.sist.sc.user.util.CustomFontList;
