@@ -9,16 +9,16 @@ public class SCUMainRun implements Runnable{
 	
 	@Override
 	public void run() {
-		while(true) {
-	         try {
-	            SCUFileClient.getInstance().connectToServer(0);
-	            Thread.sleep(1000*10);
-			 }catch(IOException ioe) {
-				 ioe.printStackTrace();
-	         }catch(InterruptedException ie) {
-	        	 ie.printStackTrace();
-	         }//end catch
-		}
+//		while(true) {
+//	         try {
+//	            SCUFileClient.getInstance().connectToServer(0);
+//	            Thread.sleep(1000*10);
+//			 }catch(IOException ioe) {
+//				 ioe.printStackTrace();
+//	         }catch(InterruptedException ie) {
+//	        	 ie.printStackTrace();
+//	         }//end catch
+//		}
 	}
 	
    public void initFile() {
@@ -32,12 +32,11 @@ public class SCUMainRun implements Runnable{
 	
 	
 	public static void main(String[] args) {
-		
-		SCUMainRun smr = new SCUMainRun();
+				SCUMainRun smr = new SCUMainRun();
 		
 		smr.initFile();
-		Thread t = new Thread(smr);
-		t.start();
+//		Thread t = new Thread(smr);
+//		t.start();
 		
 		new SCUMainView();
 	}//Main	
