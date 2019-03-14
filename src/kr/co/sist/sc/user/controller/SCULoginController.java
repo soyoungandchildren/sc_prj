@@ -77,12 +77,6 @@ public class SCULoginController extends WindowAdapter implements ActionListener,
 			slv.getJpfPW().requestFocus();
 		}//getJtfID
 		
-		//엔터 치면 로그인 버튼 눌리게
-//		if(ae.getSource() == slv.getJpfPW()) {
-//			slv.getJpfPW().addKeyListener();
-//			slv.getJbtnLogin().doClick();
-//		}
-
 		// 가입
 		if (ae.getSource() == slv.getJbtnSignUp()) {
 			new SCUSignUpView(slv);

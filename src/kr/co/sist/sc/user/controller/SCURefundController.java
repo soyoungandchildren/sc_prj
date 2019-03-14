@@ -67,13 +67,10 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 					objArr[5] = "N";
 				}
 				srv.getDtmBookingList().addRow(objArr);
-
 			} // end for
-
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		}
-
 	}// searchBookingHistory
 
 	/**
@@ -132,6 +129,7 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 				boolean flag = srDAO.deleteBooking(code, id, refundPrice, removable); // 선택된 코드의 예매 취소
 				if ("Y".equals(removable)) {
 					srv.getDtmBookingList().removeRow(selectRow);// 리스트 열 삭제
+					JOptionPane.showMessageDialog(srv, "[ "+movieTitle+" ] 예매가 취소되었습니다.");
 					break;
 				}
 
@@ -166,6 +164,7 @@ public class SCURefundController extends WindowAdapter implements ActionListener
 				boolean flag = srDAO.deleteSnack(snackOrderNum, id, refundPrice, removable); // 선택된 코드의 예매 취소
 				if ("Y".equals(removable)) {
 					srv.getDtmSnackList().removeRow(selectRow);// 리스트 열 삭제
+					JOptionPane.showMessageDialog(srv, "[ "+snackName+" ] 구매가 취소되었습니다!");
 					break;
 				}
 
