@@ -85,6 +85,7 @@ public class SCULoginView extends JDialog {
 		add(background);
 
 		setBounds(smv.getX() + 301, smv.getY() + 50, 300, 500);
+		setResizable(false);
 		setVisible(true);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}

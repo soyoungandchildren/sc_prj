@@ -55,10 +55,11 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    @Override
    public void run() {
 	   
-	   new SCUClientThreadHelper(ranking.toString(), smv.getJtaBookingRank());
+	  SCUClientThreadHelper scth = new SCUClientThreadHelper(ranking.toString(), smv.getJtaBookingRank());
       while(true) {
          try {
             setImgBoard();
+            scth.setText(ranking.toString());
 ///////////////////////////////////            SCUFileClient.getInstance().connectToServer(0);
             
             Thread.sleep(1000*10);
@@ -148,7 +149,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
       if(commit==0) {
          String password = new String(jpf.getPassword());
          
-         boolean checkPassword;
+         boolean checkPassword = false;
          try {
             SCULoginVO slVO = new SCULoginVO(smv.getIdConnecting(), password);
             checkPassword = SCUMainDAO.getInstance().checkPassword(slVO);
@@ -176,9 +177,16 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
          if(!smv.getIsLogin()) {
             new SCULoginView(smv);
          }else {
-            smv.setIsLogin(false);
-            smv.setIdConnecting("");
-            smv.getJbtnLogin().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_login_join(215x40).png"));;
+        	int confirmLogout = JOptionPane.showConfirmDialog(smv, "정말 로그아웃 하시겠습니까?", "로그아웃", JOptionPane.OK_CANCEL_OPTION);
+        	switch (confirmLogout) {
+			case JOptionPane.OK_OPTION:
+				smv.setIsLogin(false);
+				smv.setIdConnecting("");
+				smv.getJbtnLogin().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_login_join(215x40).png"));;
+				break;
+			case JOptionPane.CANCEL_OPTION:
+				return;
+			}
          }//end else
       }//end if
       

@@ -31,7 +31,7 @@ public class SCURatingController extends WindowAdapter implements ActionListener
 		
 		
 		try {
-			list = SCUMovieDAO.getInstance().selectRatingData(srv.getSmlv().getSelectedMovieCode());
+			list = SCUMovieDAO.getInstance().selectRatingData(srv.getSelectedMovieCode());
 			
 			Object[] objArr = new Object[3];
 			if(list.size()==0) {
@@ -77,7 +77,7 @@ public class SCURatingController extends WindowAdapter implements ActionListener
 		List<String> listBookNumber = new ArrayList<>();
 		
 		String idConnecting = srv.getSmlv().getSmv().getIdConnecting();
-		String selectedMovieCode = srv.getSmlv().getSelectedMovieCode();
+		String selectedMovieCode = srv.getSelectedMovieCode();
 		
 		try {
 			listBookNumber = SCUMovieDAO.getInstance().didWatch(idConnecting, selectedMovieCode);
@@ -122,13 +122,5 @@ public class SCURatingController extends WindowAdapter implements ActionListener
 	public void windowClosing(WindowEvent e) {
 		srv.dispose();
 	}//windowClosing Override
-	
-	
-	///////////////////////////////////////////////////////////////
-	class CustomOpaqueImageCellRenderer {
-		
-		
-		
-	}
 	
 }//Class

@@ -24,14 +24,13 @@ public class SCURatingView extends JDialog {
 	private JButton jbtnWriteRating, jbtnClose;
 	private DefaultTableModel dtmRatingTable;
 	private JTable jtRatingTable;
-	
-	////
+	private String selectedMovieCode;
 	private JLabel jlblStar;
-	////
 	
-	public SCURatingView(SCUMovieListView smlv) {
+	public SCURatingView(SCUMovieListView smlv, String selectedMovieCode) {
 		super(smlv, smlv.getSelectedMovieTitle()+" ¸®ºä", true);
 		this.smlv = smlv;
+		this.selectedMovieCode = selectedMovieCode;
 		
 		jbtnWriteRating = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_write_review(125x40).png"));
 		jbtnClose = new JButton(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_close(125x40).png"));
@@ -81,7 +80,9 @@ public class SCURatingView extends JDialog {
 				jta.setLineWrap(true);
 				jta.setFont(CustomFontList.getInstance().getFontLabel());
 				jta.setForeground(Color.WHITE);
-				jta.setText(value.toString());
+				if(value != null) {
+					jta.setText(value.toString());
+				}
 				return jta;
 			}
 		});
@@ -146,6 +147,9 @@ public class SCURatingView extends JDialog {
 	}
 	public void setJlblStar(JLabel jlblStar) {
 		this.jlblStar = jlblStar;
+	}
+	public String getSelectedMovieCode() {
+		return selectedMovieCode;
 	}
 	
 	

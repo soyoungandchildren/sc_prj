@@ -35,4 +35,10 @@ public class SCUClientThreadHelper implements Runnable{
 			}
 		}//end while
 	}
+
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+
 }

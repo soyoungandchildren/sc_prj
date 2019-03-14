@@ -18,6 +18,7 @@ import kr.co.sist.sc.user.view.SCULoginView;
 import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUSignUpView;
 import kr.co.sist.sc.user.vo.SCULoginVO;
+import kr.co.sist.sc.user.vo.SCUSignUpVO;
 
 public class SCULoginController extends WindowAdapter implements ActionListener, KeyListener{
 	private SCULoginView slv;
@@ -51,8 +52,8 @@ public class SCULoginController extends WindowAdapter implements ActionListener,
 				String pass = new String(jpf.getPassword());
 
 				SCULoginVO slvo = new SCULoginVO(id, pass);
-				String idConnect = login(slvo);
-
+				String idConnect = login(slvo); 
+				
 				if (idConnect.equals("")) { // 로그인이 안 되었을 때
 					JOptionPane.showMessageDialog(slv, "아이디 또는 비밀번호가 일치하지 않습니다. ");
 					jtf.setText("");
@@ -60,6 +61,7 @@ public class SCULoginController extends WindowAdapter implements ActionListener,
 					jtf.requestFocus();
 				} else { // 로그인이 되었을 때
 					smv.setIsLogin(true);
+					JOptionPane.showMessageDialog(slv, "로그인 성공!");
 					smv.setIdConnecting(idConnect);
 					smv.getJbtnLogin().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_logout(215x40).png"));
 					slv.dispose();

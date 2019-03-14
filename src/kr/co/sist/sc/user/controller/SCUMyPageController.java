@@ -6,6 +6,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import kr.co.sist.sc.user.model.SCUMyPageDAO;
@@ -75,10 +76,10 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 				
 				if(sqlResult == 1) {
 					JOptionPane.showMessageDialog(smpv, "이용해주셔서 감사합니다.");
-					smpv.dispose();
-					smpv.getSmv().getJbtnLogin().setText("로그인/회원가입");
+					smpv.getSmv().getJbtnLogin().setIcon(new ImageIcon("C:/dev/workspace/sc_prj/src/kr/co/sist/sc/user/images/jbt_login_join(215x40).png"));
 					smpv.getSmv().setIsLogin(false);
 					smpv.getSmv().setIdConnecting("");
+					smpv.dispose();
 				}else {
 					
 				}
@@ -93,6 +94,13 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 		
 	}
 	
+	public void dialogPointView() {
+		new SCUPointView(smpv);
+	}
+	
+	public void dialogModifyMemberInfo() {
+		new SCUModifyMemberInfoView(smpv);
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
@@ -106,10 +114,10 @@ public class SCUMyPageController extends WindowAdapter implements ActionListener
 			resignAccount();
 		}
 		if(ae.getSource().equals(smpv.getJbtnUpdateInfo())) {
-			new SCUModifyMemberInfoView(smpv);
+			dialogModifyMemberInfo();
 		}
 		if(ae.getSource().equals(smpv.getJbtnPointUpdate())) {
-			new SCUPointView(smpv);
+			dialogPointView();
 		}
 	}
 	

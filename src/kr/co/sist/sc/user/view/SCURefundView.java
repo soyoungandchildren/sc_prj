@@ -45,7 +45,7 @@ public class SCURefundView extends JDialog {
 
 		// 영화 예매 환불
 
-		String[] refundColumns = { "예매번호", "영화명", "예매수", "결제일시", "총 가격", "환불 가능여부" };
+		String[] refundColumns = { "예매번호", "영화명", "예매수", "상영일시", "총 가격", "환불 가능여부" };
 
 		dtmBookingList = new DefaultTableModel(refundColumns, 0) {
 			@Override
@@ -159,6 +159,7 @@ public class SCURefundView extends JDialog {
 		jpSnack.add(jspSnack);
 
 		jtpRefund.add("스낵 구매 목록", jpSnack);
+		jtSnackList.setBorder(new LineBorder(Color.white));
 		jtSnackList.setBackground(new Color(20, 39, 75));
 //		jtSnackList.setOpaque(false);
 		jspSnack.getViewport().setBackground(new Color(20, 39, 75));

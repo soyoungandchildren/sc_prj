@@ -14,7 +14,6 @@ import javax.swing.JTable;
 
 import kr.co.sist.sc.user.model.SCUMovieDAO;
 import kr.co.sist.sc.user.view.SCUBookingView;
-import kr.co.sist.sc.user.view.SCUMainView;
 import kr.co.sist.sc.user.view.SCUMovieDetailView;
 import kr.co.sist.sc.user.view.SCUMovieListView;
 import kr.co.sist.sc.user.view.SCURatingView;
@@ -22,23 +21,13 @@ import kr.co.sist.sc.user.vo.SCUMovieListVO;
 
 public class SCUMovieListController extends WindowAdapter implements ActionListener{
 
-	private SCUMainView smv;
 	private SCUMovieListView smlv;
 	
 	public SCUMovieListController(SCUMovieListView smlv) {
 		this.smlv = smlv;
-		smv = smlv.getSmv();
 		
 		setMovieList();
 	}//Constructor
-	
-	public void isLogin() {
-		if(smv.getIsLogin()==true) {
-			
-		} else {
-			JOptionPane.showMessageDialog(smlv, "로그인이 선행되어야합니다.");
-		}//end else
-	}//isLogin Method
 	
 	
 	public void setMovieList() {
@@ -53,16 +42,16 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 			for(int i = 0; i<list.size(); i++) {
 				smlVO = list.get(i);
 				objArr= new Object[11];
-				objArr[0] = "\n\n\n"+(i+1)+"위";
+				objArr[0] = (i+1)+"위";
 				objArr[1] = new ImageIcon(imgPath+smlVO.getMovie_img());
-				objArr[2] = "\n\n\n"+smlVO.getMovie_title();
-				objArr[3] = "\n\n\n"+smlVO.getMovie_grade();
-				objArr[4] = "\n\n\n"+smlVO.getAudience();
-				objArr[5] = "\n\n\n"+smlVO.getRating_avg();
-				objArr[6] = "\n\n\n"+smlVO.getGenre();
-				objArr[7] = "\n\n\n"+smlVO.getRunningtime();
-				objArr[8] = "\n\n\n"+smlVO.getPlaydate();
-				objArr[9] = "\n\n\n"+smlVO.getActor();
+				objArr[2] = smlVO.getMovie_title();
+				objArr[3] = smlVO.getMovie_grade();
+				objArr[4] = smlVO.getAudience();
+				objArr[5] = smlVO.getRating_avg();
+				objArr[6] = smlVO.getGenre();
+				objArr[7] = smlVO.getRunningtime();
+				objArr[8] = smlVO.getPlaydate();
+				objArr[9] = smlVO.getActor();
 				objArr[10] = smlVO.getMovie_code();
 				smlv.getDtmMovieTable().addRow(objArr);
 			}//end for
@@ -84,8 +73,8 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 	}//dialogBooking Method
 	
 	
-	public void dialogRating() {
-		new SCURatingView(smlv);
+	public void dialogRating(String selectedMovieCode) {
+		new SCURatingView(smlv, selectedMovieCode);
 	}//dialogRating Method
 	
 	
@@ -130,7 +119,7 @@ public class SCUMovieListController extends WindowAdapter implements ActionListe
 		}//end if
 		
 		if(ae.getSource().equals(smlv.getJbtnRating())) {
-			dialogRating();
+			dialogRating(smlv.getSelectedMovieCode());
 		}//end if
 		
 	}//actionPerformed
