@@ -23,7 +23,7 @@ public class SCUPointDAO {
 		return spDAO;
 	}//getInstance
 	
-	public boolean PointCharge(int sumPoint, String user, int charge) throws SQLException {
+	public boolean pointCharge(int sumPoint, String user, int charge) throws SQLException {
 		boolean result = false;
 		int accPoint = 0;
 		int updatePoint = 0;
@@ -83,7 +83,7 @@ public class SCUPointDAO {
 			
 			boolean update3 = pstmt4.execute();
 			
-			result = PointChargeTransaction(update1, update2, update3);
+			result = pointChargeTransaction(update1, update2, update3);
 		
 		} catch(SQLException se) {
 			se.printStackTrace();
@@ -92,7 +92,7 @@ public class SCUPointDAO {
 		return result;
 	}//
 	
-	public boolean PointChargeTransaction(boolean update1, boolean update2, boolean update3) throws SQLException {
+	public boolean pointChargeTransaction(boolean update1, boolean update2, boolean update3) throws SQLException {
 		boolean result = false;
 		
 		try {

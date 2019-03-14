@@ -120,7 +120,7 @@ public class SCUMainController extends WindowAdapter implements ActionListener, 
    public void rankMovie() {
       try {
          //bookingCnt는 총 예매 건수
-         String rowCnt = smDAO.SearchRankMovie();
+         String rowCnt = smDAO.searchRankMovie();
          int bookingCnt = Integer.parseInt(rowCnt);
          
          String rank1 = String.format("%.2f",(double)cnt[0]/(double)bookingCnt*100.0);
