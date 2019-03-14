@@ -82,8 +82,9 @@ public class SCUFileClient {
 		try {
 			String address = "211.63.89.132";
 			int port = 3333;
-			
+			System.out.println("접속전");
 			scClient = new Socket(address, port);
+			System.out.println("접속후");
 			
 			// 클라이언트에서 이미지 요청 시
 			// 0 : not found, 1 : movie, 2 : snack
@@ -97,8 +98,9 @@ public class SCUFileClient {
 			// Helper로부터 서버에서 영화/스낵이 추가되었다는 메시지를 받고, 
 			dis = new DataInputStream(scClient.getInputStream());
 			
+			System.out.println("여기");
 			revMsg = dis.readUTF();
-			
+			System.out.println("여기2");
 			if (!revMsg.equals("")) {
 				// 이미지 목록을 검색하여 
 				String[] fileNames = SCUFileClient.getInstance().sendImageList(revMsg);
