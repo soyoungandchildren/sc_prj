@@ -110,7 +110,7 @@ public class SCUMainDAO {
 		return list;
 	}//setImgBoard Method
 	
-	public String SearchRankMovie() throws SQLException {
+	public String searchRankMovie() throws SQLException {
 		String rowCnt = "";
 		
 		Connection con = null;

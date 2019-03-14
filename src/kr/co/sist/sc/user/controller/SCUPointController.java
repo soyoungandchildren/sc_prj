@@ -28,7 +28,7 @@ public class SCUPointController extends WindowAdapter implements ActionListener 
 		spv.getJtfNowPoint().setText(holdPoint);
 	}//SCUPointController
 	
-	public void PointUpdate() {
+	public void pointUpdate() {
 		try {
 			String temp = String.valueOf(spv.getJcbPoint().getSelectedItem());
 			int charge = Integer.parseInt(temp.replaceAll(",", ""));
@@ -37,7 +37,7 @@ public class SCUPointController extends WindowAdapter implements ActionListener 
 			String acc = smpv.getJtfAccPoint().getText().trim();
 			int accP = charge+Integer.parseInt(acc);
 			
-			boolean result = spDAO.PointCharge(sumPoint, user, charge);
+			boolean result = spDAO.pointCharge(sumPoint, user, charge);
 			if(result) {
 				JOptionPane.showMessageDialog(spv, "충전이 완료되었습니다!", "충전 완료", JOptionPane.PLAIN_MESSAGE);
 				spv.dispose();
@@ -73,7 +73,7 @@ public class SCUPointController extends WindowAdapter implements ActionListener 
 			
 			switch(JOptionPane.showConfirmDialog(spv, "현재 금액 : "+temp2+"\n충전 후 금액 : "+temp3+"\n정말 포인트를 충전하시겠습니까?", "포인트 충전", JOptionPane.OK_CANCEL_OPTION)) {
 			case JOptionPane.OK_OPTION :
-				PointUpdate();
+				pointUpdate();
 			case JOptionPane.CANCEL_OPTION :
 				return;
 			}//end switch
